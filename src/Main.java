@@ -10,7 +10,7 @@ public class Main {
             menu.MenuInloggen(speler);
         }
 
-        while (!game.gameover()) {
+        while (!game.GameOver()) {
             menu.Mainmenu(game);
         }
     }

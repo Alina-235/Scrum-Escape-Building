@@ -16,6 +16,10 @@ public class Monster {
         return naam;
     }
 
+    public void monsterTonen() {
+
+    }
+
     public void valAan(Speler speler) {
         System.out.println("Het monster " + naam + " valt je aan!");
 
