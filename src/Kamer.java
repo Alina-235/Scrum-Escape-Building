@@ -9,8 +9,6 @@ public abstract class Kamer {
         this.monster = monster;
     }
 
-    public abstract void betreed(Speler speler);
-
     public String getNaam() {
         return naam;
     }
