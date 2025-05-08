@@ -22,6 +22,7 @@ public class Speler {
     public int getHuidigeKamer() {
         return huidigeKamer;
     }
+
     public void setHuidigeKamer(int Kamer) {
         this.huidigeKamer = Kamer;
     }
@@ -29,6 +30,7 @@ public class Speler {
     public void voegOpgelosteKamerToe(int Kamer) {
         if (!opgelosteKamers.contains(Kamer)) {
             opgelosteKamers.add(Kamer);
+            System.out.println("Kamer " + Kamer + " is opgelost!");
         }
     }
 
@@ -49,7 +51,7 @@ public class Speler {
     }
 
     public void beantwoordVraag(Vraag vraag, String antwoord){
-        if (vraag.isCorrect(antwoord)){
+        if (vraag.isCorrect(antwoord)) {
             System.out.println("Goed beantwoord!");
             voegOpgelosteKamerToe(huidigeKamer);
         } else {
@@ -78,5 +80,17 @@ public class Speler {
             System.out.print(monster.getNaam() + " ");
         }
         System.out.println();
+    }
+
+    public ArrayList<Monster> getActieveMonsters(){
+        return huidigeMonsters;
+    }
+
+    public ArrayList<Integer> getOpgelosteKamers() {
+        return opgelosteKamers;
+    }
+
+    public boolean isKamerOpgelost(int kamer){
+        return opgelosteKamers.contains(kamer);
     }
 }
