@@ -1,2 +1,2 @@
-public class Monster {
+class Monster {
 }

@@ -1,2 +1,2 @@
-public class Game {
+class Game {
 }
