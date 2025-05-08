@@ -1,4 +1,4 @@
-public class Monster {
+class Monster {
     private String naam;
     private String beschrijving;
     private boolean verslagen;

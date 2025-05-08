@@ -11,7 +11,7 @@ public class Main {
         }
 
         while (!game.GameOver()) {
-            menu.Mainmenu(game);
+            menu.MainMenu(game);
         }
     }
 }
