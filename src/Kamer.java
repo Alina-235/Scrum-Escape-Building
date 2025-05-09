@@ -31,6 +31,7 @@ class KamerDailyScrum extends Kamer {
     @Override
     public void ToonInhoud() {
         System.out.println("Welkom in kamer " + naam);
+        System.out.println("Hier vind je alles gerelateerd aan de dagelijkse scrum.");
     }
 }
 
@@ -42,6 +43,7 @@ class KamerPlanning extends Kamer {
     @Override
     public void ToonInhoud() {
         System.out.println("Welkom in kamer " + naam);
+        System.out.println("Hier vind je alles gerelateerd aan de scrum planning.");
     }
 }
 
@@ -53,6 +55,7 @@ class KamerReview extends Kamer {
     @Override
     public void ToonInhoud() {
         System.out.println("Welkom in kamer " + naam);
+        System.out.println("Hier vind je alles gerelateerd aan de review.");
     }
 }
 
@@ -64,6 +67,7 @@ class KamerScrumboard extends Kamer {
     @Override
     public void ToonInhoud() {
         System.out.println("Welkom in kamer " + naam);
+        System.out.println("Hier vind je alles gerelateerd aan het scrumboard.");
     }
 }
 
@@ -75,5 +79,6 @@ class KamerRetrospective extends Kamer {
     @Override
     public void ToonInhoud() {
         System.out.println("Welkom in kamer " + naam);
+        System.out.println("Hier vind je alles gerelateerd aan het retrospective.");
     }
 }
