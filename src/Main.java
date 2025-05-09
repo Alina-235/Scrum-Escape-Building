@@ -4,6 +4,7 @@ public class Main {
     static Game game = new Game(speler);
 
     public static void main(String[] args) {
+      
         System.out.println("Welkom bij Scrum Escape Building!");
 
         if (!speler.isIngelogd()) {
@@ -13,5 +14,6 @@ public class Main {
         while (!game.GameOver()) {
             menu.Mainmenu(game);
         }
+
     }
 }
