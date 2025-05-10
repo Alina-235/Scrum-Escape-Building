@@ -29,6 +29,20 @@ class databaseInsert extends Database{
             e.printStackTrace();
         }
     }
+
+    public void InsertVragen(String vraag, String antwoord) {
+        try (Connection conn = getConnection()) {
+            String sql = "INSERT INTO vragen (vraag, antwoord) VALUES (?,?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, vraag);
+            stmt.setString(2, antwoord);
+
+            int rowsInserted = stmt.executeUpdate();
+            System.out.println("De vraag is toegevoegd.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 class databaseSelect extends Database {
@@ -50,6 +64,24 @@ class databaseSelect extends Database {
                 System.out.println();
             }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void SelectVragen() {
+        try (Connection conn = getConnection()) {
+            String sql = "SELECT * FROM vragen";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            ResultSet result = stmt.executeQuery();
+
+            while (result.next()) {
+                int id = result.getInt("id");
+                String vraag = result.getString("vraag");
+
+                System.out.println("ID: " + id + ", Vraag: " + vraag);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
