@@ -18,9 +18,7 @@ abstract class Kamer {
         return nummer;
     }
 
-    public void ToonInhoud() {
-        System.out.println("Welkom in kamer " + naam);
-    }
+    protected abstract void ToonInhoud ();
 }
 
 class KamerDailyScrum extends Kamer {
@@ -29,9 +27,12 @@ class KamerDailyScrum extends Kamer {
     }
 
     @Override
-    public void ToonInhoud() {
+    protected void ToonInhoud() {
         System.out.println("Welkom in kamer " + naam);
         System.out.println("Hier vind je alles gerelateerd aan de dagelijkse scrum.");
+        System.out.println();
+        System.out.println("vind de hendel om de deur te openen");
+
     }
 }
 
@@ -41,9 +42,11 @@ class KamerPlanning extends Kamer {
     }
 
     @Override
-    public void ToonInhoud() {
+    protected void ToonInhoud() {
         System.out.println("Welkom in kamer " + naam);
         System.out.println("Hier vind je alles gerelateerd aan de scrum planning.");
+        System.out.println();
+        System.out.println("Zoek de code van de deur om naar de volgende kamer te gaan.");
     }
 }
 
@@ -53,9 +56,11 @@ class KamerReview extends Kamer {
     }
 
     @Override
-    public void ToonInhoud() {
+    protected void ToonInhoud() {
         System.out.println("Welkom in kamer " + naam);
         System.out.println("Hier vind je alles gerelateerd aan de review.");
+        System.out.println();
+        System.out.println("beantwoord de vragen om naar de volgende kamer te gaan.");
     }
 }
 
@@ -65,9 +70,11 @@ class KamerScrumboard extends Kamer {
     }
 
     @Override
-    public void ToonInhoud() {
+    protected void ToonInhoud() {
         System.out.println("Welkom in kamer " + naam);
         System.out.println("Hier vind je alles gerelateerd aan het scrumboard.");
+        System.out.println();
+        System.out.println("zoek de deur.");
     }
 }
 
@@ -77,8 +84,10 @@ class KamerRetrospective extends Kamer {
     }
 
     @Override
-    public void ToonInhoud() {
+    protected void ToonInhoud() {
         System.out.println("Welkom in kamer " + naam);
         System.out.println("Hier vind je alles gerelateerd aan het retrospective.");
+        System.out.println();
+        System.out.println("beantwoord de vraag om door te gaan.");
     }
 }
