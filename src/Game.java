@@ -1,23 +1,50 @@
 import java.util.ArrayList;
 
 public class Game {
-    private Speler speler;
     private boolean gameOver = false;
-    public static ArrayList<Speler> speler = new ArrayList<>();
-    //private int currentKamer;
+    private ArrayList<Speler> spelers;
+    private ArrayList<Kamer> kamers;
 
-    public Game(Speler speler) {
-        this.speler = speler;
+    public Game() {
+        this.spelers = new ArrayList<>();
+        this.kamers = new ArrayList<>();
+    }
+
+    public void voegSpelerToe(Speler speler) {
+        this.spelers.add(speler);
+    }
+
+    public ArrayList<Speler> getSpelers() {
+        return spelers;
+    }
+
+    public void voegKamerToe(Kamer kamer) {
+        this.kamers.add(kamer);
+    }
+
+    public ArrayList<Kamer> getKamers() {
+        return kamers;
     }
 
     public void startGame() {
-        System.out.println("Je staat nu in kamer " + speler.currentKamer());
+        if (spelers.isEmpty()) {
+            System.out.println("Er zijn geen spelers om het spel te starten.");
+            return;
+        }
+
+        for (Speler speler : spelers) {
+            if (speler.getHuidigeKamer() != null) {
+                System.out.println( speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
+            } else {
+                System.out.println("Speler " + speler.getNaam() + " heeft nog geen kamer.");
+            }
+        }
     }
 
     public void toonStatus() {
-        System.out.println("Speler: " + speler.getNaam());
-        System.out.println("Levens: " + speler.getLives());
-        System.out.println("Huidige kamer: " + spelercurrentKamer());
+        for (Speler speler : spelers) {
+            speler.toonStatus();
+        }
     }
 
     public void stopGame() {
@@ -25,7 +52,15 @@ public class Game {
         gameOver = true;
     }
 
-    public boolean GameOver() {
-        return gameOver;
+    public void GameOver() {
+        for (Speler speler : spelers) {
+            if (speler.getLives() <= 0) {
+                System.out.println("Speler " + speler.getNaam() + " is verslagen.");
+                gameOver = true;
+                break;
+            }
+        }
     }
+
 }
+
