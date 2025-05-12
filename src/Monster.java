@@ -23,8 +23,8 @@ class Monster {
     public void valAan(Speler speler) {
         System.out.println("Het monster " + naam + " valt je aan!");
 
-        speler.verliesLeven();
-        System.out.println("Je verliest 1 leven. Nog " + speler.getLives() + " over.");
+        //speler.verliesLeven();
+        //System.out.println("Je verliest 1 leven. Nog " + speler.getLives() + " over.");
         //if ()
     }
 }
