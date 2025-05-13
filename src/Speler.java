@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Speler extends Character{
+public class Speler extends Character {
     private Kamer huidigeKamer;
     private int monsterVerslagen;
     private ArrayList<Monster> actieveMonsters;
@@ -17,7 +17,7 @@ public class Speler extends Character{
         System.out.println("Je bent nu in kamer: " + kamer.getNaam());
     }
 
-    public int attacked(){
+    public int attacked() {
         lives--;
         System.out.println("Je bent attacked! Levens over: " + lives);
         if (lives <= 0) {
@@ -26,14 +26,14 @@ public class Speler extends Character{
         return lives;
     }
 
-    public void VoegMonstersToe(Monster monster){
+    public void VoegMonstersToe(Monster monster) {
         if (!actieveMonsters.contains(monster)) {
             actieveMonsters.add(monster);
         }
     }
 
-    public void losMonsterOp(Monster monster, String oplossing){
-        if (monster.magVerdwijnen(oplossing)){
+    public void losMonsterOp(Monster monster, String oplossing) {
+        if (monster.magVerdwijnen(oplossing)) {
             actieveMonsters.remove(monster);
             monsterVerslagen++;
             System.out.println("Monster verslagen!");
@@ -43,13 +43,13 @@ public class Speler extends Character{
         }
     }
 
-    public void toonStatus(){
+    public void toonStatus() {
         System.out.println("Naam: " + naam);
         System.out.println("ID: " + characterID);
-        System.out.println("Kamer: " + huidigeKamer);
+        System.out.println("Kamer: " + (huidigeKamer != null ? huidigeKamer.getNaam() : "Geen kamer"));
         System.out.println("Levens: " + lives);
         System.out.println("Monsters verslagen: " + monsterVerslagen);
-        System.out.println("Actieve monsters: " + actieveMonsters);
+        System.out.println("Actieve monsters:");
         for (Monster monster : actieveMonsters) {
             System.out.print(monster.getNaam() + " ");
         }
@@ -59,10 +59,21 @@ public class Speler extends Character{
     public Kamer getHuidigeKamer() {
         return huidigeKamer;
     }
+
     public int getMonsterVerslagen() {
         return monsterVerslagen;
     }
+
     public ArrayList<Monster> getActiveMonsters() {
         return actieveMonsters;
+    }
+
+    public boolean isVerslagen() {
+        return verslagen;
+    }
+
+    public boolean isIngelogd() {
+        // tijdelijke login check
+        return true;
     }
 }

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 abstract class Kamer {
     protected String naam;
     protected int nummer;
-    ArrayList <vragen> vragen = new ArrayList();
+    ArrayList <Vragen> vragen = new ArrayList();
     protected boolean passed = false;
 
     public Kamer(String naam, int nummer) {

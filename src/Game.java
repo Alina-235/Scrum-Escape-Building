@@ -5,9 +5,10 @@ public class Game {
     private ArrayList<Speler> spelers;
     private ArrayList<Kamer> kamers;
 
-    public Game() {
+    public Game(Speler speler) {
         this.spelers = new ArrayList<>();
         this.kamers = new ArrayList<>();
+        this.spelers.add(speler);
     }
 
     public void voegSpelerToe(Speler speler) {
@@ -27,19 +28,21 @@ public class Game {
     }
 
     public void startGame() {
-        if (spelers.isEmpty()) {
-            System.out.println("Er zijn geen spelers om het spel te starten.");
-            return;
-        }
-
         for (Speler speler : spelers) {
-            if (speler.getHuidigeKamer() != null) {
-                System.out.println( speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
-            } else {
-                System.out.println("Speler " + speler.getNaam() + " heeft nog geen kamer.");
+            if (speler.getHuidigeKamer() == null) {
+                //Kamer lobby = KamerDAO.getKamerById(0);
+                if (lobby != null) {
+                    speler.moveTo(lobby);
+                    System.out.println(speler.getNaam() + " is verplaatst naar de Lobby.");
+                } else {
+                    System.out.println("Lobby kamer niet gevonden in de database.");
+                }
             }
+
+            System.out.println(speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
         }
     }
+
 
     public void toonStatus() {
         for (Speler speler : spelers) {
@@ -52,7 +55,7 @@ public class Game {
         gameOver = true;
     }
 
-    public void GameOver() {
+    public void checkGameOver() {
         for (Speler speler : spelers) {
             if (speler.getLives() <= 0) {
                 System.out.println("Speler " + speler.getNaam() + " is verslagen.");
@@ -62,7 +65,11 @@ public class Game {
         }
     }
 
-    public void storyline(){
+    public boolean GameOver() {
+        return gameOver;
+    }
+
+public void storyline(){
         System.out.println();
         System.out.println("Het is een vrijdag avond en jij bent alleen op kantoor. Iedereen is al naar huis, maar jij maakt nog de laatste taken af die op de planning staan. \n " +
                 "Inmiddels is het al 22:00 ’s avonds. Je kijkt naar buiten en je ziet de maan schijnen door de ramen. \n" +
