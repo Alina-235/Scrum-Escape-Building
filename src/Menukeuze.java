@@ -1,37 +1,23 @@
 import java.util.Scanner;
 
-public class Menukeuze {
-    static Scanner scanner = new Scanner(System.in);
+class Menukeuze {
+    static Game game = new Game (new Speler());
+    static int keuze;
+    static Scanner scanner =  new Scanner(System.in);
+    static Speler speler = new Speler();
 
-    public void MenuInloggenKeuze(Speler speler) {
-        System.out.print("\nMaak een keuze: ");
-        int keuze = scanner.nextInt();
+    public static void mainmenukeuze(){
+        keuze = scanner.nextInt();
         scanner.nextLine();
-
-        switch (keuze) {
+        switch (keuze){
             case 1:
-                speler.inloggen();
+                game.storyline();
+                game.startGame();
                 break;
             case 2:
-                System.exit(0);
-                break;
-        }
-    }
-
-    public void HoofdmenuKeuze(Game game) {
-        System.out.print("\nMaak een keuze: ");
-        int keuze = scanner.nextInt();
-        scanner.nextLine();
-
-        switch (keuze) {
-            case 1:
-                game.startSpel();
-                break;
-            case 2:
-                game.toonStatus();
-                break;
+                //speler.inloggen();
             case 3:
-                game.stopSpel();
+                System.exit(0);
                 break;
         }
     }

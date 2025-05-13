@@ -22,6 +22,10 @@ public class Monster extends Character {
         }
     }
 
+    public boolean magVerdwijnen (String antwoord){
+        return antwoord.equalsIgnoreCase(" ");
+    }
+
     public Kamer getKamer() {
         return kamer;
     }
