@@ -1,19 +1,16 @@
 public class Main {
-    static Speler speler = new Speler();  // New player structure
+    static Game game = new Game (new Speler());
+    static Speler speler = new Speler();
     static Menu menu = new Menu();
-    static Game game = new Game(speler);
 
     public static void main(String[] args) {
-      
-        System.out.println("Welkom bij Scrum Escape Building!");
+        Database.getConnection();
+        System.out.println("Welkom bij Scrum Escape Buidling!");
 
-        if (!speler.isIngelogd()) {
-            menu.MenuInloggen(speler);
-        }
+        menu.MainMenu();
 
         while (!game.GameOver()) {
-            menu.Mainmenu(game);
+            game.startGame();
         }
-
     }
 }
