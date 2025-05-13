@@ -3,7 +3,7 @@ import java.util.ArrayList;
 abstract class Kamer {
     protected String naam;
     protected int nummer;
-    ArrayList <vragen> vragen = new ArrayList();
+    ArrayList <vragen.vragen> vragen = new ArrayList();
     protected boolean passed = false;
 
     public Kamer(String naam, int nummer) {
@@ -60,7 +60,7 @@ class KamerReview extends Kamer {
         System.out.println("Welkom in kamer " + naam);
         System.out.println("Hier vind je alles gerelateerd aan de review.");
         System.out.println();
-        System.out.println("beantwoord de vragen om naar de volgende kamer te gaan.");
+        System.out.println("beantwoord de vragen.vragen om naar de volgende kamer te gaan.");
     }
 }
 

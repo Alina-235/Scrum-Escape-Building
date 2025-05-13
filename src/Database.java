@@ -2,8 +2,8 @@ import java.sql.*;
 
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
-    private static String username = "root";
-    private static String password = "AGao2005.";
+    private static String username = "soulali";
+    private static String password = "Gammaverhuisdoos1";
 
     public static Connection getConnection() {
         try {
