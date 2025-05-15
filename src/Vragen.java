@@ -74,8 +74,7 @@ class PuzzelStrategie implements VraagStrategie {
             if (!juisteKoppelingen.containsKey(term) ||
                     !juisteKoppelingen.get(term).equalsIgnoreCase(definitie)) {
                 return false;
-            }
-        }
+            }        }
         return true;
     }
 }
