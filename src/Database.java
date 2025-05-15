@@ -86,4 +86,23 @@ class databaseSelect extends Database {
             e.printStackTrace();
         }
     }
+
+    public void selectKamer() {
+        try (Connection conn = getConnection()) {
+            String sql = "SELECT * FROM kamer";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            ResultSet result = stmt.executeQuery();
+
+            while (result.next()) {
+                int id = result.getInt("kamer_id");
+                String naam = result.getString ("Naam");
+                String beschrijving = result.getString("beschrijving");
+
+                System.out.println("Kamer: " + naam + "\nBeschrijving: " + beschrijving);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
