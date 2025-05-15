@@ -3,7 +3,7 @@ import java.sql.*;
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
     private static String username = "root";
-    private static String password = "Spotify123!";
+    private static String password = "AGao2005.";
 
     public static Connection getConnection() {
         try {
@@ -81,6 +81,25 @@ class databaseSelect extends Database {
                 String vraag = result.getString("vraag");
 
                 System.out.println("ID: " + id + ", Vraag: " + vraag);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void selectKamer() {
+        try (Connection conn = getConnection()) {
+            String sql = "SELECT * FROM kamer";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            ResultSet result = stmt.executeQuery();
+
+            while (result.next()) {
+                int id = result.getInt("kamer_id");
+                String naam = result.getString ("Naam");
+                String beschrijving = result.getString("beschrijving");
+
+                System.out.println("Kamer: " + naam + "\nBeschrijving: " + beschrijving);
             }
         } catch (SQLException e) {
             e.printStackTrace();

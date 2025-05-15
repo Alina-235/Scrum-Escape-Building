@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Vragen {
     private String vraag;
@@ -24,10 +23,10 @@ public class Vragen {
         return juist;
     }
 }
+
 interface VraagStrategie {
     boolean checkAnswer(ArrayList<String> antwoord);
 }
-
 
 class MeerkeuzeStrategie implements VraagStrategie {
     private String juistAntwoord;
@@ -56,31 +55,14 @@ class OpenInvulStrategie implements VraagStrategie {
 }
 
 class PuzzelStrategie implements VraagStrategie {
-    private HashMap<String, String> juisteKoppelingen;
+    private String juistAntwoord;
 
-    public PuzzelStrategie(HashMap<String, String> juisteKoppelingen) {
-        this.juisteKoppelingen = juisteKoppelingen;
+    public PuzzelStrategie(String juistAntwoord) {
+        this.juistAntwoord = juistAntwoord;
     }
 
     @Override
     public boolean checkAnswer(ArrayList<String> antwoord) {
-        for (String koppeling : antwoord) {
-            String[] delen = koppeling.split("=");
-            if (delen.length != 2) return false;
-
-            String term = delen[0].trim();
-            String definitie = delen[1].trim();
-
-            if (!juisteKoppelingen.containsKey(term) ||
-                    !juisteKoppelingen.get(term).equalsIgnoreCase(definitie)) {
-                return false;
-            }
-        }
-        return true;
+        return antwoord.size() == 1 && juistAntwoord.equalsIgnoreCase(antwoord.get(0).trim());
     }
 }
-
-
-
-
-
