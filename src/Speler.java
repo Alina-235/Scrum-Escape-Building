@@ -4,6 +4,7 @@ public class Speler extends Character {
     private Kamer huidigeKamer;
     private int monsterVerslagen;
     private ArrayList<Monster> actieveMonsters;
+    private ArrayList<SpelerObserver> observers = new ArrayList<>();
 
     public Speler(String naam, int characterID) {
         super(naam, "Scrum escape speler", 3, characterID);
@@ -12,9 +13,20 @@ public class Speler extends Character {
         this.huidigeKamer = null;
     }
 
+    public void addObserver(SpelerObserver observer){
+        observers.add(observer);
+    }
+
+    private void notifyObservers(){
+        for (SpelerObserver observer: observers) {
+            observer.update(this);
+        }
+    }
+
     public void moveTo(Kamer kamer) {
         this.huidigeKamer = kamer;
         System.out.println("Je bent nu in kamer: " + kamer.getNaam());
+        notifyObservers();
     }
 
     public int attacked() {
@@ -30,14 +42,14 @@ public class Speler extends Character {
         if (!actieveMonsters.contains(monster)) {
             actieveMonsters.add(monster);
         }
+        notifyObservers();
     }
 
     public void losMonsterOp(Monster monster) {
             actieveMonsters.remove(monster);
             monsterVerslagen++;
             System.out.println("Monster verslagen!");
-
-
+            notifyObservers();
     }
 
     public void toonStatus() {
