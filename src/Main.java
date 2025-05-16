@@ -16,6 +16,7 @@ public class Main {
         String naam = scanner.nextLine();
 
         speler = new Speler(naam, 1);
+        speler.addObserver(new Feedback());
         game = new Game(speler);
 
 
