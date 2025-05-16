@@ -4,6 +4,8 @@ public class Game {
     private boolean gameOver = false;
     private ArrayList<Speler> spelers;
     private ArrayList<Kamer> kamers;
+    private databaseSelect db = new databaseSelect();
+
 
     public Game(Speler speler) {
         this.spelers = new ArrayList<>();
@@ -28,21 +30,30 @@ public class Game {
     }
 
     public void startGame() {
+        if (spelers.isEmpty()) {
+            System.out.println("Er zijn geen spelers om het spel te starten.");
+            return;
+        }
+
+        databaseSelect db = new databaseSelect();
+        Kamer startKamer = db.getKamerById(2);
+
+        if (startKamer == null) {
+            System.out.println("Startkamer met ID 1 kon niet worden gevonden.");
+            return;
+        }
+
         for (Speler speler : spelers) {
             if (speler.getHuidigeKamer() == null) {
-                //Kamer lobby = KamerDAO.getKamerById(0);
-                if (lobby != null) {
-                    speler.moveTo(lobby);
-                    System.out.println(speler.getNaam() + " is verplaatst naar de Lobby.");
-                } else {
-                    System.out.println("Lobby kamer niet gevonden in de database.");
-                }
+                speler.setHuidigeKamer(startKamer);
+                System.out.println("Speler " + speler.getNaam() + " is geplaatst in startkamer: " + startKamer.getNaam());
+            } else {
+                System.out.println(speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
             }
-
-            System.out.println(speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
         }
-    }
 
+        checkGameOver();
+    }
 
     public void toonStatus() {
         for (Speler speler : spelers) {
