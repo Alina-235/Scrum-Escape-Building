@@ -1,9 +1,16 @@
 public class Main {
-    public static void main(String[] args) {
-        System.out.printf("Hello and welcome!");
+    static Game game = new Game (new Speler());
+    static Speler speler = new Speler();
+    static Menu menu = new Menu();
 
-        for (int i = 1; i <= 5; i++) {
-            System.out.println("i = " + i);
+    public static void main(String[] args) {
+        Database.getConnection();
+        System.out.println("Welkom bij Scrum Escape Buidling!");
+
+        menu.MainMenu();
+
+        while (!game.GameOver()) {
+            game.startGame();
         }
     }
 }
