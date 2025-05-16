@@ -1,10 +1,10 @@
 import java.util.Scanner;
 
 class Menukeuze {
-    static Game game = new Game (new Speler());
     static int keuze;
     static Scanner scanner =  new Scanner(System.in);
-    static Speler speler = new Speler();
+    static Speler speler = new Speler("Gebruiker1", 1);
+    static Game game = new Game(speler);
 
     public static void mainmenukeuze(){
         keuze = scanner.nextInt();
