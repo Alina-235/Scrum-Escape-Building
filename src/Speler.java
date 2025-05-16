@@ -32,15 +32,12 @@ public class Speler extends Character {
         }
     }
 
-    public void losMonsterOp(Monster monster, String oplossing) {
-        if (monster.magVerdwijnen(oplossing)) {
+    public void losMonsterOp(Monster monster) {
             actieveMonsters.remove(monster);
             monsterVerslagen++;
             System.out.println("Monster verslagen!");
-        } else {
-            System.out.println("Verkeerde antwoord, monster blijft levend.");
-            attacked();
-        }
+
+
     }
 
     public void toonStatus() {
