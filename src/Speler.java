@@ -1,2 +1,84 @@
-class Speler {
+import java.util.ArrayList;
+
+public class Speler extends Character {
+    private Kamer huidigeKamer;
+    private int monsterVerslagen;
+    private ArrayList<Monster> actieveMonsters;
+
+    public Speler(String naam, int characterID) {
+        super(naam, "Scrum escape speler", 3, characterID);
+        this.monsterVerslagen = 0;
+        this.actieveMonsters = new ArrayList<>();
+        this.huidigeKamer = null;
+    }
+
+    public void moveTo(Kamer kamer) {
+        this.huidigeKamer = kamer;
+        System.out.println("Je bent nu in kamer: " + kamer.getNaam());
+    }
+
+    public int attacked() {
+        lives--;
+        System.out.println("Je bent attacked! Levens over: " + lives);
+        if (lives <= 0) {
+            verslagen = true;
+        }
+        return lives;
+    }
+
+    public void VoegMonstersToe(Monster monster) {
+        if (!actieveMonsters.contains(monster)) {
+            actieveMonsters.add(monster);
+        }
+    }
+
+    public void losMonsterOp(Monster monster, String oplossing) {
+        if (monster.magVerdwijnen(oplossing)) {
+            actieveMonsters.remove(monster);
+            monsterVerslagen++;
+            System.out.println("Monster verslagen!");
+        } else {
+            System.out.println("Verkeerde antwoord, monster blijft levend.");
+            attacked();
+        }
+    }
+
+    public void toonStatus() {
+        System.out.println("Naam: " + naam);
+        System.out.println("ID: " + characterID);
+        System.out.println("Kamer: " + (huidigeKamer != null ? huidigeKamer.getNaam() : "Geen kamer"));
+        System.out.println("Levens: " + lives);
+        System.out.println("Monsters verslagen: " + monsterVerslagen);
+        System.out.println("Actieve monsters:");
+        for (Monster monster : actieveMonsters) {
+            System.out.print(monster.getNaam() + " ");
+        }
+        System.out.println();
+    }
+
+    public Kamer getHuidigeKamer() {
+        return huidigeKamer;
+    }
+
+    public void setHuidigeKamer(Kamer kamer) {
+        this.huidigeKamer = kamer;
+    }
+
+
+    public int getMonsterVerslagen() {
+        return monsterVerslagen;
+    }
+
+    public ArrayList<Monster> getActiveMonsters() {
+        return actieveMonsters;
+    }
+
+    public boolean isVerslagen() {
+        return verslagen;
+    }
+
+    public boolean isIngelogd() {
+        // tijdelijke login check
+        return true;
+    }
 }

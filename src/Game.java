@@ -1,23 +1,64 @@
 import java.util.ArrayList;
 
-class Game {
-    private Speler speler;
+public class Game {
     private boolean gameOver = false;
-    public static ArrayList<Speler> player = new ArrayList<>();
-    //private int currentKamer;
+    private ArrayList<Speler> spelers;
+    private ArrayList<Kamer> kamers;
+    private databaseSelect db = new databaseSelect();
+
 
     public Game(Speler speler) {
-        this.speler = speler;
+        this.spelers = new ArrayList<>();
+        this.kamers = new ArrayList<>();
+        this.spelers.add(speler);
+    }
+
+    public void voegSpelerToe(Speler speler) {
+        this.spelers.add(speler);
+    }
+
+    public ArrayList<Speler> getSpelers() {
+        return spelers;
+    }
+
+    public void voegKamerToe(Kamer kamer) {
+        this.kamers.add(kamer);
+    }
+
+    public ArrayList<Kamer> getKamers() {
+        return kamers;
     }
 
     public void startGame() {
-        System.out.println("Je staat nu in kamer " + speler.currentKamer());
+        if (spelers.isEmpty()) {
+            System.out.println("Er zijn geen spelers om het spel te starten.");
+            return;
+        }
+
+        databaseSelect db = new databaseSelect();
+        Kamer startKamer = db.getKamerById(2);
+
+        if (startKamer == null) {
+            System.out.println("Startkamer met ID 1 kon niet worden gevonden.");
+            return;
+        }
+
+        for (Speler speler : spelers) {
+            if (speler.getHuidigeKamer() == null) {
+                speler.setHuidigeKamer(startKamer);
+                System.out.println("Speler " + speler.getNaam() + " is geplaatst in startkamer: " + startKamer.getNaam());
+            } else {
+                System.out.println(speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
+            }
+        }
+
+        checkGameOver();
     }
 
     public void toonStatus() {
-        System.out.println("Speler: " + speler.getNaam());
-        System.out.println("Levens: " + speler.getLives());
-        System.out.println("Huidige kamer: " + spelercurrentKamer());
+        for (Speler speler : spelers) {
+            speler.toonStatus();
+        }
     }
 
     public void stopGame() {
@@ -25,11 +66,21 @@ class Game {
         gameOver = true;
     }
 
+    public void checkGameOver() {
+        for (Speler speler : spelers) {
+            if (speler.getLives() <= 0) {
+                System.out.println("Speler " + speler.getNaam() + " is verslagen.");
+                gameOver = true;
+                break;
+            }
+        }
+    }
+
     public boolean GameOver() {
         return gameOver;
     }
 
-    public void storyline(){
+public void storyline(){
         System.out.println();
         System.out.println("Het is een vrijdag avond en jij bent alleen op kantoor. Iedereen is al naar huis, maar jij maakt nog de laatste taken af die op de planning staan. \n " +
                 "Inmiddels is het al 22:00 ’s avonds. Je kijkt naar buiten en je ziet de maan schijnen door de ramen. \n" +
@@ -46,5 +97,5 @@ class Game {
                 "De deur valt achter je dicht. Je probeert met man en macht de deur open te krijgen, maar het lukt je niet. " +
                 "\nDe deur is op slot. “Shit,” fluister je terwijl je paniekerig rondkijkt. “Hoe kom ik hier in godsnaam uit?”\n");
     }
-}
 
+}
