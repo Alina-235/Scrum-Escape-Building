@@ -77,4 +77,4 @@ public class Speler extends Character {
             return true;
         }
     }
-}
+
