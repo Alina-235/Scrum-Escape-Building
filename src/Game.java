@@ -4,10 +4,12 @@ public class Game {
     private boolean gameOver = false;
     private ArrayList<Speler> spelers;
     private ArrayList<Kamer> kamers;
+    private databaseSelect db = new databaseSelect();
 
     public Game() {
         this.spelers = new ArrayList<>();
         this.kamers = new ArrayList<>();
+        this.spelers.add(speler);
     }
 
     public void voegSpelerToe(Speler speler) {
@@ -31,6 +33,13 @@ public class Game {
             System.out.println("Er zijn geen spelers om het spel te starten.");
             return;
         }
+        databaseSelect db = new databaseSelect();
+        Kamer startKamer = db.getKamerById(2);
+
+        if (startKamer == null) {
+            System.out.println("Startkamer met ID 1 kon niet worden gevonden.");
+            return;
+        }
 
         for (Speler speler : spelers) {
             if (speler.getHuidigeKamer() != null) {
@@ -39,6 +48,8 @@ public class Game {
                 System.out.println("Speler " + speler.getNaam() + " heeft nog geen kamer.");
             }
         }
+
+        checkGameover();
     }
 
     public void toonStatus() {
