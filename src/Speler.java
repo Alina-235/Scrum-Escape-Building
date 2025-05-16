@@ -60,6 +60,11 @@ public class Speler extends Character {
         return huidigeKamer;
     }
 
+    public void setHuidigeKamer(Kamer kamer) {
+        this.huidigeKamer = kamer;
+    }
+
+
     public int getMonsterVerslagen() {
         return monsterVerslagen;
     }
