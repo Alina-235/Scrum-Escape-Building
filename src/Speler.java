@@ -4,6 +4,7 @@ public class Speler extends Character {
     private Kamer huidigeKamer;
     private int monsterVerslagen;
     private ArrayList<Monster> actieveMonsters;
+    private ArrayList<SpelerObserver> observers = new ArrayList<>();
 
     public Speler(String naam, int characterID) {
         super(naam, "Scrum escape speler", 3, characterID);
@@ -12,9 +13,20 @@ public class Speler extends Character {
         this.huidigeKamer = null;
     }
 
+    public void addObserver(SpelerObserver observer){
+        observers.add(observer);
+    }
+
+    private void notifyObservers(){
+        for (SpelerObserver observer: observers) {
+            observer.update(this);
+        }
+    }
+
     public void moveTo(Kamer kamer) {
         this.huidigeKamer = kamer;
         System.out.println("Je bent nu in kamer: " + kamer.getNaam());
+        notifyObservers();
     }
 
     public int attacked() {
@@ -30,26 +42,23 @@ public class Speler extends Character {
         if (!actieveMonsters.contains(monster)) {
             actieveMonsters.add(monster);
         }
+        notifyObservers();
     }
 
-    public void losMonsterOp(Monster monster, String oplossing) {
-        if (monster.magVerdwijnen(oplossing)) {
-            actieveMonsters.remove(monster);
-            monsterVerslagen++;
-            System.out.println("Monster verslagen!");
-        } else {
-            System.out.println("Verkeerde antwoord, monster blijft levend.");
-            attacked();
-        }
+    public void losMonsterOp(Monster monster) {
+        actieveMonsters.remove(monster);
+        monsterVerslagen++;
+        System.out.println("Monster verslagen!");
+        notifyObservers();
     }
 
     public void toonStatus() {
         System.out.println("Naam: " + naam);
         System.out.println("ID: " + characterID);
-        System.out.println("Kamer: " + (huidigeKamer != null ? huidigeKamer.getNaam() : "Geen kamer"));
+        System.out.println("Kamer: " + huidigeKamer);
         System.out.println("Levens: " + lives);
         System.out.println("Monsters verslagen: " + monsterVerslagen);
-        System.out.println("Actieve monsters:");
+        System.out.println("Actieve monsters: " + actieveMonsters);
         for (Monster monster : actieveMonsters) {
             System.out.print(monster.getNaam() + " ");
         }
@@ -59,11 +68,6 @@ public class Speler extends Character {
     public Kamer getHuidigeKamer() {
         return huidigeKamer;
     }
-
-    public void setHuidigeKamer(Kamer kamer) {
-        this.huidigeKamer = kamer;
-    }
-
 
     public int getMonsterVerslagen() {
         return monsterVerslagen;
