@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
@@ -15,15 +16,14 @@ public class Database {
     }
 }
 
-class databaseInsert extends Database{
+class databaseInsert extends Database {
 
     public void InsertCharacter(String naam) {
         try (Connection conn = getConnection()) {
             String sql = "INSERT INTO gamecharacter (naam) VALUES (?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, naam);
-
-            int rowsInserted = stmt.executeUpdate();
+            stmt.executeUpdate();
             System.out.println("Karakter " + naam + " is toegevoegd.");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -32,12 +32,11 @@ class databaseInsert extends Database{
 
     public void InsertVragen(String vraag, String antwoord) {
         try (Connection conn = getConnection()) {
-            String sql = "INSERT INTO vragen (vraag, antwoord) VALUES (?,?)";
+            String sql = "INSERT INTO vraag (vraag, antwoord) VALUES (?, ?)"; // Let op: tabel heet 'vraag' (zonder 'n')!
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, vraag);
             stmt.setString(2, antwoord);
-
-            int rowsInserted = stmt.executeUpdate();
+            stmt.executeUpdate();
             System.out.println("De vraag is toegevoegd.");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,11 +56,8 @@ class databaseSelect extends Database {
 
             if (result.next()) {
                 System.out.println("U speelt nu als karakter " + nummer);
-                System.out.println();
-            }
-            else{
+            } else {
                 System.out.println("Deze karakter is niet gevonden.");
-                System.out.println();
             }
 
         } catch (SQLException e) {
@@ -71,19 +67,41 @@ class databaseSelect extends Database {
 
     public void SelectVragen() {
         try (Connection conn = getConnection()) {
-            String sql = "SELECT * FROM vragen";
+            String sql = "SELECT * FROM vraag";  // Let op: tabelnaam moet kloppen
             PreparedStatement stmt = conn.prepareStatement(sql);
-
             ResultSet result = stmt.executeQuery();
 
             while (result.next()) {
                 int id = result.getInt("id");
                 String vraag = result.getString("vraag");
-
                 System.out.println("ID: " + id + ", Vraag: " + vraag);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Vragen> getVragenVoorKamer(int kamerId) {
+        ArrayList<Vragen> vragenLijst = new ArrayList<>();
+
+        try (Connection conn = getConnection()) {
+            String sql = "SELECT vraag, antwoord FROM vraag WHERE kamer_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, kamerId);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String vraagTekst = rs.getString("vraag");
+                String juistAntwoord = rs.getString("antwoord");
+
+                VraagStrategie strategie = new OpenInvulStrategie(juistAntwoord);
+                Vragen vraagObject = new Vragen(vraagTekst, strategie, null);
+                vragenLijst.add(vraagObject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return vragenLijst;
     }
 }
