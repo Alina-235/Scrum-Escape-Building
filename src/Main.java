@@ -18,6 +18,7 @@ public class Main {
         speler = new Speler(naam, 1);
         game = new Game(speler);
 
+
         menu.MainMenu();
 
         while (!game.GameOver()) {

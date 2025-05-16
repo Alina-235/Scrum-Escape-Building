@@ -34,3 +34,4 @@ public class Monster extends Character {
         return verslagen;
     }
 }
+

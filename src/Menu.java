@@ -1,3 +1,4 @@
+
 class Menu {
 
     public void MainMenu(){
@@ -9,3 +10,4 @@ class Menu {
         Menukeuze.mainmenukeuze();
     }
 }
+

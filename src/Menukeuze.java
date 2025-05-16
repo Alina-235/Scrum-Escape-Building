@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 class Menukeuze {
@@ -22,3 +23,4 @@ class Menukeuze {
         }
     }
 }
+

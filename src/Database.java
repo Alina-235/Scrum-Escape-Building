@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
     private static String username = "root";
-    private static String password = "Spotify123!";
+    private static String password = "AGao2005.";
 
     public static Connection getConnection() {
         try {
@@ -106,7 +106,7 @@ class databaseSelect extends Database {
             e.printStackTrace();
         }
     }
-
+  
     public Kamer getKamerById(int kamerId) {
         try (Connection conn = getConnection()) {
             String sql = "SELECT * FROM kamer WHERE kamer_id = ?";
@@ -119,9 +119,7 @@ class databaseSelect extends Database {
                 int id = result.getInt("kamer_id");
                 String naam = result.getString("naam");
                 String beschrijving = result.getString("beschrijving");
-                String type = result.getString("type"); // assuming your DB has a 'type' column
-
-                // Based on type, return correct Kamer subclass
+                String type = result.getString("type"); 
                 switch (type.toLowerCase()) {
                     case "daily":
                         return new KamerDailyScrum(naam, id);
@@ -169,5 +167,4 @@ class databaseSelect extends Database {
 
         return vragenLijst;
     }
-
 }
