@@ -1,30 +1,37 @@
-class Monster {
-    private String naam;
-    private String beschrijving;
-    private boolean verslagen;
-    private int lives;
+public class Monster extends Character {
+    private Kamer kamer;
 
-
-    public Monster(String naam,String beschrijving, boolean verslagen, int lives) {
-        this.naam = naam;
-        this.beschrijving = beschrijving;
-        this.verslagen = verslagen;
-        this.lives = lives;
-    }
-
-    public String getNaam() {
-        return naam;
+    public Monster(String naam, String beschrijving, int lives, int characterID, Kamer kamer) {
+        super(naam, beschrijving, lives, characterID);
+        this.kamer = kamer;
     }
 
     public void monsterTonen() {
-
+        System.out.println("Het monster " + naam + " bewaakt kamer: " + kamer.getNaam());
     }
 
     public void valAan(Speler speler) {
         System.out.println("Het monster " + naam + " valt je aan!");
+        speler.attacked();
+        this.lives--;
+        System.out.println(naam + " verliest een leven. Levens over: " + lives);
 
-        //speler.verliesLeven();
-        //System.out.println("Je verliest 1 leven. Nog " + speler.getLives() + " over.");
-        //if ()
+        if (lives <= 0) {
+            this.verslagen = true;
+            System.out.println(naam + " is verslagen!");
+        }
+    }
+
+    public boolean magVerdwijnen (String antwoord){
+        return antwoord.equalsIgnoreCase(" ");
+    }
+
+    public Kamer getKamer() {
+        return kamer;
+    }
+
+    public boolean isVerslagen() {
+        return verslagen;
     }
 }
+

@@ -4,7 +4,7 @@ abstract class Kamer {
     protected String naam;
     protected String beschrijving;
     protected String doel;
-    ArrayList <vragen> vragen = new ArrayList();
+    ArrayList <Vragen> vragen = new ArrayList();
     protected boolean passed = false;
 
 
