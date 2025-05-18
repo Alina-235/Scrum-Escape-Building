@@ -1,4 +1,4 @@
-public class Feedback implements SpelerObserver{
+class Feedback implements SpelerObserver{
     @Override
     public void update(Speler speler, String gebeurtenis){
         switch (gebeurtenis){

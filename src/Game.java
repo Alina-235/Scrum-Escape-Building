@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Game {
+class Game {
     private boolean gameOver = false;
     private ArrayList<Speler> spelers;
     private ArrayList<Kamer> kamers;

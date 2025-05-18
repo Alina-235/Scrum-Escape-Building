@@ -1,4 +1,4 @@
-public class Monster extends Character {
+class Monster extends Character {
     private Kamer kamer;
 
     public Monster(String naam, String beschrijving, int lives, int characterID, Kamer kamer) {

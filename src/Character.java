@@ -1,4 +1,4 @@
-public abstract class Character {
+abstract class Character {
 
     protected String naam;
     protected String beschrijving;

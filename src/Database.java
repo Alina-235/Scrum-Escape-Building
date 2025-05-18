@@ -1,7 +1,7 @@
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Database {
+class Database {
     private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
     private static String username = "root";
     private static String password = "AGao2005.";

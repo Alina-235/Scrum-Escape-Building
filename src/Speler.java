@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 
-public class Speler extends Character {
+interface SpelerObserver {
+    void update(Speler speler, String gebeurtenis);
+}
+
+class Speler extends Character {
     private Kamer huidigeKamer;
     private int monsterVerslagen;
     private ArrayList<Monster> actieveMonsters;
