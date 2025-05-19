@@ -20,7 +20,7 @@ public class Main {
         game = new Game(speler);
 
 
-        menu.MainMenu();
+        menu.mainMenu();
 
         while (!game.GameOver()) {
             game.startGame();

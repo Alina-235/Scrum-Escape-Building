@@ -116,10 +116,11 @@ class databaseSelect extends Database {
             ResultSet result = stmt.executeQuery();
 
             if (result.next()) {
+                int id = result.getInt("kamer_id");
                 String naam = result.getString("naam");
                 String beschrijving = result.getString("beschrijving");
-                String doel = result.getString("doel"); // 👈 make sure this column exists
                 String type = result.getString("type");
+                String doel = result.getString("doel"); // ✅ now retrieved
 
                 switch (type.toLowerCase()) {
                     case "daily":
@@ -132,6 +133,8 @@ class databaseSelect extends Database {
                         return new KamerScrumboard(naam, beschrijving, doel);
                     case "retro":
                         return new KamerRetrospective(naam, beschrijving, doel);
+                    case "start":
+                        return new KamerDailyScrum(naam, beschrijving, doel);
                     default:
                         System.out.println("Onbekend kamertype: " + type);
                         return null;
@@ -144,6 +147,7 @@ class databaseSelect extends Database {
         }
         return null;
     }
+
 
 
     public ArrayList<Vragen> getVragenVoorKamer(int kamerId) {
