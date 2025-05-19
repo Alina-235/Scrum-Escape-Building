@@ -45,7 +45,7 @@ public class Game {
 
         for (Speler speler : spelers) {
             if (speler.getHuidigeKamer() == null) {
-                speler.setHuidigeKamer(startKamer);
+                speler.moveTo(startKamer);
                 System.out.println("Speler " + speler.getNaam() + " is geplaatst in startkamer: " + startKamer.getNaam());
             } else {
                 System.out.println(speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());

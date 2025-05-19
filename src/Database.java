@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
     private static String username = "root";
-    private static String password = "AGao2005.";
+    private static String password = "Spotify123!";
 
     public static Connection getConnection() {
         try {
@@ -106,7 +106,7 @@ class databaseSelect extends Database {
             e.printStackTrace();
         }
     }
-  
+
     public Kamer getKamerById(int kamerId) {
         try (Connection conn = getConnection()) {
             String sql = "SELECT * FROM kamer WHERE kamer_id = ?";
@@ -116,21 +116,22 @@ class databaseSelect extends Database {
             ResultSet result = stmt.executeQuery();
 
             if (result.next()) {
-                int id = result.getInt("kamer_id");
                 String naam = result.getString("naam");
                 String beschrijving = result.getString("beschrijving");
-                String type = result.getString("type"); 
+                String doel = result.getString("doel"); // 👈 make sure this column exists
+                String type = result.getString("type");
+
                 switch (type.toLowerCase()) {
                     case "daily":
-                        return new KamerDailyScrum(naam, id);
+                        return new KamerDailyScrum(naam, beschrijving, doel);
                     case "planning":
-                        return new KamerPlanning(naam, id);
+                        return new KamerPlanning(naam, beschrijving, doel);
                     case "review":
-                        return new KamerReview(naam, id);
+                        return new KamerReview(naam, beschrijving, doel);
                     case "scrumboard":
-                        return new KamerScrumboard(naam, id);
+                        return new KamerScrumboard(naam, beschrijving, doel);
                     case "retro":
-                        return new KamerRetrospective(naam, id);
+                        return new KamerRetrospective(naam, beschrijving, doel);
                     default:
                         System.out.println("Onbekend kamertype: " + type);
                         return null;
@@ -143,6 +144,7 @@ class databaseSelect extends Database {
         }
         return null;
     }
+
 
     public ArrayList<Vragen> getVragenVoorKamer(int kamerId) {
         ArrayList<Vragen> vragenLijst = new ArrayList<>();
