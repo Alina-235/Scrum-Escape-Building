@@ -15,10 +15,12 @@ public class Vragen {
         return vraag;
     }
 
-    public boolean checkAnswer(ArrayList<String> antwoord) {
+    public boolean checkAnswer(ArrayList<String> antwoord, Speler speler) {
         boolean juist = strategie.checkAnswer(antwoord);
         if (!juist && monsterTrigger != null) {
             monsterTrigger.monsterTonen();
+            speler.VoegMonstersToe(monsterTrigger);
+            monsterTrigger.valAan(speler);
         }
         return juist;
     }
