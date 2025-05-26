@@ -6,6 +6,7 @@ abstract class Kamer {
     protected String doel;
     ArrayList <Vragen> vragen = new ArrayList();
     protected boolean passed = false;
+    protected int kamernummer = 0;
 
 
     public Kamer(String naam, String beschrijving, String doel ) {
