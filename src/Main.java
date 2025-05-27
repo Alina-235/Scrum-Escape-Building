@@ -1,11 +1,6 @@
 import java.util.Scanner;
 
 public class Main {
-
-    static Game game;
-    static Speler speler;
-    static Menu menu = new Menu();
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -15,15 +10,17 @@ public class Main {
         System.out.print("Voer je naam in: ");
         String naam = scanner.nextLine();
 
-        speler = new Speler(naam, 1);
+        Speler speler = new Speler(naam, 1);
         speler.addObserver(new Feedback());
-        game = new Game(speler);
 
+        GameController controller = new GameController(speler);
 
-        menu.mainMenu();
-
-        while (!game.GameOver()) {
-            game.startGame();
+        boolean doorgaan = true;
+        while (doorgaan && !controller.isGameOver()) {
+            int keuze = Menukeuze.toonMenuEnKrijgKeuze();
+            doorgaan = controller.verwerkKeuze(keuze);
         }
     }
 }
+
+

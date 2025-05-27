@@ -7,10 +7,13 @@ public class Menu {
             System.out.println("3. Exit");
             System.out.println();
             System.out.print("Maak uw keuze: ");
-
-            if (!Menukeuze.handleChoice()) {
-                break;
+            while (true) {
+                int keuze = Menukeuze.toonMenuEnKrijgKeuze();
+                if (!GameController.verwerkKeuze(keuze)) {
+                    break;
+                }
             }
+
         }
     }
 }

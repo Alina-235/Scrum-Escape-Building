@@ -1,86 +1,14 @@
 import java.util.ArrayList;
 
-public class Game {
-    private boolean gameOver = false;
-    private ArrayList<Speler> spelers;
-    private ArrayList<Kamer> kamers;
+class GameRepository {
     private databaseSelect db = new databaseSelect();
 
-
-    public Game(Speler speler) {
-        this.spelers = new ArrayList<>();
-        this.kamers = new ArrayList<>();
-        this.spelers.add(speler);
+    public Kamer getStartKamer() {
+        return db.getKamerById(2);
     }
-
-    public void voegSpelerToe(Speler speler) {
-        this.spelers.add(speler);
-    }
-
-    public ArrayList<Speler> getSpelers() {
-        return spelers;
-    }
-
-    public void voegKamerToe(Kamer kamer) {
-        this.kamers.add(kamer);
-    }
-
-    public ArrayList<Kamer> getKamers() {
-        return kamers;
-    }
-
-    public void startGame() {
-        if (spelers.isEmpty()) {
-            System.out.println("Er zijn geen spelers om het spel te starten.");
-            return;
-        }
-
-        databaseSelect db = new databaseSelect();
-        Kamer startKamer = db.getKamerById(2);
-
-        if (startKamer == null) {
-            System.out.println("Startkamer met ID 1 kon niet worden gevonden.");
-            return;
-        }
-
-        for (Speler speler : spelers) {
-            if (speler.getHuidigeKamer() == null) {
-                speler.moveTo(startKamer);
-                System.out.println("Speler " + speler.getNaam() + " is geplaatst in startkamer: " + startKamer.getNaam());
-            } else {
-                System.out.println(speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
-            }
-        }
-
-        checkGameOver();
-    }
-
-    public void toonStatus() {
-        for (Speler speler : spelers) {
-            speler.toonStatus();
-        }
-    }
-
-    public void stopGame() {
-        System.out.println("Bedankt voor het spelen!");
-        gameOver = true;
-    }
-
-    public void checkGameOver() {
-        for (Speler speler : spelers) {
-            if (speler.getLives() <= 0) {
-                System.out.println("Speler " + speler.getNaam() + " is verslagen.");
-                gameOver = true;
-                break;
-            }
-        }
-    }
-
-    public boolean GameOver() {
-        return gameOver;
-    }
-
-public void storyline(){
+}
+class GameStory {
+    public void toonIntro() {
         System.out.println();
         System.out.println("Het is een vrijdag avond en jij bent alleen op kantoor. Iedereen is al naar huis, maar jij maakt nog de laatste taken af die op de planning staan. \n " +
                 "Inmiddels is het al 22:00 ’s avonds. Je kijkt naar buiten en je ziet de maan schijnen door de ramen. \n" +
@@ -96,6 +24,98 @@ public void storyline(){
                 "\n" +
                 "De deur valt achter je dicht. Je probeert met man en macht de deur open te krijgen, maar het lukt je niet. " +
                 "\nDe deur is op slot. “Shit,” fluister je terwijl je paniekerig rondkijkt. “Hoe kom ik hier in godsnaam uit?”\n");
+
+    }
+}
+class SpelerManager {
+    private ArrayList<Speler> spelers = new ArrayList<>();
+
+    public void voegSpelerToe(Speler speler) {
+        spelers.add(speler);
     }
 
+    public ArrayList<Speler> getSpelers() {
+        return spelers;
+    }
+
+    public boolean heeftSpelers() {
+        return !spelers.isEmpty();
+    }
+
+    public void toonStatus() {
+        for (Speler s : spelers) {
+            s.toonStatus();
+        }
+    }
+
+    public boolean isGameOver() {
+        for (Speler s : spelers) {
+            if (s.getLives() <= 0) return true;
+        }
+        return false;
+    }
+
+    public void plaatsSpelersInKamer(Kamer kamer) {
+        for (Speler s : spelers) {
+            if (s.getHuidigeKamer() == null) {
+                s.moveTo(kamer);
+                System.out.println("Speler " + s.getNaam() + " is geplaatst in startkamer: " + kamer.getNaam());
+            } else {
+                System.out.println(s.getNaam() + " staat nu in: " + s.getHuidigeKamer().getNaam());
+            }
+        }
+    }
 }
+public class Game {
+    private boolean gameOver = false;
+    private SpelerManager spelerManager = new SpelerManager();
+    private ArrayList<Kamer> kamers = new ArrayList<>();
+    private GameRepository repo = new GameRepository();
+
+    public void voegSpelerToe(Speler speler) {
+        spelerManager.voegSpelerToe(speler);
+    }
+
+    public void voegKamerToe(Kamer kamer) {
+        kamers.add(kamer);
+    }
+
+    public void startGame() {
+        if (!spelerManager.heeftSpelers()) {
+            System.out.println("Er zijn geen spelers om het spel te starten.");
+            return;
+        }
+
+        Kamer startKamer = repo.getStartKamer();
+
+        if (startKamer == null) {
+            System.out.println("Startkamer met ID 2 kon niet worden gevonden.");
+            return;
+        }
+
+        spelerManager.plaatsSpelersInKamer(startKamer);
+
+        checkGameOver();
+    }
+
+    public void toonStatus() {
+        spelerManager.toonStatus();
+    }
+
+    public void stopGame() {
+        System.out.println("Bedankt voor het spelen!");
+        gameOver = true;
+    }
+
+    public void checkGameOver() {
+        if (spelerManager.isGameOver()) {
+            System.out.println("Een speler is verslagen. Game over.");
+            gameOver = true;
+        }
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+}
+
