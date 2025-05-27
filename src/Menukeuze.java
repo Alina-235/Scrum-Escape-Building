@@ -1,11 +1,16 @@
 import java.util.Scanner;
 
-public class Menukeuze {
+interface keuze{
+    void menu();
+}
+
+public class Menukeuze implements keuze{
     static Scanner scanner = new Scanner(System.in);
     static Speler speler = new Speler("Gebruiker1", 1);
     static Game game = new Game(speler);
 
-    public static boolean handleChoice() {
+    @Override
+    public void menu() {
         int keuze = scanner.nextInt();
         scanner.nextLine();
 
@@ -13,15 +18,15 @@ public class Menukeuze {
             case 1:
                 game.storyline();
                 game.startGame();
-                return true;
+                break;
             case 2:
-                return true;
+                break;
             case 3:
                 System.out.println("Programma wordt afgesloten.");
-                return false;
+                break;
             default:
                 System.out.println("Ongeldige keuze, probeer opnieuw.");
-                return true;
+                break;
         }
     }
 }

@@ -34,25 +34,23 @@ class Game {
             System.out.println("Er zijn geen spelers om het spel te starten.");
             return;
         }
+            databaseSelect db = new databaseSelect();
+            Kamer startKamer = db.getKamerById(2);
 
-        databaseSelect db = new databaseSelect();
-        Kamer startKamer = db.getKamerById(2);
-
-        if (startKamer == null) {
-            System.out.println("Startkamer met ID 1 kon niet worden gevonden.");
-            return;
-        }
-
-        for (Speler speler : spelers) {
-            if (speler.getHuidigeKamer() == null) {
-                speler.moveTo(startKamer);
-                System.out.println("Speler " + speler.getNaam() + " is geplaatst in startkamer: " + startKamer.getNaam());
-            } else {
-                System.out.println(speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
+            if (startKamer == null) {
+                System.out.println("Startkamer met ID 1 kon niet worden gevonden.");
+                return;
             }
-        }
 
-        checkGameOver();
+            for (Speler speler : spelers) {
+                if (speler.getHuidigeKamer() == null) {
+                    speler.moveTo(startKamer);
+                    System.out.println("Speler " + speler.getNaam() + " is geplaatst in startkamer: " + startKamer.getNaam());
+                } else {
+                    System.out.println(speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
+                }
+            }
+            checkGameOver();
     }
 
     public void toonStatus() {
@@ -80,7 +78,7 @@ class Game {
         return gameOver;
     }
 
-public void storyline(){
+    public void storyline(){
         System.out.println();
         System.out.println("Het is een vrijdag avond en jij bent alleen op kantoor. Iedereen is al naar huis, maar jij maakt nog de laatste taken af die op de planning staan. \n" +
                 "Inmiddels is het al 22:00 ’s avonds. Je kijkt naar buiten en je ziet de maan schijnen door de ramen. \n" +
