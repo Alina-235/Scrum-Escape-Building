@@ -17,6 +17,8 @@ public class Main {
 
         speler = new Speler(naam, 1);
         speler.addObserver(new Feedback());
+        speler.addObserver(new Deur());
+
         game = new Game(speler);
 
 
