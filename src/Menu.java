@@ -1,20 +1,16 @@
 public class Menu {
+    private GameController controller;
 
-    public void mainMenu() {
-        while (true) {  
-            System.out.println("1. Start Game");
-            System.out.println("2. Log in");
-            System.out.println("3. Exit");
-            System.out.println();
-            System.out.print("Maak uw keuze: ");
-            while (true) {
-                int keuze = Menukeuze.toonMenuEnKrijgKeuze();
-                if (!GameController.verwerkKeuze(keuze)) {
-                    break;
-                }
-            }
+    public Menu(GameController controller) {
+        this.controller = controller;
+    }
 
+    public void start() {
+        boolean doorgaan = true;
+
+        while (doorgaan && !controller.isGameOver()) {
+            int keuze = Menukeuze.toonMenuEnKrijgKeuze();
+            doorgaan = controller.verwerkKeuze(keuze);
         }
     }
 }
-

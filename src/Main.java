@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         Database.getConnection();
 
         System.out.println("Welkom bij Scrum Escape Building!");
@@ -14,13 +13,14 @@ public class Main {
         speler.addObserver(new Feedback());
 
         GameController controller = new GameController(speler);
+        Menu menu = new Menu(controller);
 
-        boolean doorgaan = true;
-        while (doorgaan && !controller.isGameOver()) {
-            int keuze = Menukeuze.toonMenuEnKrijgKeuze();
-            doorgaan = controller.verwerkKeuze(keuze);
-        }
+        menu.start(); // gebruik Menu om alles aan te sturen
+
+        scanner.close();
     }
 }
+
+
 
 

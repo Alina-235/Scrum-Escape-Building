@@ -7,6 +7,44 @@ class GameRepository {
         return db.getKamerById(2);
     }
 }
+public class GameController {
+    private Game game;
+    private GameStory story;
+
+    public GameController(Speler speler) {
+        this.game = new Game();
+        this.game.voegSpelerToe(speler);
+        this.story = new GameStory();
+    }
+
+    public boolean verwerkKeuze(int keuze) {
+        switch (keuze) {
+            case 1:
+                story.toonIntro();
+                game.startGame();
+                return true;
+            case 2:
+                toonCredits();
+                return true;
+            case 3:
+                System.out.println("Programma wordt afgesloten.");
+                return false;
+            default:
+                System.out.println("Ongeldige keuze, probeer opnieuw.");
+                return true;
+        }
+    }
+
+    private void toonCredits() {
+        System.out.println("\nEscape Scrum Building © 2025");
+        System.out.println("Gemaakt door jouw projectteam.");
+    }
+
+    public boolean isGameOver() {
+        return game.isGameOver();
+    }
+}
+
 class GameStory {
     public void toonIntro() {
         System.out.println();
