@@ -26,7 +26,7 @@ public class Speler extends Character {
     public void moveTo(Kamer kamer) {
         this.huidigeKamer = kamer;
         System.out.println("Je bent nu in kamer: " + kamer.getNaam());
-        notifyObservers("Nieuwe kamer:");
+        notifyObservers("Nieuwe kamer");
     }
 
     public int attacked() {
@@ -49,8 +49,8 @@ public class Speler extends Character {
     public void losMonsterOp(Monster monster) {
             actieveMonsters.remove(monster);
             monsterVerslagen++;
-            System.out.println("Monster verslagen!");
-            notifyObservers("Monster verslagen");
+            System.out.println("Monster is verslagen!");
+            notifyObservers("Monster is verslagen");
     }
 
     public void toonStatus() {
