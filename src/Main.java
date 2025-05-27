@@ -7,7 +7,7 @@ public class Main {
         Database.getConnection();
         System.out.println("Welkom bij Scrum Escape Buidling!");
 
-        menu.MainMenu();
+        menu.mainMenu();
 
         while (!game.GameOver()) {
             game.startGame();
