@@ -82,7 +82,7 @@ class Game {
 
 public void storyline(){
         System.out.println();
-        System.out.println("Het is een vrijdag avond en jij bent alleen op kantoor. Iedereen is al naar huis, maar jij maakt nog de laatste taken af die op de planning staan. \n " +
+        System.out.println("Het is een vrijdag avond en jij bent alleen op kantoor. Iedereen is al naar huis, maar jij maakt nog de laatste taken af die op de planning staan. \n" +
                 "Inmiddels is het al 22:00 ’s avonds. Je kijkt naar buiten en je ziet de maan schijnen door de ramen. \n" +
                 "De auto’s staan voor het stoplicht te wachten op het groene licht.\n" +
                 "\n" +

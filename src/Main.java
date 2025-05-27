@@ -1,6 +1,6 @@
 public class Main {
-    static Game game = new Game (new Speler());
-    static Speler speler = new Speler();
+    static Speler speler = new Speler("", 0);
+    static Game game = new Game (speler);
     static Menu menu = new Menu();
 
     public static void main(String[] args) {
