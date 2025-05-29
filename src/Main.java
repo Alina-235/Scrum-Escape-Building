@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class Main {
@@ -18,6 +19,7 @@ public class Main {
         speler = new Speler(naam, 1);
         speler.addObserver(new Feedback());
         speler.addObserver(new Deur());
+        speler.addObserver(new Logger());
 
         game = new Game(speler);
 
