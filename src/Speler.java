@@ -5,6 +5,7 @@ public class Speler extends Character {
     private int monsterVerslagen;
     private ArrayList<Monster> actieveMonsters;
     private ArrayList<SpelerObserver> observers = new ArrayList<>();
+    private Joker joker;
 
     public Speler(String naam, int characterID) {
         super(naam, "Scrum escape speler", 3, characterID);
@@ -83,7 +84,18 @@ public class Speler extends Character {
     }
 
     public boolean isIngelogd() {
-        // tijdelijke login check
         return true;
+    }
+    public void kiesJoker(Joker joker) {
+        this.joker = joker;
+        System.out.println("Je hebt gekozen voor een " + joker.getClass().getSimpleName());
+    }
+
+    public void gebruikJoker(Kamer kamer) {
+        if (joker != null && joker.beschikbaarIn(kamer)) {
+            joker.gebruik(this);
+        } else {
+            System.out.println("Joker is hier niet beschikbaar of niet gekozen.");
+        }
     }
 }
