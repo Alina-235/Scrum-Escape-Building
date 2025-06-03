@@ -8,9 +8,6 @@ public class Main {
         System.out.println("Welkom bij Scrum Escape Buidling!");
 
         menu.mainMenu();
-
-        while (!game.GameOver()) {
-            game.startGame();
-        }
+        game.startGame();
     }
 }
