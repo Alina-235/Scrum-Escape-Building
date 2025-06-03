@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 interface SpelerObserver {
     void update(Speler speler, String gebeurtenis);
@@ -9,9 +10,10 @@ class Speler extends Character {
     private int monsterVerslagen;
     private ArrayList<Monster> actieveMonsters;
     private ArrayList<SpelerObserver> observers = new ArrayList<>();
+    static Scanner scanner = new Scanner(System.in);
 
     public Speler(String naam, int characterID) {
-        super(naam, "Scrum escape speler", 3, characterID);
+        super(naam, "Scrum escape speler", characterID, 3);
         this.monsterVerslagen = 0;
         this.actieveMonsters = new ArrayList<>();
         this.huidigeKamer = null;
@@ -31,6 +33,20 @@ class Speler extends Character {
         this.huidigeKamer = kamer;
         System.out.println("Je bent nu in kamer: " + kamer.getNaam());
         notifyObservers("Nieuwe kamer:");
+    }
+
+    public void maakSpeler () {
+        int i = 0;
+        for (Speler speler : Game.spelers) {
+            i++;
+        }
+        i++;
+        System.out.println("Maak je character:");
+        System.out.print("Naam: ");
+        String naam = scanner.nextLine();
+        System.out.println();
+        Speler nieuwespeler = new Speler (naam, i);
+        Game.voegSpelerToe(nieuwespeler);
     }
 
     public int attacked() {
