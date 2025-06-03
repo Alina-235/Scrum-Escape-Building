@@ -16,6 +16,7 @@ class Menukeuze implements keuze{
 
         switch (keuze) {
             case 1:
+                speler.maakSpeler();
                 game.storyline();
                 game.startGame();
                 break;
