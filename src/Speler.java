@@ -78,6 +78,8 @@ class Speler extends Character {
         return monsterVerslagen;
     }
 
+
+
     public ArrayList<Monster> getActiveMonsters() {
         return actieveMonsters;
     }
@@ -90,4 +92,16 @@ class Speler extends Character {
         // tijdelijke login check
         return true;
     }
+
+    public void saveToDatabase() {
+        new databaseInsert().saveGameCharacter(
+                this.characterID,
+                this.naam,
+                this.beschrijving,
+                this.lives,
+                huidigeKamer != null ? huidigeKamer.getKamerId() : 1,
+                "speler"
+        );
+    }
+
 }

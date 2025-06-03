@@ -22,6 +22,10 @@ abstract class Character {
         return beschrijving;
     }
 
+    public void setBeschrijving(String beschrijving){
+        this.beschrijving = beschrijving;
+    }
+
     public int getLives(){
         return lives;
     }

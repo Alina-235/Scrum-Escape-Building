@@ -11,21 +11,16 @@ class Menukeuze implements keuze {
 
     @Override
     public void menu() {
-        System.out.println("1. Start spel");
-        System.out.println("2. Login");
-        System.out.println("3. Afsluiten");
-        System.out.print("Maak een keuze: ");
-
-        int keuze = scanner.nextInt();
+        int keuzeNummer = scanner.nextInt();
         scanner.nextLine();
 
-        switch (keuze) {
+        switch (keuzeNummer) {
             case 1:
                 System.out.print("Voer je naam in: ");
                 String naam = scanner.nextLine();
-                speler = new Speler(naam, 1);
-                game = new Game(speler);
+                speler = new databaseSelect().SpelerLogin(naam);
 
+                game = new Game(speler);
                 game.storyline();
                 game.startGame();
                 break;

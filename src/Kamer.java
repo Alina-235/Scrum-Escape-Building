@@ -30,6 +30,11 @@ abstract class Kamer {
     public String getDoel (){
         return doel;
     }
+    public int getKamerId() {
+        return kamernummer;
+    }
+
+
 
     protected abstract void kamerNaam();
     protected abstract void kamerbeschrijving();
