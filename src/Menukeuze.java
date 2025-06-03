@@ -4,7 +4,7 @@ interface keuze{
     void menu();
 }
 
-public class Menukeuze implements keuze{
+class Menukeuze implements keuze{
     static Scanner scanner = new Scanner(System.in);
     static Speler speler = new Speler("Gebruiker1", 1);
     static Game game = new Game(speler);

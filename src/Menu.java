@@ -1,4 +1,4 @@
-public class Menu {
+class Menu {
 
     public void mainMenu() {
         while (true) {
@@ -7,10 +7,7 @@ public class Menu {
             System.out.println("3. Exit");
             System.out.println();
             System.out.print("Maak uw keuze: ");
-
-            if (!Menukeuze.handleChoice()) {
-                break;
-            }
+            MenuKeuze.menu();
         }
     }
 }
