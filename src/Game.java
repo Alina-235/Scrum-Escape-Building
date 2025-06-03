@@ -35,7 +35,7 @@ class Game {
             return;
         }
             databaseSelect db = new databaseSelect();
-            Kamer startKamer = db.getKamerById(0);
+            Kamer startKamer = db.getKamerById(1);
 
             if (startKamer == null) {
                 System.out.println("Startkamer met ID 1 kon niet worden gevonden.");
