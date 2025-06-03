@@ -121,23 +121,22 @@ class databaseSelect extends Database {
                 String naam = result.getString("naam");
                 String beschrijving = result.getString("beschrijving");
                 String type = result.getString("type");
-                String doel = result.getString("doel"); // ✅ now retrieved
 
                 switch (type.toLowerCase()) {
                     case "daily":
-                        return new KamerDailyScrum(naam, beschrijving, doel);
+                        return new KamerDailyScrum(naam, beschrijving, type);
                     case "planning":
-                        return new KamerPlanning(naam, beschrijving, doel);
+                        return new KamerPlanning(naam, beschrijving, type);
                     case "review":
-                        return new KamerReview(naam, beschrijving, doel);
+                        return new KamerReview(naam, beschrijving, type);
                     case "scrumboard":
-                        return new KamerScrumboard(naam, beschrijving, doel);
+                        return new KamerScrumboard(naam, beschrijving, type);
                     case "retro":
-                        return new KamerRetrospective(naam, beschrijving, doel);
+                        return new KamerRetrospective(naam, beschrijving, type);
                     case "start":
-                        return new KamerDailyScrum(naam, beschrijving, doel);
+                        return new KamerDailyScrum(naam, beschrijving, type);
                     default:
-                        System.out.println("Onbekend kamertype: " + type);
+                        System.out.println("Onbekend kamer: " + naam);
                         return null;
                 }
             } else {

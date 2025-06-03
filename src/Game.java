@@ -35,17 +35,16 @@ class Game {
             return;
         }
             databaseSelect db = new databaseSelect();
-            Kamer startKamer = db.getKamerById(2);
+            Kamer startKamer = db.getKamerById(0);
 
             if (startKamer == null) {
                 System.out.println("Startkamer met ID 1 kon niet worden gevonden.");
-                return;
+                System.exit(0);
             }
 
             for (Speler speler : spelers) {
                 if (speler.getHuidigeKamer() == null) {
                     speler.moveTo(startKamer);
-                    System.out.println("Speler " + speler.getNaam() + " is geplaatst in startkamer: " + startKamer.getNaam());
                 } else {
                     System.out.println(speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
                 }
