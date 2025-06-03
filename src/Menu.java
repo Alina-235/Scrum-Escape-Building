@@ -1,4 +1,5 @@
 class Menu {
+    static Menukeuze keuze = new Menukeuze();
 
     public void mainMenu() {
         while (true) {
@@ -7,7 +8,7 @@ class Menu {
             System.out.println("3. Exit");
             System.out.println();
             System.out.print("Maak uw keuze: ");
-            MenuKeuze.menu();
+            keuze.menu();
         }
     }
 }
