@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 class Game {
     private boolean gameOver = false;
-    private ArrayList<Speler> spelers;
+    public static ArrayList<Speler> spelers = new ArrayList<>();
     private ArrayList<Kamer> kamers;
     private databaseSelect db = new databaseSelect();
 
@@ -13,8 +13,8 @@ class Game {
         this.spelers.add(speler);
     }
 
-    public void voegSpelerToe(Speler speler) {
-        this.spelers.add(speler);
+    public static void voegSpelerToe(Speler speler) {
+        spelers.add(speler);
     }
 
     public ArrayList<Speler> getSpelers() {
