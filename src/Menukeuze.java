@@ -20,6 +20,7 @@ class Menukeuze implements keuze{
                 game.startGame();
                 break;
             case 2:
+                speler.login();
                 break;
             case 3:
                 System.out.println("Programma wordt afgesloten.");

@@ -106,4 +106,8 @@ class Speler extends Character {
         // tijdelijke login check
         return true;
     }
+
+    public void login () {
+        System.out.println();
+    }
 }
