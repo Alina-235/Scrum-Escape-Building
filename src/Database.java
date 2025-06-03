@@ -4,7 +4,7 @@ import java.util.ArrayList;
 class Database {
     private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
     private static String username = "root";
-    private static String password = "Spotify123!";
+    private static String password = "A";
 
     public static Connection getConnection() {
         try {
