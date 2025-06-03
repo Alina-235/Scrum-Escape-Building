@@ -8,8 +8,9 @@ class Database {
 
     public static Connection getConnection() {
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             System.out.println("Databaseverbinding mislukt: " + e.getMessage());
             return null;
         }
