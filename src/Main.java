@@ -11,6 +11,5 @@ public class Main {
         System.out.println("Welkom bij Scrum Escape Buidling!");
 
         menu.mainMenu();
-        game.startGame();
     }
 }
