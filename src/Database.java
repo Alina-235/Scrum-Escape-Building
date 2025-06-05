@@ -1,3 +1,6 @@
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
+
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -172,5 +175,26 @@ class databaseSelect extends Database {
         }
 
         return vragenLijst;
+    }
+}
+
+class Update extends Database {
+
+    public void updateVoortgang(String speler, String voortgang) {
+        try (Connection conn = getConnection()) {
+            String sql = "UPDATE Speler SET voortgang = ? WHERE speler = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, voortgang);
+            stmt.setString(2, speler);
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Voortgang succesvol bijgewerkt.");
+            } else {
+                System.out.println("Geen speler gevonden met de naam: " + speler);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
