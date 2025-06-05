@@ -1,4 +1,4 @@
-public abstract class Character {
+abstract class Character {
 
     protected String naam;
     protected String beschrijving;
@@ -20,6 +20,10 @@ public abstract class Character {
 
     public String getBeschrijving() {
         return beschrijving;
+    }
+
+    public void setBeschrijving(String beschrijving){
+        this.beschrijving = beschrijving;
     }
 
     public int getLives(){
