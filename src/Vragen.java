@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Vragen {
+class Vragen {
     private String vraag;
     private Monster monsterTrigger;
     private VraagStrategie strategie;

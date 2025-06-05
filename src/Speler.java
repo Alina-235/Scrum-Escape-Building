@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 
-public class Speler extends Character {
+interface SpelerObserver {
+    void update(Speler speler, String gebeurtenis);
+}
+
+class Speler extends Character {
     private Kamer huidigeKamer;
     private int monsterVerslagen;
     private ArrayList<Monster> actieveMonsters;
@@ -67,6 +71,8 @@ public class Speler extends Character {
         return monsterVerslagen;
     }
 
+
+
     public ArrayList<Monster> getActiveMonsters() {
         return actieveMonsters;
     }
@@ -78,7 +84,18 @@ public class Speler extends Character {
     public boolean isIngelogd() {
         return true;
     }
+    public void saveToDatabase() {
+        new databaseInsert().saveGameCharacter(
+                this.characterID,
+                this.naam,
+                this.beschrijving,
+                this.lives,
+                huidigeKamer != null ? huidigeKamer.getKamerId() : 1,
+                "speler"
+        );
+    }
 
+}
     public String getNaam(){
         return naam;
     }
