@@ -1,19 +1,15 @@
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
-
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 
-class Database {
-    private static String url = "jdbc:mysql://localhost:3306/scrum_escape_buidling";
+public class Database {
+    private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
     private static String username = "root";
-    private static String password = "AGao2005.";
+    private static String password = "Spotify123!";
 
     public static Connection getConnection() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(url, username, password);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             System.out.println("Databaseverbinding mislukt: " + e.getMessage());
             return null;
         }
@@ -124,22 +120,23 @@ class databaseSelect extends Database {
                 String naam = result.getString("naam");
                 String beschrijving = result.getString("beschrijving");
                 String type = result.getString("type");
+                String doel = result.getString("doel"); // ✅ now retrieved
 
                 switch (type.toLowerCase()) {
                     case "daily":
-                        return new KamerDailyScrum(naam, beschrijving, type);
+                        return new KamerDailyScrum(naam, beschrijving, doel);
                     case "planning":
-                        return new KamerPlanning(naam, beschrijving, type);
+                        return new KamerPlanning(naam, beschrijving, doel);
                     case "review":
-                        return new KamerReview(naam, beschrijving, type);
+                        return new KamerReview(naam, beschrijving, doel);
                     case "scrumboard":
-                        return new KamerScrumboard(naam, beschrijving, type);
+                        return new KamerScrumboard(naam, beschrijving, doel);
                     case "retro":
-                        return new KamerRetrospective(naam, beschrijving, type);
+                        return new KamerRetrospective(naam, beschrijving, doel);
                     case "start":
-                        return new KamerDailyScrum(naam, beschrijving, type);
+                        return new KamerDailyScrum(naam, beschrijving, doel);
                     default:
-                        System.out.println("Onbekend kamer: " + naam);
+                        System.out.println("Onbekend kamertype: " + type);
                         return null;
                 }
             } else {
