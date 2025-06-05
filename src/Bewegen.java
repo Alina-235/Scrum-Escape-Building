@@ -16,7 +16,7 @@ class Bewegen implements move {
     public void bewegen() {
         Kamer huidigekamer = select.getKamerById(kamer);
         while (true) {
-            System.out.println("beweeg tussen kamers met a/d: ");
+            System.out.println("beweeg tussen kamers met a/d: (druk x om te stoppen)");
             String movewithkey = scanner.nextLine();
             if (movewithkey.equals("a")) {
                 kamer--;
@@ -25,6 +25,8 @@ class Bewegen implements move {
             } else if (movewithkey.equals("d")) {
                 kamer++;
                 System.out.println(kamer);
+            } else if (movewithkey.equals("x")) {
+                break;
             }
         }
     }
