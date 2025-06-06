@@ -1,16 +1,23 @@
+import java.util.List;
 import java.util.Random;
 
-public class HintJoker implements Joker {
-    private Random random = new Random();
+class HintJoker implements Joker {
+    private final Random random = new Random();
+    private final List<Hint> hints;
+
+    public HintJoker() {
+        databaseSelect db = new databaseSelect();
+        this.hints = db.getHints();
+    }
 
     @Override
     public void gebruik(Speler speler) {
-        Hint hint;
-        if (random.nextBoolean()) {
-            hint = new HelpHint();
-        } else {
-            hint = new FunnyHint();
+        if (hints.isEmpty()) {
+            System.out.println("Geen hints beschikbaar in de database.");
+            return;
         }
+
+        Hint hint = hints.get(random.nextInt(hints.size()));
         System.out.println("Hint: " + hint.getHint());
     }
 
