@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+
 interface keuze {
     void menu();
 }
@@ -37,3 +38,5 @@ class Menukeuze implements keuze {
         }
     }
 }
+
+

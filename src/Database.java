@@ -2,9 +2,9 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Database {
-    private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
-    private static String username = "root";
-    private static String password = "Spotify123!";
+    private static String url = "jdbc:mysql://localhost:3306/escapescrumbuilding";
+    private static String username = "soulali";
+    private static String password = "Gammaverhuisdoos1";
 
     public static Connection getConnection() {
         try {
