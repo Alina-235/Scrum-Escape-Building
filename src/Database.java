@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/escapescrumbuilding";
@@ -59,8 +60,7 @@ class databaseSelect extends Database {
             if (result.next()) {
                 System.out.println("U speelt nu als karakter " + nummer);
                 System.out.println();
-            }
-            else{
+            } else {
                 System.out.println("Deze karakter is niet gevonden.");
                 System.out.println();
             }
@@ -97,7 +97,7 @@ class databaseSelect extends Database {
 
             while (result.next()) {
                 int id = result.getInt("kamer_id");
-                String naam = result.getString ("Naam");
+                String naam = result.getString("Naam");
                 String beschrijving = result.getString("beschrijving");
 
                 System.out.println("Kamer: " + naam + "\nBeschrijving: " + beschrijving);
@@ -148,8 +148,6 @@ class databaseSelect extends Database {
         return null;
     }
 
-
-
     public ArrayList<Vragen> getVragenVoorKamer(int kamerId) {
         ArrayList<Vragen> vragenLijst = new ArrayList<>();
 
@@ -173,6 +171,38 @@ class databaseSelect extends Database {
 
         return vragenLijst;
     }
+
+    public ArrayList<Hint> getHints() {
+        ArrayList<Hint> hintLijst = new ArrayList<>();
+
+        try (Connection conn = getConnection()) {
+            String sql = "SELECT tekst, type FROM hint";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String tekst = rs.getString("tekst");
+                String type = rs.getString("type");
+
+                switch (type.toLowerCase()) {
+                    case "funny":
+                        hintLijst.add(new FunnyHint(tekst));
+                        break;
+                    case "help":
+                        hintLijst.add(new HelpHint(tekst));
+                        break;
+                    default:
+                        System.out.println("Onbekend hint-type: " + type);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hintLijst;
+    }
+
 }
 
 class Update extends Database {

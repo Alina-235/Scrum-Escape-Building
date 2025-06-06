@@ -9,6 +9,10 @@ class Speler extends Character {
     private int monsterVerslagen;
     private ArrayList<Monster> actieveMonsters;
 
+    private ArrayList<SpelerObserver> observers = new ArrayList<>();
+    private Joker joker;
+
+
     private ObserverActies observerActies = new ObserverActies();
     private MonsterActies monsterActies = new MonsterActies();
 
@@ -84,6 +88,18 @@ class Speler extends Character {
     public boolean isIngelogd() {
         return true;
     }
+
+    public void kiesJoker(Joker joker) {
+        this.joker = joker;
+        System.out.println("Je hebt gekozen voor een " + joker.getClass().getSimpleName());
+    }
+
+    public void gebruikJoker(Kamer kamer) {
+        if (joker != null && joker.beschikbaarIn(kamer)) {
+            joker.gebruik(this);
+        } else {
+            System.out.println("Joker is hier niet beschikbaar of niet gekozen.");
+        }
     public void saveToDatabase() {
         new databaseInsert().saveGameCharacter(
                 this.characterID,
@@ -102,5 +118,6 @@ class Speler extends Character {
 
     public int getLives(){
         return lives;
+
     }
 }
