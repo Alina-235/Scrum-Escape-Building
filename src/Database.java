@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
-    private static String username = "root";
-    private static String password = "Spotify123!";
+    private static String url = "jdbc:mysql://localhost:3306/escapescrumbuilding";
+    private static String username = "soulali";
+    private static String password = "Gammaverhuisdoos1";
 
     public static Connection getConnection() {
         try {
@@ -205,3 +205,23 @@ class databaseSelect extends Database {
 
 }
 
+class Update extends Database {
+
+    public void updateVoortgang(String speler, String voortgang) {
+        try (Connection conn = getConnection()) {
+            String sql = "UPDATE Speler SET voortgang = ? WHERE speler = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, voortgang);
+            stmt.setString(2, speler);
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Voortgang succesvol bijgewerkt.");
+            } else {
+                System.out.println("Geen speler gevonden met de naam: " + speler);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

@@ -6,6 +6,7 @@ abstract class Kamer {
     protected String doel;
     ArrayList <Vragen> vragen = new ArrayList();
     protected boolean passed = false;
+    protected int kamernummer = 0;
 
 
     public Kamer(String naam, String beschrijving, String doel ) {
@@ -29,6 +30,11 @@ abstract class Kamer {
     public String getDoel (){
         return doel;
     }
+    public int getKamerId() {
+        return kamernummer;
+    }
+
+
 
     protected abstract void kamerNaam();
     protected abstract void kamerbeschrijving();
@@ -37,8 +43,8 @@ abstract class Kamer {
 
 class KamerDailyScrum extends Kamer {
 
-    public KamerDailyScrum(String naam, String beschrijving, String doel) {
-        super(naam, beschrijving, doel);
+    public KamerDailyScrum(String naam, String beschrijving, String type) {
+        super(naam, beschrijving, type);
     }
 
     @Override
@@ -58,8 +64,8 @@ class KamerDailyScrum extends Kamer {
 }
 
 class KamerPlanning extends Kamer {
-    public KamerPlanning(String naam, String beschrijving, String doel) {
-        super(naam, beschrijving, doel);
+    public KamerPlanning(String naam, String beschrijving, String type) {
+        super(naam, beschrijving, type);
     }
 
     @Override
@@ -79,8 +85,8 @@ class KamerPlanning extends Kamer {
 }
 
 class KamerReview extends Kamer {
-    public KamerReview(String naam, String beschrijving, String doel) {
-        super(naam, beschrijving, doel);
+    public KamerReview(String naam, String beschrijving, String type) {
+        super(naam, beschrijving, type);
     }
 
     @Override
@@ -100,8 +106,8 @@ class KamerReview extends Kamer {
 }
 
 class KamerScrumboard extends Kamer {
-    public KamerScrumboard(String naam, String beschrijving, String doel) {
-        super(naam, beschrijving, doel);
+    public KamerScrumboard(String naam, String beschrijving, String type) {
+        super(naam, beschrijving, type);
     }
 
     @Override
@@ -121,8 +127,8 @@ class KamerScrumboard extends Kamer {
 }
 
 class KamerRetrospective extends Kamer {
-    public KamerRetrospective(String naam, String beschrijving, String doel) {
-        super(naam, beschrijving, doel);
+    public KamerRetrospective(String naam, String beschrijving, String type) {
+        super(naam, beschrijving, type);
     }
 
     @Override

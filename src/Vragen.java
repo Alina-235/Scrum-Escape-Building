@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Vragen {
+class Vragen {
     private String vraag;
     private Monster monsterTrigger;
     private VraagStrategie strategie;
@@ -15,12 +15,10 @@ public class Vragen {
         return vraag;
     }
 
-    public boolean checkAnswer(ArrayList<String> antwoord, Speler speler) {
+    public boolean checkAnswer(ArrayList<String> antwoord) {
         boolean juist = strategie.checkAnswer(antwoord);
         if (!juist && monsterTrigger != null) {
             monsterTrigger.monsterTonen();
-            speler.VoegMonstersToe(monsterTrigger);
-            monsterTrigger.valAan(speler);
         }
         return juist;
     }
