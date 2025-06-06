@@ -1,16 +1,14 @@
-public class Menu {
-    private GameController controller;
 
-    public Menu(GameController controller) {
-        this.controller = controller;
-    }
+class Menu {
+    static Menukeuze keuze = new Menukeuze();
 
-    public void start() {
-        boolean doorgaan = true;
+    public void mainMenu() {
+            System.out.println("1. Start Game");
+            System.out.println("2. Log in");
+            System.out.println("3. Exit");
+            System.out.println();
+            System.out.print("Maak uw keuze: ");
+            keuze.menu();
 
-        while (doorgaan && !controller.isGameOver()) {
-            int keuze = Menukeuze.toonMenuEnKrijgKeuze();
-            doorgaan = controller.verwerkKeuze(keuze);
-        }
     }
 }

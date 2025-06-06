@@ -1,17 +1,41 @@
 import java.util.Scanner;
 
-public class Menukeuze {
-    private static final Scanner scanner = new Scanner(System.in);
 
-    public static int toonMenuEnKrijgKeuze() {
-        System.out.println("\nMaak een keuze:");
-        System.out.println("1. Start spel");
-        System.out.println("2. Credits");
-        System.out.println("3. Afsluiten");
-        System.out.print("Keuze: ");
-        int keuze = scanner.nextInt();
+interface keuze {
+    void menu();
+}
+
+class Menukeuze implements keuze {
+    static Scanner scanner = new Scanner(System.in);
+    static Speler speler;
+    static Game game;
+
+    @Override
+    public void menu() {
+        int keuzeNummer = scanner.nextInt();
         scanner.nextLine();
-        return keuze;
+
+        switch (keuzeNummer) {
+            case 1:
+                System.out.print("Voer je naam in: ");
+                String naam = scanner.nextLine();
+                speler = new databaseSelect().SpelerLogin(naam);
+
+                game = new Game(speler);
+                game.storyline();
+                game.startGame();
+                break;
+            case 2:
+                System.out.println("Login");
+                break;
+            case 3:
+                System.out.println("Programma wordt afgesloten.");
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Ongeldige keuze, probeer opnieuw.");
+                break;
+        }
     }
 }
 
