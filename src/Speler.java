@@ -4,14 +4,12 @@ interface SpelerObserver {
     void update(Speler speler, String gebeurtenis);
 }
 
-class Speler extends Character {
+public class Speler extends Character {
     private Kamer huidigeKamer;
     private int monsterVerslagen;
     private ArrayList<Monster> actieveMonsters;
-
     private ArrayList<SpelerObserver> observers = new ArrayList<>();
     private Joker joker;
-
 
     private ObserverActies observerActies = new ObserverActies();
     private MonsterActies monsterActies = new MonsterActies();
@@ -23,7 +21,7 @@ class Speler extends Character {
         this.huidigeKamer = null;
     }
 
-    public void addObserver(SpelerObserver observer){
+    public void addObserver(SpelerObserver observer) {
         observerActies.addObserver(observer);
     }
 
@@ -35,7 +33,7 @@ class Speler extends Character {
 
     public int attacked() {
         lives--;
-        System.out.println("Je bent attacked! Levens over: " + lives);
+        System.out.println("Je bent aangevallen! Levens over: " + lives);
         if (lives <= 0) {
             verslagen = true;
         }
@@ -54,17 +52,16 @@ class Speler extends Character {
         actieveMonsters.remove(monster);
         monsterVerslagen++;
         System.out.println("Monster is verslagen!");
-        observerActies.notifyObservers(this,"Monster is verslagen");
+        observerActies.notifyObservers(this, "Monster is verslagen");
     }
 
     public void toonStatus() {
         System.out.println("Naam: " + naam);
         System.out.println("ID: " + characterID);
-        System.out.println("Kamer: " + huidigeKamer);
+        System.out.println("Kamer: " + (huidigeKamer != null ? huidigeKamer.getNaam() : "Geen"));
         System.out.println("Levens: " + lives);
         System.out.println("Monsters verslagen: " + monsterVerslagen);
-        System.out.println("Actieve monsters: " + actieveMonsters);
-
+        System.out.println("Actieve monsters: " + actieveMonsters.size());
     }
 
     public Kamer getHuidigeKamer() {
@@ -74,8 +71,6 @@ class Speler extends Character {
     public int getMonsterVerslagen() {
         return monsterVerslagen;
     }
-
-
 
     public ArrayList<Monster> getActiveMonsters() {
         return actieveMonsters;
@@ -100,6 +95,8 @@ class Speler extends Character {
         } else {
             System.out.println("Joker is hier niet beschikbaar of niet gekozen.");
         }
+    }
+
     public void saveToDatabase() {
         new databaseInsert().saveGameCharacter(
                 this.characterID,
@@ -111,13 +108,11 @@ class Speler extends Character {
         );
     }
 
-}
-    public String getNaam(){
+    public String getNaam() {
         return naam;
     }
 
-    public int getLives(){
+    public int getLives() {
         return lives;
-
     }
 }

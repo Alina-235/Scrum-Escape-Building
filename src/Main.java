@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -11,16 +12,14 @@ public class Main {
 
         Speler speler = new Speler(naam, 1);
         speler.addObserver(new Feedback());
-
         speler.addObserver(new Deur());
         speler.addObserver(new Logger());
 
-        game = new Game(speler);
+        GameController controller = new GameController(speler);
 
-
-        menu.MainMenu();
+        Menu menu = new Menu();
+        menu.mainMenu();
+    }
 }
-
-
 
 
