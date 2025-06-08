@@ -38,32 +38,6 @@ class Menukeuze implements keuze {
         }
     }
 
-    public Speler SpelerLogin(String naam) {
-        Speler speler = getSpelerByNaam(naam);
-
-        if (speler == null) {
-            speler = new Speler(naam, 1);
-            speler.setBeschrijving("Nieuwe speler");
-            speler.setLives(3);
-            Kamer startKamer = getKamerById(1);
-            speler.moveTo(startKamer);
-
-            new databaseInsert().saveGameCharacter(
-                    speler.getCharacterID(),
-                    speler.getNaam(),
-                    speler.getBeschrijving(),
-                    speler.getLives(),
-                    startKamer.getKamerId(),
-                    "speler"
-            );
-
-            System.out.println("Nieuwe speler aangemaakt.");
-        } else {
-            System.out.println("Welkom terug, " + speler.getNaam());
-        }
-
-        return speler;
-    }
 }
 
 

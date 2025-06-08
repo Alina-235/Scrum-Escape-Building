@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static String url = "jdbc:mysql://localhost:3306/escapescrumbuilding";
-    private static String username = "";
-    private static String password = "";
+    private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
+    private static String username = "root";
+    private static String password = "Spotify123!";
 
     public static Connection getConnection() {
         try {
@@ -235,6 +235,67 @@ class databaseSelect extends Database {
         }
 
         return hintLijst;
+    }
+
+    public Speler getSpelerByNaam(String naam) {
+        try (Connection conn = getConnection()) {
+            String sql = "SELECT * FROM gamecharacter WHERE naam = ? AND type = 'speler'";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, naam);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int characterId = rs.getInt("character_id");
+                String beschrijving = rs.getString("beschrijving");
+                int levens = rs.getInt("levens");
+                int huidigeKamerId = rs.getInt("huidige_kamer");
+
+                Speler speler = new Speler(naam, characterId);
+                speler.setBeschrijving(beschrijving);
+                speler.setLives(levens);
+
+                Kamer kamer = getKamerById(huidigeKamerId);
+                if (kamer != null) {
+                    speler.moveTo(kamer);
+                }
+
+                System.out.println("Speler " + naam + " geladen.");
+                return speler;
+            } else {
+                System.out.println("Speler " + naam + " niet gevonden.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Speler SpelerLogin(String naam) {
+        Speler speler = getSpelerByNaam(naam);
+
+        if (speler == null) {
+            speler = new Speler(naam, 1);
+            speler.setBeschrijving("Nieuwe speler");
+            speler.setLives(3);
+            Kamer startKamer = getKamerById(1);
+            speler.moveTo(startKamer);
+
+            new databaseInsert().saveGameCharacter(
+                    speler.getCharacterID(),
+                    speler.getNaam(),
+                    speler.getBeschrijving(),
+                    speler.getLives(),
+                    startKamer.getKamerId(),
+                    "speler"
+            );
+
+            System.out.println("Nieuwe speler aangemaakt.");
+        } else {
+            System.out.println("Welkom terug, " + speler.getNaam());
+        }
+
+        return speler;
     }
 
 }
