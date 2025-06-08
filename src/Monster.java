@@ -1,10 +1,11 @@
 class Monster extends Character {
     private Kamer kamer;
 
-    public Monster(String naam, String beschrijving, int lives, int characterID, Kamer kamer) {
-        super(naam, beschrijving, lives, characterID);
+    public Monster(String naam, String beschrijving, int characterID, int lives, Kamer kamer) {
+        super(naam, beschrijving, characterID, lives);
         this.kamer = kamer;
     }
+
 
     public void monsterTonen() {
         System.out.println("Het monster " + naam + " bewaakt kamer: " + kamer.getNaam());

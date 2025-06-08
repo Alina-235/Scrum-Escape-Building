@@ -31,7 +31,41 @@ class databaseInsert extends Database{
             e.printStackTrace();
         }
     }
+    public void saveGameCharacter(int characterId, String naam, String beschrijving, int levens, int huidigeKamerId, String type) {
+        try (Connection conn = getConnection()) {
+            String checkSql = "SELECT character_id FROM gamecharacter WHERE character_id = ?";
+            PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+            checkStmt.setInt(1, characterId);
+            ResultSet rs = checkStmt.executeQuery();
 
+            if (rs.next()) {
+                String updateSql = "UPDATE gamecharacter SET naam = ?, beschrijving = ?, levens = ?, huidige_kamer = ?, type = ? WHERE character_id = ?";
+                PreparedStatement updateStmt = conn.prepareStatement(updateSql);
+                updateStmt.setString(1, naam);
+                updateStmt.setString(2, beschrijving);
+                updateStmt.setInt(3, levens);
+                updateStmt.setInt(4, huidigeKamerId);
+                updateStmt.setString(5, type);
+                updateStmt.setInt(6, characterId);
+                updateStmt.executeUpdate();
+                System.out.println("Karakter " + naam + " is bijgewerkt.");
+            } else {
+
+                String insertSql = "INSERT INTO gamecharacter (character_id, naam, beschrijving, levens, huidige_kamer, type) VALUES (?, ?, ?, ?, ?, ?)";
+                PreparedStatement insertStmt = conn.prepareStatement(insertSql);
+                insertStmt.setInt(1, characterId);
+                insertStmt.setString(2, naam);
+                insertStmt.setString(3, beschrijving);
+                insertStmt.setInt(4, levens);
+                insertStmt.setInt(5, huidigeKamerId);
+                insertStmt.setString(6, type);
+                insertStmt.executeUpdate();
+                System.out.println("Karakter " + naam + " is toegevoegd.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public void InsertVragen(String vraag, String antwoord) {
         try (Connection conn = getConnection()) {
             String sql = "INSERT INTO vragen (vraag, antwoord) VALUES (?,?)";
@@ -120,7 +154,7 @@ class databaseSelect extends Database {
                 String naam = result.getString("naam");
                 String beschrijving = result.getString("beschrijving");
                 String type = result.getString("type");
-                String doel = result.getString("doel"); // ✅ now retrieved
+                String doel = result.getString("doel");
 
                 switch (type.toLowerCase()) {
                     case "daily":

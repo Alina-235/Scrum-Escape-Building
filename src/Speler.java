@@ -115,4 +115,8 @@ public class Speler extends Character {
     public int getLives() {
         return lives;
     }
+    public void setHuidigeKamer(Kamer kamer) {
+        this.huidigeKamer = kamer;
+    }
+
 }

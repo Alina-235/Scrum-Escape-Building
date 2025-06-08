@@ -2,20 +2,35 @@ import java.util.ArrayList;
 
 public class Game {
     private boolean gameOver = false;
-    private SpelerManager spelerManager = new SpelerManager();
-    private ArrayList<Kamer> kamers = new ArrayList<>();
-    private GameRepository repo = new GameRepository();
+    private ArrayList<Speler> spelers;
+    private ArrayList<Kamer> kamers;
+    private databaseSelect db = new databaseSelect();
+
+
+    public Game(Speler speler) {
+        this.spelers = new ArrayList<>();
+        this.kamers = new ArrayList<>();
+        this.spelers.add(speler);
+    }
 
     public void voegSpelerToe(Speler speler) {
-        spelerManager.voegSpelerToe(speler);
+        this.spelers.add(speler);
+    }
+
+    public ArrayList<Speler> getSpelers() {
+        return spelers;
     }
 
     public void voegKamerToe(Kamer kamer) {
-        kamers.add(kamer);
+        this.kamers.add(kamer);
+    }
+
+    public ArrayList<Kamer> getKamers() {
+        return kamers;
     }
 
     public void startGame() {
-        if (!spelerManager.heeftSpelers()) {
+        if (spelers.isEmpty()) {
             System.out.println("Er zijn geen spelers om het spel te starten.");
             return;
         }
@@ -25,15 +40,25 @@ public class Game {
 
         if (startKamer == null) {
             System.out.println("Startkamer met ID 1 kon niet worden gevonden.");
-            System.exit(0);
+            return;
         }
 
-        spelerManager.plaatsSpelersInKamer(startKamer);
+        for (Speler speler : spelers) {
+            if (speler.getHuidigeKamer() == null) {
+                speler.setHuidigeKamer(startKamer);
+                System.out.println("Speler " + speler.getNaam() + " is geplaatst in startkamer: " + startKamer.getNaam());
+            } else {
+                System.out.println(speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
+            }
+        }
+
         checkGameOver();
     }
 
     public void toonStatus() {
-        spelerManager.toonStatus();
+        for (Speler speler : spelers) {
+            speler.toonStatus();
+        }
     }
 
     public void stopGame() {
@@ -42,19 +67,22 @@ public class Game {
     }
 
     public void checkGameOver() {
-        if (spelerManager.isGameOver()) {
-            System.out.println("Een speler is verslagen. Game over.");
-            gameOver = true;
+        for (Speler speler : spelers) {
+            if (speler.getLives() <= 0) {
+                System.out.println("Speler " + speler.getNaam() + " is verslagen.");
+                gameOver = true;
+                break;
+            }
         }
     }
 
-    public boolean isGameOver() {
+    public boolean GameOver() {
         return gameOver;
     }
 
     public void storyline(){
         System.out.println();
-        System.out.println("Het is een vrijdag avond en jij bent alleen op kantoor. Iedereen is al naar huis, maar jij maakt nog de laatste taken af die op de planning staan. \n" +
+        System.out.println("Het is een vrijdag avond en jij bent alleen op kantoor. Iedereen is al naar huis, maar jij maakt nog de laatste taken af die op de planning staan. \n " +
                 "Inmiddels is het al 22:00 ’s avonds. Je kijkt naar buiten en je ziet de maan schijnen door de ramen. \n" +
                 "De auto’s staan voor het stoplicht te wachten op het groene licht.\n" +
                 "\n" +
@@ -72,3 +100,22 @@ public class Game {
 
 }
 
+class GameController {
+    private Game game;
+
+    public GameController(Speler speler) {
+        game = new Game(speler);
+    }
+
+    public void startGame() {
+        game.startGame();
+    }
+
+    public void showStatus() {
+        game.toonStatus();
+    }
+
+    public boolean isGameOver() {
+        return game.GameOver();
+    }
+}
