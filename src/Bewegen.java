@@ -1,32 +1,46 @@
 import java.util.Scanner;
 
-interface move{
+interface move {
     void bewegen();
 }
 
 class Bewegen implements move {
-    private int kamer;
+    private Speler speler;
     static Scanner scanner = new Scanner(System.in);
     databaseSelect select = new databaseSelect();
 
-    public Bewegen(int kamer) {
-        this.kamer = kamer;
+    public Bewegen(Speler speler) {
+        this.speler = speler;
     }
 
+    @Override
     public void bewegen() {
-        Kamer huidigekamer = select.getKamerById(kamer);
+        Kamer huidigeKamer = speler.getHuidigeKamer();
+        int kamerId = (huidigeKamer != null) ? huidigeKamer.getKamerId() : 1;
+
         while (true) {
-            System.out.println("beweeg tussen kamers met a/d: (druk x om te stoppen)");
-            String movewithkey = scanner.nextLine();
-            if (movewithkey.equals("a")) {
-                kamer--;
-                select.getKamerById(kamer);
-                System.out.println(kamer);
-            } else if (movewithkey.equals("d")) {
-                kamer++;
-                System.out.println(kamer);
-            } else if (movewithkey.equals("x")) {
+            Kamer kamer = select.getKamerById(kamerId);
+            if (kamer == null) {
+                System.out.println("Geen kamer gevonden met ID: " + kamerId);
+                System.out.println("Beweging gestopt vanwege ongeldig kamer ID.");
                 break;
+            }
+
+            speler.setHuidigeKamer(kamer);
+            System.out.println("Je bent nu in kamer: " + kamer.getNaam());
+
+            System.out.println("Beweeg tussen kamers met a/d (of x om te stoppen):");
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("a")) {
+                kamerId--;
+            } else if (input.equalsIgnoreCase("d")) {
+                kamerId++;
+            } else if (input.equalsIgnoreCase("x")) {
+                System.out.println("Beweging gestopt.");
+                break;
+            } else {
+                System.out.println("Ongeldige invoer.");
             }
         }
     }

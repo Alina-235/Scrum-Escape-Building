@@ -12,19 +12,30 @@ class Menukeuze implements keuze {
 
     @Override
     public void menu() {
-        int keuzeNummer = scanner.nextInt();
-        scanner.nextLine();
+        System.out.print("Maak uw keuze: ");
+        String input = scanner.nextLine();
+
+        int keuzeNummer;
+        try {
+            keuzeNummer = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            System.out.println("Ongeldige invoer, typ een getal (1-3).");
+            return; // Exit the method, avoid crashing
+        }
 
         switch (keuzeNummer) {
             case 1:
                 System.out.print("Voer je naam in: ");
                 String naam = scanner.nextLine();
                 speler = new databaseSelect().SpelerLogin(naam);
-
                 game = new Game(speler);
+
                 game.storyline();
                 game.startGame();
+
+                new Bewegen(speler).bewegen();
                 break;
+
             case 2:
                 System.out.println("Login");
                 break;
@@ -37,6 +48,7 @@ class Menukeuze implements keuze {
                 break;
         }
     }
+
 
 }
 
