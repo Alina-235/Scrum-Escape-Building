@@ -44,6 +44,28 @@ abstract class Kamer {
     protected abstract void kamerDoel();
 }
 
+class KamerStart extends Kamer {
+    public KamerStart(String naam, String beschrijving, String doel, int kamernummer) {
+        super(naam, beschrijving, doel, kamernummer);
+    }
+
+    @Override
+    protected void kamerNaam() {
+        System.out.println(getNaam());
+    }
+
+    @Override
+    protected void kamerbeschrijving() {
+        System.out.println(getBeschrijving());
+    }
+
+    @Override
+    protected void kamerDoel() {
+        System.out.println(getDoel());
+    }
+}
+
+
 class KamerDailyScrum extends Kamer {
     public KamerDailyScrum(String naam, String beschrijving, String doel, int kamernummer) {
         super(naam, beschrijving, doel, kamernummer);
@@ -147,4 +169,29 @@ class KamerRetrospective extends Kamer {
     protected void kamerDoel() {
         System.out.println(getDoel());
     }
+
+
 }
+
+class KamerFinal extends Kamer {
+
+    public KamerFinal(String naam, String beschrijving, String doel, int kamernummer) {
+        super(naam, beschrijving, doel, kamernummer);
+    }
+
+    @Override
+    protected void kamerNaam() {
+        System.out.println(getNaam());
+    }
+
+    @Override
+    protected void kamerbeschrijving() {
+        System.out.println(getBeschrijving());
+    }
+
+    @Override
+    protected void kamerDoel() {
+        System.out.println(getDoel());
+    }
+}
+

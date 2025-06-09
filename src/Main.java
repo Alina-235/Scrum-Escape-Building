@@ -9,8 +9,10 @@ public class Main {
 
         System.out.print("Voer je naam in: ");
         String naam = scanner.nextLine();
+        databaseSelect dbSelect = new databaseSelect();
+        Speler speler = dbSelect.SpelerLogin(naam);
 
-        Speler speler = new Speler(naam, 1);
+
         speler.addObserver(new Feedback());
         speler.addObserver(new Deur());
         speler.addObserver(new Logger());

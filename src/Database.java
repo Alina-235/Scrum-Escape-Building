@@ -18,83 +18,83 @@ public class Database {
 }
 
 class databaseInsert extends Database{
+
+
     public int insertNewGameCharacter(String naam, String beschrijving, int levens, int huidigeKamerId, String type) {
-        int generatedId = 0;
-        try {
-            if (huidigeKamerId < 1) {
-                huidigeKamerId = 1;
-            }
+        String sql = "INSERT INTO gamecharacter (naam, beschrijving, levens, huidige_kamer, type) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            Connection conn = getConnection();
-            String sql = "INSERT INTO gamecharacter (naam, beschrijving, levens, huidige_kamer, type) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, naam);
-            ps.setString(2, beschrijving);
-            ps.setInt(3, levens);
-            ps.setInt(4, huidigeKamerId);
-            ps.setString(5, type);
-            ps.executeUpdate();
-
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                generatedId = rs.getInt(1);
-            }
-            rs.close();
-            ps.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return generatedId;
-    }
-
-
-    // Update existing character
-    public void updateGameCharacter(int characterId, String naam, String beschrijving, int levens, int huidigeKamerId, String type) {
-        try {
-            Connection conn = getConnection();
-            String sql = "UPDATE gamecharacter SET naam=?, beschrijving=?, levens=?, huidige_kamer=?, type=? WHERE character_id=?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, naam);
-            ps.setString(2, beschrijving);
-            ps.setInt(3, levens);
-            ps.setInt(4, huidigeKamerId);
-            ps.setString(5, type);
-            ps.setInt(6, characterId);
-            ps.executeUpdate();
-
-            ps.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    private int generateNewCharacterId() {
-        try (Connection conn = Database.getConnection()) {
-            String sql = "SELECT MAX(character_id) AS max_id FROM gamecharacter";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("max_id") + 1;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 1;
-    }
-
-    public void InsertCharacter(String naam) {
-        try (Connection conn = getConnection()) {
-            String sql = "INSERT INTO gamecharacter (naam) VALUES (?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, naam);
+            stmt.setString(2, beschrijving);
+            stmt.setInt(3, levens);
+            stmt.setInt(4, huidigeKamerId);
+            stmt.setString(5, type);
 
-            int rowsInserted = stmt.executeUpdate();
-            System.out.println("Karakter " + naam + " is toegevoegd.");
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) throw new SQLException("Insert failed, no rows affected.");
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Insert failed, no ID obtained.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public void updateGameCharacter(int characterId, String naam, String beschrijving, int levens, int huidigeKamerId, String type) {
+        String sql = "UPDATE gamecharacter SET naam=?, beschrijving=?, levens=?, huidige_kamer=?, type=? WHERE character_id=?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, naam);
+            stmt.setString(2, beschrijving);
+            stmt.setInt(3, levens);
+            stmt.setInt(4, huidigeKamerId);
+            stmt.setString(5, type);
+            stmt.setInt(6, characterId);
+
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    // Fetch speler by naam, return null if not found
+//    public Speler fetchSpelerByNaam(String naam) {
+//        String sql = "SELECT * FROM gamecharacter WHERE naam = ? AND type = 'speler'";
+//        try (Connection conn = getConnection();
+//             PreparedStatement stmt = conn.prepareStatement(sql)) {
+//
+//            stmt.setString(1, naam);
+//            ResultSet rs = stmt.executeQuery();
+//
+//            if (rs.next()) {
+//                int characterId = rs.getInt("characterid");
+//                String beschrijving = rs.getString("beschrijving");
+//                int levens = rs.getInt("levens");
+//                int huidigeKamerId = rs.getInt("huidige_kamer");
+//                if (rs.wasNull() || huidigeKamerId < 1) huidigeKamerId = 1;
+//
+//                Kamer huidigeKamer = KamerFactory.getKamerById(huidigeKamerId); // your way to get Kamer object
+//
+//                Speler speler = new Speler(naam, characterId);
+//                speler.setBeschrijving(beschrijving);
+//                speler.setLives(levens);
+//                speler.moveTo(huidigeKamer);
+//                return speler;
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+
     public void saveGameCharacter(Speler speler) {
         try (Connection conn = getConnection()) {
             if (speler.getCharacterID() <= 0) {
@@ -110,11 +110,11 @@ class databaseInsert extends Database{
                 ResultSet generatedKeys = insertStmt.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     int newId = generatedKeys.getInt(1);
-                    speler.setCharacterID(newId); // Set new DB-generated ID back to speler object
+                    speler.setCharacterID(newId);
                 }
                 System.out.println("Nieuwe speler is toegevoegd met ID: " + speler.getCharacterID());
             } else {
-                // UPDATE existing speler
+
                 String updateSql = "UPDATE gamecharacter SET naam = ?, beschrijving = ?, levens = ?, huidige_kamer = ?, type = ? WHERE character_id = ?";
                 PreparedStatement updateStmt = conn.prepareStatement(updateSql);
                 updateStmt.setString(1, speler.getNaam());
@@ -318,14 +318,14 @@ class databaseSelect extends Database {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                int characterId = rs.getInt("characterid");
+                int characterId = rs.getInt("character_id");
                 String beschrijving = rs.getString("beschrijving");
                 int levens = rs.getInt("levens");
 
-                // Use wasNull() to detect NULLs
+
                 int huidigeKamerId = rs.getInt("huidige_kamer");
                 if (rs.wasNull() || huidigeKamerId < 1) {
-                    huidigeKamerId = 1; // fallback to start kamer
+                    huidigeKamerId = 1;
                 }
 
                 Kamer huidigeKamer = getKamerById(huidigeKamerId);
@@ -349,27 +349,22 @@ class databaseSelect extends Database {
         Speler speler = getSpelerByNaam(naam);
 
         if (speler == null) {
-            // Player not found, create a new one with characterID = 0
-            speler = new Speler(naam); // characterID is 0
+
+            speler = new Speler(naam);
             speler.setBeschrijving("Nieuwe speler");
             speler.setLives(3);
             Kamer startKamer = getKamerById(1);
             speler.moveTo(startKamer);
 
-            speler.saveToDatabase(); // will insert because ID = 0
+            speler.saveToDatabase();
             System.out.println("Nieuwe speler aangemaakt.");
         } else {
-            // Player found in DB, no new insert
+
             System.out.println("Welkom terug, " + speler.getNaam());
         }
 
         return speler;
     }
-
-
-
-
-
 
 }
 
