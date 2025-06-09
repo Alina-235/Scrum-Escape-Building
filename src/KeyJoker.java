@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.List;
 
-public class KeyJoker implements Joker {
+class KeyJoker implements Joker {
     private List<String> toegestaneKamers = Arrays.asList("KamerPlanning", "KamerReview");
 
     @Override

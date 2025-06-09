@@ -1,4 +1,4 @@
-public class Logger implements SpelerObserver {
+class Logger implements SpelerObserver {
     @Override
     public void update(Speler speler, String gebeurtenis) {
         String kamerNaam;

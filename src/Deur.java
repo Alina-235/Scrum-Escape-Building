@@ -1,4 +1,4 @@
-public class Deur implements SpelerObserver {
+class Deur implements SpelerObserver {
     private boolean open = false;
 
     @Override

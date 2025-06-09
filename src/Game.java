@@ -10,7 +10,7 @@ class Game {
         return db.getKamerById(2);
     }
 }
-public class GameController {
+class GameController {
     private Game game;
     private GameStory story;
 
@@ -107,7 +107,8 @@ class SpelerManager {
         }
     }
 }
-public class Game {
+
+class Game {
     private boolean gameOver = false;
     private SpelerManager spelerManager = new SpelerManager();
     private ArrayList<Kamer> kamers = new ArrayList<>();

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class ObserverActies {
+class ObserverActies {
     private ArrayList<SpelerObserver> observers = new ArrayList<>();
 
     public void addObserver(SpelerObserver observer) {

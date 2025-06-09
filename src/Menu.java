@@ -9,6 +9,5 @@ class Menu {
             System.out.println();
             System.out.print("Maak uw keuze: ");
             keuze.menu();
-
     }
 }

@@ -2,7 +2,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Database {
+class Database {
     private static String url = "jdbc:mysql://localhost:3306/escapescrumbuilding";
     private static String username = "soulali";
     private static String password = "Gammaverhuisdoos1";
