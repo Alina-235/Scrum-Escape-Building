@@ -14,6 +14,13 @@ public class Speler extends Character {
     private ObserverActies observerActies = new ObserverActies();
     private MonsterActies monsterActies = new MonsterActies();
 
+    public Speler(String naam) {
+        super(naam, "Scrum escape speler", 3, 0);
+        this.monsterVerslagen = 0;
+        this.actieveMonsters = new ArrayList<>();
+        this.huidigeKamer = null;
+    }
+
     public Speler(String naam, int characterID) {
         super(naam, "Scrum escape speler", 3, characterID);
         this.monsterVerslagen = 0;
@@ -97,16 +104,38 @@ public class Speler extends Character {
         }
     }
 
-    public void saveToDatabase() {
-        new databaseInsert().saveGameCharacter(
-                this.characterID,
-                this.naam,
-                this.beschrijving,
-                this.lives,
-                huidigeKamer != null ? huidigeKamer.getKamerId() : 1,
-                "speler"
-        );
+    public void setCharacterID(int characterID) {
+        this.characterID = characterID;
     }
+
+    public void saveToDatabase() {
+        databaseInsert db = new databaseInsert();
+
+        if (this.characterID <= 0) {
+            // Insert new speler and update characterID
+            int newId = db.insertNewGameCharacter(
+                    this.naam,
+                    this.beschrijving,
+                    this.lives,
+                    huidigeKamer != null ? huidigeKamer.getKamerId() : 1,
+                    "speler"
+            );
+            this.setCharacterID(newId);
+            System.out.println("Nieuwe speler opgeslagen met ID: " + newId);
+        } else {
+            // Update existing speler
+            db.updateGameCharacter(
+                    this.characterID,
+                    this.naam,
+                    this.beschrijving,
+                    this.lives,
+                    huidigeKamer != null ? huidigeKamer.getKamerId() : 1,
+                    "speler"
+            );
+            System.out.println("Speler bijgewerkt in database.");
+        }
+    }
+
 
     public String getNaam() {
         return naam;
@@ -115,8 +144,8 @@ public class Speler extends Character {
     public int getLives() {
         return lives;
     }
+
     public void setHuidigeKamer(Kamer kamer) {
         this.huidigeKamer = kamer;
     }
-
 }

@@ -18,6 +18,65 @@ public class Database {
 }
 
 class databaseInsert extends Database{
+    public int insertNewGameCharacter(String naam, String beschrijving, int levens, int huidigeKamerId, String type) {
+        int generatedId = 0;
+        try {
+            Connection conn = getConnection();
+            String sql = "INSERT INTO gamecharacter (naam, beschrijving, levens, huidige_kamer, type) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, naam);
+            ps.setString(2, beschrijving);
+            ps.setInt(3, levens);
+            ps.setInt(4, huidigeKamerId);
+            ps.setString(5, type);
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                generatedId = rs.getInt(1);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return generatedId;
+    }
+
+    // Update existing character
+    public void updateGameCharacter(int characterId, String naam, String beschrijving, int levens, int huidigeKamerId, String type) {
+        try {
+            Connection conn = getConnection();
+            String sql = "UPDATE gamecharacter SET naam=?, beschrijving=?, levens=?, huidige_kamer=?, type=? WHERE character_id=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, naam);
+            ps.setString(2, beschrijving);
+            ps.setInt(3, levens);
+            ps.setInt(4, huidigeKamerId);
+            ps.setString(5, type);
+            ps.setInt(6, characterId);
+            ps.executeUpdate();
+
+            ps.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private int generateNewCharacterId() {
+        try (Connection conn = Database.getConnection()) {
+            String sql = "SELECT MAX(character_id) AS max_id FROM gamecharacter";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("max_id") + 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
 
     public void InsertCharacter(String naam) {
         try (Connection conn = getConnection()) {
@@ -31,41 +90,43 @@ class databaseInsert extends Database{
             e.printStackTrace();
         }
     }
-    public void saveGameCharacter(int characterId, String naam, String beschrijving, int levens, int huidigeKamerId, String type) {
+    public void saveGameCharacter(Speler speler) {
         try (Connection conn = getConnection()) {
-            String checkSql = "SELECT character_id FROM gamecharacter WHERE character_id = ?";
-            PreparedStatement checkStmt = conn.prepareStatement(checkSql);
-            checkStmt.setInt(1, characterId);
-            ResultSet rs = checkStmt.executeQuery();
+            if (speler.getCharacterID() <= 0) {
+                // INSERT new speler without character_id - let DB auto increment
+                String insertSql = "INSERT INTO gamecharacter (naam, beschrijving, levens, huidige_kamer, type) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+                insertStmt.setString(1, speler.getNaam());
+                insertStmt.setString(2, speler.getBeschrijving());
+                insertStmt.setInt(3, speler.getLives());
+                insertStmt.setInt(4, speler.getHuidigeKamer() != null ? speler.getHuidigeKamer().getKamerId() : 1);
+                insertStmt.setString(5, "speler");
+                insertStmt.executeUpdate();
 
-            if (rs.next()) {
+                ResultSet generatedKeys = insertStmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int newId = generatedKeys.getInt(1);
+                    speler.setCharacterID(newId); // Set new DB-generated ID back to speler object
+                }
+                System.out.println("Nieuwe speler is toegevoegd met ID: " + speler.getCharacterID());
+            } else {
+                // UPDATE existing speler
                 String updateSql = "UPDATE gamecharacter SET naam = ?, beschrijving = ?, levens = ?, huidige_kamer = ?, type = ? WHERE character_id = ?";
                 PreparedStatement updateStmt = conn.prepareStatement(updateSql);
-                updateStmt.setString(1, naam);
-                updateStmt.setString(2, beschrijving);
-                updateStmt.setInt(3, levens);
-                updateStmt.setInt(4, huidigeKamerId);
-                updateStmt.setString(5, type);
-                updateStmt.setInt(6, characterId);
+                updateStmt.setString(1, speler.getNaam());
+                updateStmt.setString(2, speler.getBeschrijving());
+                updateStmt.setInt(3, speler.getLives());
+                updateStmt.setInt(4, speler.getHuidigeKamer() != null ? speler.getHuidigeKamer().getKamerId() : 1);
+                updateStmt.setString(5, "speler");
+                updateStmt.setInt(6, speler.getCharacterID());
                 updateStmt.executeUpdate();
-                System.out.println("Karakter " + naam + " is bijgewerkt.");
-            } else {
-
-                String insertSql = "INSERT INTO gamecharacter (character_id, naam, beschrijving, levens, huidige_kamer, type) VALUES (?, ?, ?, ?, ?, ?)";
-                PreparedStatement insertStmt = conn.prepareStatement(insertSql);
-                insertStmt.setInt(1, characterId);
-                insertStmt.setString(2, naam);
-                insertStmt.setString(3, beschrijving);
-                insertStmt.setInt(4, levens);
-                insertStmt.setInt(5, huidigeKamerId);
-                insertStmt.setString(6, type);
-                insertStmt.executeUpdate();
-                System.out.println("Karakter " + naam + " is toegevoegd.");
+                System.out.println("Speler " + speler.getNaam() + " is bijgewerkt.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     public void InsertVragen(String vraag, String antwoord) {
         try (Connection conn = getConnection()) {
             String sql = "INSERT INTO vragen (vraag, antwoord) VALUES (?,?)";
@@ -251,6 +312,11 @@ class databaseSelect extends Database {
                 int levens = rs.getInt("levens");
                 int huidigeKamerId = rs.getInt("huidige_kamer");
 
+                // Fallback if huidige_kamer is 0 or invalid
+                if (huidigeKamerId < 1) {
+                    huidigeKamerId = 1;  // default starting room ID
+                }
+
                 Speler speler = new Speler(naam, characterId);
                 speler.setBeschrijving(beschrijving);
                 speler.setLives(levens);
@@ -275,28 +341,24 @@ class databaseSelect extends Database {
         Speler speler = getSpelerByNaam(naam);
 
         if (speler == null) {
-            speler = new Speler(naam, 1);
+            speler = new Speler(naam);
             speler.setBeschrijving("Nieuwe speler");
             speler.setLives(3);
             Kamer startKamer = getKamerById(1);
             speler.moveTo(startKamer);
 
-            new databaseInsert().saveGameCharacter(
-                    speler.getCharacterID(),
-                    speler.getNaam(),
-                    speler.getBeschrijving(),
-                    speler.getLives(),
-                    startKamer.getKamerId(),
-                    "speler"
-            );
+            // Save speler, which inserts and sets characterID
+            speler.saveToDatabase();
 
             System.out.println("Nieuwe speler aangemaakt.");
         } else {
             System.out.println("Welkom terug, " + speler.getNaam());
         }
-
         return speler;
     }
+
+
+
 
 }
 

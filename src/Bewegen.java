@@ -16,10 +16,11 @@ class Bewegen implements move {
     @Override
     public void bewegen() {
         Kamer huidigeKamer = speler.getHuidigeKamer();
-        int kamerId = (huidigeKamer != null) ? huidigeKamer.getKamerId() : 1;
+        int kamerId = huidigeKamer != null ? huidigeKamer.getKamerId() : 1;
 
         while (true) {
             Kamer kamer = select.getKamerById(kamerId);
+
             if (kamer == null) {
                 System.out.println("Geen kamer gevonden met ID: " + kamerId);
                 System.out.println("Beweging gestopt vanwege ongeldig kamer ID.");
@@ -33,9 +34,17 @@ class Bewegen implements move {
             String input = scanner.nextLine();
 
             if (input.equalsIgnoreCase("a")) {
-                kamerId--;
+                if (kamerId > 1) {
+                    kamerId--;
+                } else {
+                    System.out.println("Je kunt niet verder terug bewegen.");
+                }
             } else if (input.equalsIgnoreCase("d")) {
-                kamerId++;
+                if (select.getKamerById(kamerId + 1) != null) {
+                    kamerId++;
+                } else {
+                    System.out.println("Je kunt niet verder vooruit bewegen.");
+                }
             } else if (input.equalsIgnoreCase("x")) {
                 System.out.println("Beweging gestopt.");
                 break;

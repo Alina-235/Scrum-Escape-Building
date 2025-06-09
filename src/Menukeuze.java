@@ -6,50 +6,80 @@ interface keuze {
 }
 
 class Menukeuze implements keuze {
-    static Scanner scanner = new Scanner(System.in);
-    static Speler speler;
-    static Game game;
+    private final Scanner scanner = new Scanner(System.in);
+    private Speler speler;
+    private Game game;
+    private final databaseSelect db = new databaseSelect();
 
     @Override
     public void menu() {
-        System.out.print("Maak uw keuze: ");
-        String input = scanner.nextLine();
+        boolean running = true;
 
-        int keuzeNummer;
-        try {
-            keuzeNummer = Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            System.out.println("Ongeldige invoer, typ een getal (1-3).");
-            return; // Exit the method, avoid crashing
-        }
+        while (running) {
+            toonHoofdmenu();
+            String input = scanner.nextLine();
 
-        switch (keuzeNummer) {
-            case 1:
-                System.out.print("Voer je naam in: ");
-                String naam = scanner.nextLine();
-                speler = new databaseSelect().SpelerLogin(naam);
-                game = new Game(speler);
+            int keuzeNummer;
+            try {
+                keuzeNummer = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Ongeldige invoer, typ een getal (1-3).");
+                continue;
+            }
 
-                game.storyline();
-                game.startGame();
-
-                new Bewegen(speler).bewegen();
-                break;
-
-            case 2:
-                System.out.println("Login");
-                break;
-            case 3:
-                System.out.println("Programma wordt afgesloten.");
-                System.exit(0);
-                break;
-            default:
-                System.out.println("Ongeldige keuze, probeer opnieuw.");
-                break;
+            switch (keuzeNummer) {
+                case 1:
+                    startGame();
+                    break;
+                case 2:
+                    loginSpeler();
+                    break;
+                case 3:
+                    System.out.println("Programma wordt afgesloten.");
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Ongeldige keuze, probeer opnieuw.");
+            }
         }
     }
 
+    private void toonHoofdmenu() {
+        System.out.println("\n--- Scrum Escape Building ---");
+        System.out.println("1. Start Game");
+        System.out.println("2. Log in");
+        System.out.println("3. Exit");
+        System.out.print("Maak uw keuze: ");
+    }
 
+    private void startGame() {
+        System.out.print("Voer je naam in: ");
+        String naam = scanner.nextLine();
+
+        speler = db.SpelerLogin(naam);
+        if (speler == null) {
+            System.out.println("Kan speler niet laden.");
+            return;
+        }
+
+        game = new Game(speler);
+        game.storyline();
+        game.startGame();
+
+        new Bewegen(speler).bewegen();
+    }
+
+    private void loginSpeler() {
+        System.out.print("Voer je naam in: ");
+        String naam = scanner.nextLine();
+
+        speler = db.SpelerLogin(naam);
+        if (speler != null) {
+            System.out.println(" Welkom terug, " + speler.getNaam());
+            speler.toonStatus();
+            new Bewegen(speler).bewegen();
+        } else {
+            System.out.println(" Speler niet gevonden.");
+        }
+    }
 }
-
-
