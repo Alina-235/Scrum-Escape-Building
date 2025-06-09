@@ -21,24 +21,6 @@ class GameController {
         this.story = new GameStory();
     }
 
-    public boolean verwerkKeuze(int keuze) {
-        switch (keuze) {
-            case 1:
-                story.toonIntro();
-                game.startGame();
-                return true;
-            case 2:
-                toonCredits();
-                return true;
-            case 3:
-                System.out.println("Programma wordt afgesloten.");
-                return false;
-            default:
-                System.out.println("Ongeldige keuze, probeer opnieuw.");
-                return true;
-        }
-    }
-
     private void toonCredits() {
         System.out.println("\nEscape Scrum Building © 2025");
         System.out.println("Gemaakt door jouw projectteam.");
