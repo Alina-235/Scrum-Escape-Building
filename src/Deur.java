@@ -23,16 +23,16 @@ public class Deur implements SpelerObserver {
 
     private Kamer bepaalVolgendeKamer(Kamer huidige) {
         if (huidige.getNaam().equalsIgnoreCase("KamerDailyScrum")) {
-            return new KamerPlanning("Planning", "Sprint KamerPlanning", "Plan de sprint");
+            return new KamerPlanning("Planning", "Sprint KamerPlanning", "Plan de sprint", 2);
         }
         if (huidige.getNaam().equalsIgnoreCase("KamerPlanning")) {
-            return new KamerRetrospective("Retrospective", "Sprint KamerRetrospective", "Reflecteer en verbeter");
+            return new KamerRetrospective("Retrospective", "Sprint KamerRetrospective", "Reflecteer en verbeter", 3);
         }
         if (huidige.getNaam().equalsIgnoreCase("KamerRetrospective")) {
-            return new KamerReview("Review", "Sprint KamerReview", "Bekijk het werk");
+            return new KamerReview("Review", "Sprint KamerReview", "Bekijk het werk", 4);
         }
         if (huidige.getNaam().equalsIgnoreCase("KamerReview")) {
-            return new KamerScrumboard("Scrumboard", "Sprint KamerScrumboard", "Overzicht van taken");
+            return new KamerScrumboard("Scrumboard", "Sprint KamerScrumboard", "Overzicht van taken", 5);
         }
         if (huidige.getNaam().equalsIgnoreCase("KamerScrumboard")) {
             return null;
@@ -40,6 +40,7 @@ public class Deur implements SpelerObserver {
 
         return null;
     }
+
 
     public boolean isOpen(){
         return open;

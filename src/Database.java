@@ -21,6 +21,10 @@ class databaseInsert extends Database{
     public int insertNewGameCharacter(String naam, String beschrijving, int levens, int huidigeKamerId, String type) {
         int generatedId = 0;
         try {
+            if (huidigeKamerId < 1) {
+                huidigeKamerId = 1;
+            }
+
             Connection conn = getConnection();
             String sql = "INSERT INTO gamecharacter (naam, beschrijving, levens, huidige_kamer, type) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -43,6 +47,7 @@ class databaseInsert extends Database{
         }
         return generatedId;
     }
+
 
     // Update existing character
     public void updateGameCharacter(int characterId, String naam, String beschrijving, int levens, int huidigeKamerId, String type) {
@@ -93,7 +98,6 @@ class databaseInsert extends Database{
     public void saveGameCharacter(Speler speler) {
         try (Connection conn = getConnection()) {
             if (speler.getCharacterID() <= 0) {
-                // INSERT new speler without character_id - let DB auto increment
                 String insertSql = "INSERT INTO gamecharacter (naam, beschrijving, levens, huidige_kamer, type) VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
                 insertStmt.setString(1, speler.getNaam());
@@ -203,39 +207,46 @@ class databaseSelect extends Database {
     }
 
     public Kamer getKamerById(int kamerId) {
-        try (Connection conn = getConnection()) {
-            String sql = "SELECT * FROM kamer WHERE kamer_id = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        String sql = "SELECT * FROM kamer WHERE kamer_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setInt(1, kamerId);
 
-            ResultSet result = stmt.executeQuery();
+            try (ResultSet result = stmt.executeQuery()) {
+                if (result.next()) {
+                    int id = result.getInt("kamer_id");
+                    String naam = result.getString("naam");
+                    String beschrijving = result.getString("beschrijving");
+                    String type = result.getString("type");
+                    String doel = result.getString("doel");
 
-            if (result.next()) {
-                int id = result.getInt("kamer_id");
-                String naam = result.getString("naam");
-                String beschrijving = result.getString("beschrijving");
-                String type = result.getString("type");
-                String doel = result.getString("doel");
-
-                switch (type.toLowerCase()) {
-                    case "daily":
-                        return new KamerDailyScrum(naam, beschrijving, doel);
-                    case "planning":
-                        return new KamerPlanning(naam, beschrijving, doel);
-                    case "review":
-                        return new KamerReview(naam, beschrijving, doel);
-                    case "scrumboard":
-                        return new KamerScrumboard(naam, beschrijving, doel);
-                    case "retro":
-                        return new KamerRetrospective(naam, beschrijving, doel);
-                    case "start":
-                        return new KamerDailyScrum(naam, beschrijving, doel);
-                    default:
-                        System.out.println("Onbekend kamertype: " + type);
+                    if (type == null) {
+                        System.out.println("Kamertype is null voor kamer ID: " + kamerId);
                         return null;
+                    }
+
+                    switch (type.toLowerCase()) {
+                        case "daily":
+                            return new KamerDailyScrum(naam, beschrijving, doel, id);
+                        case "planning":
+                            return new KamerPlanning(naam, beschrijving, doel, id);
+                        case "review":
+                            return new KamerReview(naam, beschrijving, doel, id);
+                        case "scrumboard":
+                            return new KamerScrumboard(naam, beschrijving, doel, id);
+                        case "retro":
+                            return new KamerRetrospective(naam, beschrijving, doel, id);
+                        case "start":
+                            return new KamerDailyScrum(naam, beschrijving, doel, id);
+                        default:
+                            System.out.println("Onbekend kamertype: " + type);
+                            return null;
+                    }
+                } else {
+                    System.out.println("Geen kamer gevonden met ID: " + kamerId);
+                    return null;
                 }
-            } else {
-                System.out.println("Geen kamer gevonden met ID: " + kamerId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -299,63 +310,63 @@ class databaseSelect extends Database {
     }
 
     public Speler getSpelerByNaam(String naam) {
-        try (Connection conn = getConnection()) {
-            String sql = "SELECT * FROM gamecharacter WHERE naam = ? AND type = 'speler'";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                     "SELECT * FROM gamecharacter WHERE naam = ? AND type = 'speler'"
+             )) {
             stmt.setString(1, naam);
-
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                int characterId = rs.getInt("character_id");
+                int characterId = rs.getInt("characterid");
                 String beschrijving = rs.getString("beschrijving");
                 int levens = rs.getInt("levens");
-                int huidigeKamerId = rs.getInt("huidige_kamer");
 
-                // Fallback if huidige_kamer is 0 or invalid
-                if (huidigeKamerId < 1) {
-                    huidigeKamerId = 1;  // default starting room ID
+                // Use wasNull() to detect NULLs
+                int huidigeKamerId = rs.getInt("huidige_kamer");
+                if (rs.wasNull() || huidigeKamerId < 1) {
+                    huidigeKamerId = 1; // fallback to start kamer
                 }
+
+                Kamer huidigeKamer = getKamerById(huidigeKamerId);
 
                 Speler speler = new Speler(naam, characterId);
                 speler.setBeschrijving(beschrijving);
                 speler.setLives(levens);
-
-                Kamer kamer = getKamerById(huidigeKamerId);
-                if (kamer != null) {
-                    speler.moveTo(kamer);
-                }
-
-                System.out.println("Speler " + naam + " geladen.");
+                speler.moveTo(huidigeKamer);
                 return speler;
-            } else {
-                System.out.println("Speler " + naam + " niet gevonden.");
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return null;
     }
+
 
     public Speler SpelerLogin(String naam) {
         Speler speler = getSpelerByNaam(naam);
 
         if (speler == null) {
-            speler = new Speler(naam);
+            // Player not found, create a new one with characterID = 0
+            speler = new Speler(naam); // characterID is 0
             speler.setBeschrijving("Nieuwe speler");
             speler.setLives(3);
             Kamer startKamer = getKamerById(1);
             speler.moveTo(startKamer);
 
-            // Save speler, which inserts and sets characterID
-            speler.saveToDatabase();
-
+            speler.saveToDatabase(); // will insert because ID = 0
             System.out.println("Nieuwe speler aangemaakt.");
         } else {
+            // Player found in DB, no new insert
             System.out.println("Welkom terug, " + speler.getNaam());
         }
+
         return speler;
     }
+
+
 
 
 

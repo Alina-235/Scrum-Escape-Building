@@ -136,6 +136,14 @@ public class Speler extends Character {
         }
     }
 
+    public void setBeschrijving(String beschrijving) {
+        this.beschrijving = beschrijving;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
 
     public String getNaam() {
         return naam;

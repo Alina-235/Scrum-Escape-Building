@@ -4,18 +4,18 @@ abstract class Kamer {
     protected String naam;
     protected String beschrijving;
     protected String doel;
-    ArrayList <Vragen> vragen = new ArrayList();
+    protected ArrayList<Vragen> vragen = new ArrayList<>();
     protected boolean passed = false;
-    protected int kamernummer = 0;
+    protected int kamernummer;
 
-
-    public Kamer(String naam, String beschrijving, String doel ) {
+    public Kamer(String naam, String beschrijving, String doel, int kamernummer) {
         this.naam = naam;
         this.beschrijving = beschrijving;
         this.doel = doel;
+        this.kamernummer = kamernummer;
     }
 
-    public final void Room () {
+    public final void Room() {
         kamerNaam();
         kamerbeschrijving();
         kamerDoel();
@@ -24,125 +24,127 @@ abstract class Kamer {
     public String getNaam() {
         return naam;
     }
+
     public String getBeschrijving() {
         return beschrijving;
     }
-    public String getDoel (){
+
+    public String getDoel() {
         return doel;
     }
+
     public int getKamerId() {
         return kamernummer;
     }
 
-
-
     protected abstract void kamerNaam();
+
     protected abstract void kamerbeschrijving();
+
     protected abstract void kamerDoel();
 }
 
 class KamerDailyScrum extends Kamer {
-
-    public KamerDailyScrum(String naam, String beschrijving, String type) {
-        super(naam, beschrijving, type);
+    public KamerDailyScrum(String naam, String beschrijving, String doel, int kamernummer) {
+        super(naam, beschrijving, doel, kamernummer);
     }
 
     @Override
     protected void kamerNaam() {
-        System.out.println(super.getNaam());
+        System.out.println(getNaam());
     }
 
     @Override
     protected void kamerbeschrijving() {
-        System.out.println(super.getBeschrijving());
+        System.out.println(getBeschrijving());
     }
 
     @Override
     protected void kamerDoel() {
-        System.out.println(super.getDoel());
+        System.out.println(getDoel());
     }
 }
 
 class KamerPlanning extends Kamer {
-    public KamerPlanning(String naam, String beschrijving, String type) {
-        super(naam, beschrijving, type);
+    public KamerPlanning(String naam, String beschrijving, String doel, int kamernummer) {
+        super(naam, beschrijving, doel, kamernummer);
     }
 
     @Override
     protected void kamerNaam() {
-        System.out.println(super.getNaam());
+        System.out.println(getNaam());
     }
 
     @Override
     protected void kamerbeschrijving() {
-        System.out.println(super.getBeschrijving());
+        System.out.println(getBeschrijving());
     }
 
     @Override
     protected void kamerDoel() {
-        System.out.println(super.getDoel());
+        System.out.println(getDoel());
     }
 }
 
 class KamerReview extends Kamer {
-    public KamerReview(String naam, String beschrijving, String type) {
-        super(naam, beschrijving, type);
+    public KamerReview(String naam, String beschrijving, String doel, int kamernummer) {
+        super(naam, beschrijving, doel, kamernummer);
     }
 
     @Override
     protected void kamerNaam() {
-        System.out.println(super.getNaam());
+        System.out.println(getNaam());
     }
 
     @Override
     protected void kamerbeschrijving() {
-        System.out.println(super.getBeschrijving());
+        System.out.println(getBeschrijving());
     }
 
     @Override
     protected void kamerDoel() {
-        System.out.println(super.getDoel());
+        System.out.println(getDoel());
     }
 }
 
 class KamerScrumboard extends Kamer {
-    public KamerScrumboard(String naam, String beschrijving, String type) {
-        super(naam, beschrijving, type);
+    public KamerScrumboard(String naam, String beschrijving, String doel, int kamernummer) {
+        super(naam, beschrijving, doel, kamernummer);
     }
 
     @Override
     protected void kamerNaam() {
-        System.out.println(super.getNaam());
+        System.out.println(getNaam());
     }
 
     @Override
     protected void kamerbeschrijving() {
-        System.out.println(super.getBeschrijving());
+        System.out.println(getBeschrijving());
     }
 
     @Override
     protected void kamerDoel() {
-        System.out.println(super.getDoel());
+        System.out.println(getDoel());
     }
 }
 
 class KamerRetrospective extends Kamer {
-    public KamerRetrospective(String naam, String beschrijving, String type) {
-        super(naam, beschrijving, type);
+    public KamerRetrospective(String naam, String beschrijving, String doel, int kamernummer) {
+        super(naam, beschrijving, doel, kamernummer);
     }
 
     @Override
     protected void kamerNaam() {
-        System.out.println(super.getNaam());
+        System.out.println(getNaam());
     }
 
     @Override
     protected void kamerbeschrijving() {
-        System.out.println(super.getBeschrijving());
+        System.out.println(getBeschrijving());
     }
 
     @Override
     protected void kamerDoel() {
-        System.out.println(super.getDoel());
+        System.out.println(getDoel());
     }
 }
