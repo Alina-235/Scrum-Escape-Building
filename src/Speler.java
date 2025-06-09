@@ -75,8 +75,6 @@ class Speler extends Character {
         return monsterVerslagen;
     }
 
-
-
     public ArrayList<Monster> getActiveMonsters() {
         return actieveMonsters;
     }
@@ -100,6 +98,8 @@ class Speler extends Character {
         } else {
             System.out.println("Joker is hier niet beschikbaar of niet gekozen.");
         }
+    }
+
     public void saveToDatabase() {
         new databaseInsert().saveGameCharacter(
                 this.characterID,
@@ -111,7 +111,6 @@ class Speler extends Character {
         );
     }
 
-}
     public String getNaam(){
         return naam;
     }
