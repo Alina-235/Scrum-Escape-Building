@@ -110,9 +110,9 @@ class Speler extends Character {
         }
         System.out.println("Jouw naam is: ");
         String naam = scanner.nextLine();
-        Speler speler = new Speler(naam, i);
+        Speler speler = new Speler(naam, );
         alleSpelers.add(speler);
-        insert.InsertCharacter(naam, i, "speler");
+        insert.InsertCharacter(naam,  "speler");
     }
 
     public String getNaam(){

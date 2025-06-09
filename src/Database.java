@@ -18,14 +18,12 @@ class Database {
 
 class databaseInsert extends Database{
 
-    public void InsertCharacter(String naam, int id, String type) {
+    public void InsertCharacter(String naam, String type) {
         try (Connection conn = getConnection()) {
-            String sql = "INSERT INTO gamecharacter (id, naam, type ) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO gamecharacter (naam, type ) VALUES (?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
-            stmt.setString(2, naam);
-            stmt.setString(3, type);
-
+            stmt.setString(1, naam);
+            stmt.setString(2, type);
 
             int rowsInserted = stmt.executeUpdate();
             System.out.println("Karakter " + naam + " is toegevoegd.");
