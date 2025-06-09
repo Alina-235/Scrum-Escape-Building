@@ -1,6 +1,5 @@
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 class Database {
     private static String url = "jdbc:mysql://localhost:3306/escapescrumbuilding";
@@ -19,11 +18,14 @@ class Database {
 
 class databaseInsert extends Database{
 
-    public void InsertCharacter(String naam) {
+    public void InsertCharacter(String naam, int id, String type) {
         try (Connection conn = getConnection()) {
-            String sql = "INSERT INTO gamecharacter (naam) VALUES (?)";
+            String sql = "INSERT INTO gamecharacter (id, naam, type ) VALUES (?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, naam);
+            stmt.setInt(1, id);
+            stmt.setString(2, naam);
+            stmt.setString(3, type);
+
 
             int rowsInserted = stmt.executeUpdate();
             System.out.println("Karakter " + naam + " is toegevoegd.");

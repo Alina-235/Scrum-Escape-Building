@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 interface SpelerObserver {
     void update(Speler speler, String gebeurtenis);
@@ -8,9 +9,11 @@ class Speler extends Character {
     private Kamer huidigeKamer;
     private int monsterVerslagen;
     private ArrayList<Monster> actieveMonsters;
-
     private ArrayList<SpelerObserver> observers = new ArrayList<>();
+    ArrayList<Speler> alleSpelers = new ArrayList<>();
     private Joker joker;
+    databaseInsert insert = new databaseInsert();
+    static Scanner scanner = new Scanner(System.in);
 
 
     private ObserverActies observerActies = new ObserverActies();
@@ -100,15 +103,16 @@ class Speler extends Character {
         }
     }
 
-    public void saveToDatabase() {
-        new databaseInsert().saveGameCharacter(
-                this.characterID,
-                this.naam,
-                this.beschrijving,
-                this.lives,
-                huidigeKamer != null ? huidigeKamer.getKamerId() : 1,
-                "speler"
-        );
+    public void spelerToevoegen() {
+        int i = 0;
+        for (Speler gebruiker : alleSpelers) {
+            i++;
+        }
+        System.out.println("Jouw naam is: ");
+        String naam = scanner.nextLine();
+        Speler speler = new Speler(naam, i);
+        alleSpelers.add(speler);
+        insert.InsertCharacter(naam, i, "speler");
     }
 
     public String getNaam(){
