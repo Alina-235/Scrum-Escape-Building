@@ -1,16 +1,5 @@
 import java.util.ArrayList;
 
-class Game {
-    private boolean gameOver = false;
-    private ArrayList<Speler> spelers;
-    private ArrayList<Kamer> kamers;
-    private databaseSelect db = new databaseSelect();
-
-    public Kamer getStartKamer() {
-        return db.getKamerById(2);
-    }
-}
-
 class GameController {
     private Game game;
     private GameStory story;
@@ -97,6 +86,8 @@ class Game {
     private SpelerManager spelerManager = new SpelerManager();
     private ArrayList<Kamer> kamers = new ArrayList<>();
     private GameRepository repo = new GameRepository();
+    private ArrayList<Speler> spelers;
+    private databaseSelect db = new databaseSelect();
 
     public void voegSpelerToe(Speler speler) {
         spelerManager.voegSpelerToe(speler);
@@ -148,6 +139,10 @@ class Game {
 
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    public Kamer getStartKamer() {
+        return db.getKamerById(2);
     }
 }
 
