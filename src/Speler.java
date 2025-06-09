@@ -14,15 +14,17 @@ public class Speler extends Character {
     private ObserverActies observerActies = new ObserverActies();
     private MonsterActies monsterActies = new MonsterActies();
 
+
     public Speler(String naam) {
-        super(naam, "Scrum escape speler", 3, 0);
+        super(naam, "Scrum escape speler", -1, 3);
         this.monsterVerslagen = 0;
         this.actieveMonsters = new ArrayList<>();
         this.huidigeKamer = null;
     }
 
+
     public Speler(String naam, int characterID) {
-        super(naam, "Scrum escape speler", 3, characterID);
+        super(naam, "Scrum escape speler", characterID, 3);
         this.monsterVerslagen = 0;
         this.actieveMonsters = new ArrayList<>();
         this.huidigeKamer = null;
@@ -71,6 +73,7 @@ public class Speler extends Character {
         System.out.println("Actieve monsters: " + actieveMonsters.size());
     }
 
+
     public Kamer getHuidigeKamer() {
         return huidigeKamer;
     }
@@ -79,7 +82,7 @@ public class Speler extends Character {
         return monsterVerslagen;
     }
 
-    public ArrayList<Monster> getActiveMonsters() {
+    public ArrayList<Monster> getActieveMonsters() {
         return actieveMonsters;
     }
 
@@ -109,11 +112,16 @@ public class Speler extends Character {
     }
 
     public void saveToDatabase() {
-        databaseInsert db = new databaseInsert();
+        databaseSelect dbSelect = new databaseSelect();
+        databaseInsert dbInsert = new databaseInsert();
+
+        Speler existing = dbSelect.getSpelerByNaam(this.naam);
+        if (existing != null) {
+            this.setCharacterID(existing.getCharacterID());
+        }
 
         if (this.characterID <= 0) {
-            // Insert new speler and update characterID
-            int newId = db.insertNewGameCharacter(
+            int newId = dbInsert.insertNewGameCharacter(
                     this.naam,
                     this.beschrijving,
                     this.lives,
@@ -123,8 +131,7 @@ public class Speler extends Character {
             this.setCharacterID(newId);
             System.out.println("Nieuwe speler opgeslagen met ID: " + newId);
         } else {
-            // Update existing speler
-            db.updateGameCharacter(
+            dbInsert.updateGameCharacter(
                     this.characterID,
                     this.naam,
                     this.beschrijving,
@@ -143,7 +150,6 @@ public class Speler extends Character {
     public void setLives(int lives) {
         this.lives = lives;
     }
-
 
     public String getNaam() {
         return naam;

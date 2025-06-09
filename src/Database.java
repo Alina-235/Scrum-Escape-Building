@@ -47,6 +47,7 @@ class databaseInsert extends Database{
         return -1;
     }
 
+
     public void updateGameCharacter(int characterId, String naam, String beschrijving, int levens, int huidigeKamerId, String type) {
         String sql = "UPDATE gamecharacter SET naam=?, beschrijving=?, levens=?, huidige_kamer=?, type=? WHERE character_id=?";
         try (Connection conn = getConnection();
@@ -65,35 +66,7 @@ class databaseInsert extends Database{
         }
     }
 
-    // Fetch speler by naam, return null if not found
-//    public Speler fetchSpelerByNaam(String naam) {
-//        String sql = "SELECT * FROM gamecharacter WHERE naam = ? AND type = 'speler'";
-//        try (Connection conn = getConnection();
-//             PreparedStatement stmt = conn.prepareStatement(sql)) {
-//
-//            stmt.setString(1, naam);
-//            ResultSet rs = stmt.executeQuery();
-//
-//            if (rs.next()) {
-//                int characterId = rs.getInt("characterid");
-//                String beschrijving = rs.getString("beschrijving");
-//                int levens = rs.getInt("levens");
-//                int huidigeKamerId = rs.getInt("huidige_kamer");
-//                if (rs.wasNull() || huidigeKamerId < 1) huidigeKamerId = 1;
-//
-//                Kamer huidigeKamer = KamerFactory.getKamerById(huidigeKamerId); // your way to get Kamer object
-//
-//                Speler speler = new Speler(naam, characterId);
-//                speler.setBeschrijving(beschrijving);
-//                speler.setLives(levens);
-//                speler.moveTo(huidigeKamer);
-//                return speler;
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+
 
     public void saveGameCharacter(Speler speler) {
         try (Connection conn = getConnection()) {
@@ -227,6 +200,8 @@ class databaseSelect extends Database {
                     }
 
                     switch (type.toLowerCase()) {
+                        case "scrum":
+                            return new KamerDailyScrum(naam, beschrijving, doel, id);
                         case "daily":
                             return new KamerDailyScrum(naam, beschrijving, doel, id);
                         case "planning":
@@ -312,7 +287,7 @@ class databaseSelect extends Database {
     public Speler getSpelerByNaam(String naam) {
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(
-                     "SELECT * FROM gamecharacter WHERE naam = ? AND type = 'speler'"
+                     "SELECT * FROM gamecharacter WHERE BINARY naam = ? AND type = 'speler'"
              )) {
             stmt.setString(1, naam);
             ResultSet rs = stmt.executeQuery();
@@ -349,7 +324,6 @@ class databaseSelect extends Database {
         Speler speler = getSpelerByNaam(naam);
 
         if (speler == null) {
-
             speler = new Speler(naam);
             speler.setBeschrijving("Nieuwe speler");
             speler.setLives(3);
@@ -359,12 +333,12 @@ class databaseSelect extends Database {
             speler.saveToDatabase();
             System.out.println("Nieuwe speler aangemaakt.");
         } else {
-
             System.out.println("Welkom terug, " + speler.getNaam());
         }
 
         return speler;
     }
+
 
 }
 

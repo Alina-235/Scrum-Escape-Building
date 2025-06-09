@@ -7,11 +7,11 @@ public class KeyJoker implements Joker {
     @Override
     public void gebruik(Speler speler) {
         System.out.println("Je hebt een sleutel gebruikt om een monster te ontwijken!");
-        if (!speler.getActiveMonsters().isEmpty()) {
-            speler.losMonsterOp(speler.getActiveMonsters().get(0));
-        } else {
-            System.out.println("Geen actieve monsters om op te lossen.");
-        }
+//        if (!speler.getActiveMonsters().isEmpty()) {
+//            speler.losMonsterOp(speler.getActiveMonsters().get(0));
+//        } else {
+//            System.out.println("Geen actieve monsters om op te lossen.");
+//        }
     }
 
     @Override
