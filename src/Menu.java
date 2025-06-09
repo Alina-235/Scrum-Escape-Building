@@ -1,4 +1,3 @@
-
 class Menu {
     static Menukeuze keuze = new Menukeuze();
 

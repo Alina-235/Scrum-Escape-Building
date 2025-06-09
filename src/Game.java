@@ -10,6 +10,7 @@ class Game {
         return db.getKamerById(2);
     }
 }
+
 class GameController {
     private Game game;
     private GameStory story;
@@ -68,6 +69,7 @@ class GameStory {
 
     }
 }
+
 class SpelerManager {
     private ArrayList<Speler> spelers = new ArrayList<>();
 

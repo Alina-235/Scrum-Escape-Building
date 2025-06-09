@@ -10,7 +10,7 @@ public class Main {
         speler.addObserver(new Feedback());
         speler.addObserver(new Deur());
         speler.addObserver(new Logger());
-        game = new Game(speler);
+        game = new Game();
 
         menu.mainMenu();
     }
