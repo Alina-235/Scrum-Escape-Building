@@ -31,8 +31,15 @@ public class Bewegen implements Move {
                     boolean correct = false;
                     while (!correct && speler.getLives() > 0) {
                         System.out.println("Vraag: " + vraag.getVraag());
-                        System.out.print("Jouw antwoord: ");
+                        System.out.println("Typ je antwoord, of typ 'assistent' voor hulp (hint + uitleg + motivatie).");
                         String antwoord = scanner.nextLine();
+
+                        if (antwoord.equalsIgnoreCase("assistent")) {
+                            Assistent assistent = new Assistent();
+                            assistent.activeer(speler.getHuidigeKamer(), vraag);
+                            continue;
+                        }
+
 
                         ArrayList<String> antwoorden = new ArrayList<>();
                         antwoorden.add(antwoord);

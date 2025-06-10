@@ -4,11 +4,24 @@ class Vragen {
     private String vraag;
     private Monster monsterTrigger;
     private VraagStrategie strategie;
+    private int vraagId;
+    private String uitleg;
 
-    public Vragen(String vraag, VraagStrategie strategie, Monster monsterTrigger) {
+    public Vragen(int vraagId, String vraag, VraagStrategie strategie, String uitleg) {
+        this.vraagId = vraagId;
         this.vraag = vraag;
         this.strategie = strategie;
-        this.monsterTrigger = monsterTrigger;
+        this.uitleg = uitleg;
+    }
+
+
+    public int getVraagId() {
+        return vraagId;
+    }
+
+
+    public String getUitleg() {
+        return uitleg;
     }
 
     public String getVraag() {

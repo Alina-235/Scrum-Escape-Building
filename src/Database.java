@@ -233,17 +233,19 @@ class databaseSelect extends Database {
         ArrayList<Vragen> vragenLijst = new ArrayList<>();
 
         try (Connection conn = getConnection()) {
-            String sql = "SELECT vraag, antwoord FROM vraag WHERE kamer_id = ?";
+            String sql = "SELECT vraag_id, vraag, antwoord, uitleg FROM vraag WHERE kamer_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, kamerId);
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
+                int vraagId = rs.getInt("vraag_id");
                 String vraagTekst = rs.getString("vraag");
                 String juistAntwoord = rs.getString("antwoord");
+                String uitleg = rs.getString("uitleg");
 
                 VraagStrategie strategie = new OpenInvulStrategie(juistAntwoord);
-                Vragen vraagObject = new Vragen(vraagTekst, strategie, null);
+                Vragen vraagObject = new Vragen(vraagId, vraagTekst, strategie, uitleg);
                 vragenLijst.add(vraagObject);
             }
         } catch (SQLException e) {
@@ -252,6 +254,8 @@ class databaseSelect extends Database {
 
         return vragenLijst;
     }
+
+
 
     public ArrayList<Hint> getHints() {
         ArrayList<Hint> hintLijst = new ArrayList<>();
@@ -283,6 +287,63 @@ class databaseSelect extends Database {
 
         return hintLijst;
     }
+
+    public ArrayList<Hint> getHintsVoorKamer(int kamerId) {
+        ArrayList<Hint> hintLijst = new ArrayList<>();
+
+        try (Connection conn = getConnection()) {
+            String sql = """
+            SELECT h.tekst, h.type
+            FROM hint h
+            JOIN vraag v ON h.vraag_id = v.vraag_id
+            WHERE v.kamer_id = ?
+        """;
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, kamerId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String tekst = rs.getString("tekst");
+                String type = rs.getString("type");
+
+                switch (type.toLowerCase()) {
+                    case "funny":
+                        hintLijst.add(new FunnyHint(tekst));
+                        break;
+                    case "help":
+                        hintLijst.add(new HelpHint(tekst));
+                        break;
+                    default:
+                        System.out.println("Onbekend hint-type: " + type);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hintLijst;
+    }
+    public String getEducatiefHulpmiddelVoorVraag(int vraagId) {
+        String uitleg = null;
+
+        try (Connection conn = getConnection()) {
+            String sql = "SELECT uitleg FROM vraag WHERE vraag_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, vraagId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                uitleg = rs.getString("uitleg");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return uitleg != null ? uitleg : "Geen educatief hulpmiddel beschikbaar.";
+    }
+
 
     public Speler getSpelerByNaam(String naam) {
         try (Connection conn = getConnection();
