@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Game {
     private boolean gameOver = false;
@@ -102,19 +103,59 @@ public class Game {
 
 class GameController {
     private Game game;
+    private Scanner scanner = new Scanner(System.in);
 
     public GameController(Speler speler) {
         game = new Game(speler);
-    }
-
-    public void startGame() {
-        game.startGame();
     }
 
     public void showStatus() {
         game.toonStatus();
     }
 
+    public void kiesJokerVoorSpeler() {
+        System.out.println("Kies je joker:");
+        System.out.println("1. HintJoker (altijd beschikbaar)");
+        System.out.println("2. KeyJoker (alleen in Planning en Review kamers)");
+
+        String keuze = scanner.nextLine();
+
+        Joker joker;
+        if ("2".equals(keuze)) {
+            joker = new KeyJoker();
+        } else {
+            joker = new HintJoker();
+        }
+
+        game.getSpelers().get(0).kiesJoker(joker);  // assuming single player for now
+    }
+
+    public void startGame() {
+        kiesJokerVoorSpeler();
+        game.startGame();
+        mainGameLoop();
+    }
+
+    private void mainGameLoop() {
+        while (!game.GameOver()) {
+            Speler speler = game.getSpelers().get(0);
+            System.out.println("\nTyp je antwoord, of typ 'joker' om je joker in te zetten.");
+            String input = scanner.nextLine();
+
+            if ("joker".equalsIgnoreCase(input)) {
+                speler.gebruikJoker(speler.getHuidigeKamer());
+                continue;
+            }
+
+            // Normal game input handling here
+            // For example: check answer, move to next question/room, etc.
+
+            // After each action, check if game is over
+            game.checkGameOver();
+        }
+
+        System.out.println("Het spel is afgelopen!");
+    }
     public boolean isGameOver() {
         return game.GameOver();
     }

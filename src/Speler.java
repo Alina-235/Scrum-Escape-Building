@@ -10,6 +10,7 @@ public class Speler extends Character {
     private ArrayList<Monster> actieveMonsters;
     private ArrayList<SpelerObserver> observers = new ArrayList<>();
     private Joker joker;
+    //private boolean jokerGebruikt = false;
 
     private ObserverActies observerActies = new ObserverActies();
     private MonsterActies monsterActies = new MonsterActies();
