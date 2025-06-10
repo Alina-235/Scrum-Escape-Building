@@ -17,13 +17,16 @@ public class Main {
         speler.addObserver(new Deur());
         speler.addObserver(new Logger());
 
+        Menu menu = new Menu();
+        menu.mainMenu();
+
         GameController controller = new GameController(speler);
         controller.startGame();
         controller.showStatus();
 
+        Move moveLogic = new Bewegen(speler);
+        moveLogic.bewegen();
 
-        Menu menu = new Menu();
-        menu.mainMenu();
     }
 }
 
