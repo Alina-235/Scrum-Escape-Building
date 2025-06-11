@@ -31,8 +31,29 @@ public class Bewegen implements Move {
                     boolean correct = false;
                     while (!correct && speler.getLives() > 0) {
                         System.out.println("Vraag: " + vraag.getVraag());
-                        System.out.print("Jouw antwoord: ");
-                        String antwoord = scanner.nextLine();
+                        System.out.println("Typ je antwoord, of typ 'assistent' voor hulp (hint + uitleg + motivatie), of typ 'joker' om je gekozen joker te gebruiken.");
+
+                        String antwoord = scanner.nextLine().toLowerCase();
+
+                        if (antwoord.equals("assistent")) {
+                            Assistent assistent = new Assistent();
+                            assistent.activeer(speler.getHuidigeKamer(), vraag);
+                            continue;
+                        } else if (antwoord.equals("joker")) {
+                            int monstersVoor = speler.getActieveMonsters().size();
+                            speler.gebruikJoker(speler.getHuidigeKamer());
+                            int monstersNa = speler.getActieveMonsters().size();
+
+
+                            if (monstersNa < monstersVoor) {
+                                System.out.println("Je hebt deze uitdaging overgeslagen.");
+                                break;
+                            }
+
+                            continue;
+                        }
+
+
 
                         ArrayList<String> antwoorden = new ArrayList<>();
                         antwoorden.add(antwoord);
