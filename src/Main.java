@@ -21,6 +21,7 @@ public class Main {
         menu.mainMenu();
 
         GameController controller = new GameController(speler);
+
         controller.startGame();
         controller.showStatus();
 

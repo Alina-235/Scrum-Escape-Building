@@ -62,12 +62,25 @@ class Menukeuze implements keuze {
             return;
         }
 
+
+        System.out.println("Kies je joker (typ 'hint' of 'key'):");
+        String jokerKeuze = scanner.nextLine().toLowerCase();
+
+        if (jokerKeuze.equals("hint")) {
+            speler.kiesJoker(new HintJoker());
+        } else if (jokerKeuze.equals("key")) {
+            speler.kiesJoker(new KeyJoker());
+        } else {
+            System.out.println("Geen geldige joker gekozen. Je krijgt geen joker.");
+        }
+
         game = new Game(speler);
         game.storyline();
         game.startGame();
 
         new Bewegen(speler).bewegen();
     }
+
 
     private void loginSpeler() {
         System.out.print("Voer je naam in: ");

@@ -1,30 +1,32 @@
-class Monster extends Character {
-    private Kamer kamer;
+public class Monster extends Character {
+    private String monsterDesign;
 
-    public Monster(String naam, String beschrijving, int characterID, int lives, Kamer kamer) {
+    public Monster(String naam, String beschrijving, int characterID, int lives, String monsterDesign) {
         super(naam, beschrijving, characterID, lives);
-        this.kamer = kamer;
+        this.monsterDesign = monsterDesign;
     }
 
-
-    public void monsterTonen() {
-        System.out.println("Het monster " + naam + " bewaakt kamer: " + kamer.getNaam());
+    public Monster(Monster Monster) {
+        super(Monster.naam, Monster.beschrijving, Monster.characterID, Monster.lives);
+        this.monsterDesign = Monster.monsterDesign;
     }
 
-    public void verliesLeven(){
+    public void verliesLeven() {
         lives--;
-        System.out.println(naam + " verliest een leven. Levens over: " + lives);
         if (lives <= 0) {
-            this.verslagen = true;
+            verslagen = true;
             System.out.println(naam + " is verslagen!");
         }
     }
 
-    public Kamer getKamer() {
-        return kamer;
+    public void monsterTonen() {
+        System.out.println("Een monster verschijnt: " + naam);
+        System.out.println(monsterDesign);
+        System.out.println(beschrijving);
     }
 
-    public boolean isVerslagen() {
-        return verslagen;
+    public String getMonsterDesign() {
+        return monsterDesign;
     }
 }
+
