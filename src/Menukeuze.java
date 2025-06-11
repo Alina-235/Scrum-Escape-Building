@@ -67,7 +67,7 @@ class Menukeuze implements keuze {
         String jokerKeuze = scanner.nextLine().toLowerCase();
 
         if (jokerKeuze.equals("hint")) {
-            speler.kiesJoker(new HintJoker());
+            speler.kiesJoker(new HintJoker(new DatabaseHintRepository()));
         } else if (jokerKeuze.equals("key")) {
             speler.kiesJoker(new KeyJoker());
         } else {

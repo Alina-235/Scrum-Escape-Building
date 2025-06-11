@@ -124,8 +124,9 @@ class GameController {
         if ("2".equals(keuze)) {
             joker = new KeyJoker();
         } else {
-            joker = new HintJoker();
+            joker = new HintJoker(new DatabaseHintRepository());
         }
+
 
         game.getSpelers().get(0).kiesJoker(joker);  // assuming single player for now
     }
