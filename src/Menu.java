@@ -1,4 +1,3 @@
-
 class Menu {
     static Menukeuze keuze = new Menukeuze();
 
@@ -9,7 +8,5 @@ class Menu {
             System.out.println();
             System.out.print("Maak uw keuze: ");
             keuze.menu();
-
-
     }
 }

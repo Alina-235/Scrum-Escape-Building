@@ -9,9 +9,9 @@ public class Main {
 
         System.out.print("Voer je naam in: ");
         String naam = scanner.nextLine();
+
         databaseSelect dbSelect = new databaseSelect();
         Speler speler = dbSelect.SpelerLogin(naam);
-
 
         speler.addObserver(new Feedback());
         speler.addObserver(new Deur());
@@ -27,7 +27,6 @@ public class Main {
 
         Move moveLogic = new Bewegen(speler);
         moveLogic.bewegen();
-
     }
 }
 

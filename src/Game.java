@@ -98,7 +98,6 @@ public class Game {
                 "De deur valt achter je dicht. Je probeert met man en macht de deur open te krijgen, maar het lukt je niet. " +
                 "\nDe deur is op slot. “Shit,” fluister je terwijl je paniekerig rondkijkt. “Hoe kom ik hier in godsnaam uit?”\n");
     }
-
 }
 
 class GameController {
@@ -127,7 +126,6 @@ class GameController {
             joker = new HintJoker(new DatabaseHintRepository());
         }
 
-
         game.getSpelers().get(0).kiesJoker(joker);  // assuming single player for now
     }
 
@@ -147,11 +145,6 @@ class GameController {
                 speler.gebruikJoker(speler.getHuidigeKamer());
                 continue;
             }
-
-            // Normal game input handling here
-            // For example: check answer, move to next question/room, etc.
-
-            // After each action, check if game is over
             game.checkGameOver();
         }
 

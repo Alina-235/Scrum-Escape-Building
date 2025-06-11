@@ -169,8 +169,6 @@ class KamerRetrospective extends Kamer {
     protected void kamerDoel() {
         System.out.println(getDoel());
     }
-
-
 }
 
 class KamerFinal extends Kamer {

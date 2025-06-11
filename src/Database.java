@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static String url = "jdbc:mysql://localhost:3306/escapescrumbuilding";
-    private static String username = "soulali";
-    private static String password = "Gammaverhuisdoos1";
+    private static String url = "jdbc:mysql://localhost:3306/seb";
+    private static String username = "root";
+    private static String password = "AGao2005.";
 
     public static Connection getConnection() {
         try {
@@ -121,26 +121,28 @@ class databaseInsert extends Database{
 
 class databaseSelect extends Database {
 
-    public void SelectCharacter(int nummer) {
+    public String SelectCharacterName(int nummer) {
         try (Connection connection = getConnection()) {
-            String sql = "SELECT * FROM gamecharacter WHERE nummer = ?";
+            String sql = "SELECT name FROM gamecharacter WHERE nummer = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, nummer);
 
             ResultSet result = stmt.executeQuery();
 
             if (result.next()) {
-                System.out.println("U speelt nu als karakter " + nummer);
-                System.out.println();
+                String name = result.getString("naam");
+                return name;
             } else {
                 System.out.println("Deze karakter is niet gevonden.");
-                System.out.println();
+                return null;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
+
 
     public void SelectVragen() {
         try (Connection conn = getConnection()) {

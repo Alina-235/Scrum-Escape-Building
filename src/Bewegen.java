@@ -9,6 +9,8 @@ public class Bewegen implements Move {
     private Speler speler;
     private final databaseSelect db = new databaseSelect();
     private static final Scanner scanner = new Scanner(System.in);
+    static Update update = new Update();
+    static databaseSelect select = new databaseSelect();
 
     public Bewegen(Speler speler) {
         this.speler = speler;
@@ -20,11 +22,7 @@ public class Bewegen implements Move {
 
         while (!gameOver && speler.getLives() > 0) {
             Kamer huidigeKamer = speler.getHuidigeKamer();
-            //System.out.println("Je bent nu in kamer: " + huidigeKamer.getNaam());
-
             ArrayList<Vragen> vragen = db.getVragenVoorKamer(huidigeKamer.getKamerId());
-
-
 
             if (vragen.isEmpty()) {
                 System.out.println("Geen vragen in deze kamer.");
@@ -46,16 +44,12 @@ public class Bewegen implements Move {
                             speler.gebruikJoker(speler.getHuidigeKamer());
                             int monstersNa = speler.getActieveMonsters().size();
 
-
                             if (monstersNa < monstersVoor) {
                                 System.out.println("Je hebt deze uitdaging overgeslagen.");
                                 break;
                             }
-
                             continue;
                         }
-
-
 
                         ArrayList<String> antwoorden = new ArrayList<>();
                         antwoorden.add(antwoord);
@@ -107,10 +101,12 @@ public class Bewegen implements Move {
                 gameOver = true;
             } else if (input.equalsIgnoreCase("a")) {
                 Kamer vorige = db.getKamerById(huidigeKamer.getKamerId() - 1);
+                update.updateVoortgang(speler.getNaam(), huidigeKamer.getNaam());
                 if (vorige != null) speler.moveTo(vorige);
                 else System.out.println("Geen vorige kamer.");
             } else if (input.equalsIgnoreCase("d")) {
                 Kamer volgende = db.getKamerById(huidigeKamer.getKamerId() + 1);
+                update.updateVoortgang(speler.getNaam(), huidigeKamer.getNaam());
                 if (volgende != null) speler.moveTo(volgende);
                 else System.out.println("Je bent bij de laatste kamer.");
             } else {

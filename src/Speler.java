@@ -10,11 +10,9 @@ public class Speler extends Character {
     private ArrayList<Monster> actieveMonsters;
     private ArrayList<SpelerObserver> observers = new ArrayList<>();
     private Joker joker;
-    //private boolean jokerGebruikt = false;
 
     private ObserverActies observerActies = new ObserverActies();
     private MonsterActies monsterActies = new MonsterActies();
-
 
     public Speler(String naam) {
         super(naam, "Scrum escape speler", -1, 3);
@@ -22,7 +20,6 @@ public class Speler extends Character {
         this.actieveMonsters = new ArrayList<>();
         this.huidigeKamer = null;
     }
-
 
     public Speler(String naam, int characterID) {
         super(naam, "Scrum escape speler", characterID, 3);
