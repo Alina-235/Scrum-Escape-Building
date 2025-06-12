@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
+    private static String url = "jdbc:mysql://localhost:3306/seb";
     private static String username = "root";
-    private static String password = "Spotify123!";
+    private static String password = "AGao2005.";
 
     public static Connection getConnection() {
         try {
@@ -371,7 +371,6 @@ class databaseSelect extends Database {
                 Speler speler = new Speler(naam, characterId);
                 speler.setBeschrijving(beschrijving);
                 speler.setLives(levens);
-                speler.moveTo(huidigeKamer);
                 return speler;
             }
 
