@@ -8,9 +8,9 @@ public class Deur implements SpelerObserver {
                 open = true;
                 System.out.println("[Deur] De deur is open. Je kunt doorgaan naar de volgende kamer.");
                 Kamer volgendeKamer = bepaalVolgendeKamer(speler.getHuidigeKamer());
-                if (volgendeKamer != null) {
-                    speler.moveTo(volgendeKamer);
-                }
+//                if (volgendeKamer != null) {
+//                    speler.moveTo(volgendeKamer);
+//                }
 
                 break;
 

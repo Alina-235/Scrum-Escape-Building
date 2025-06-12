@@ -112,25 +112,9 @@ class GameController {
         game.toonStatus();
     }
 
-    public void kiesJokerVoorSpeler() {
-        System.out.println("Kies je joker:");
-        System.out.println("1. HintJoker (altijd beschikbaar)");
-        System.out.println("2. KeyJoker (alleen in Planning en Review kamers)");
-
-        String keuze = scanner.nextLine();
-
-        Joker joker;
-        if ("2".equals(keuze)) {
-            joker = new KeyJoker();
-        } else {
-            joker = new HintJoker(new DatabaseHintRepository());
-        }
-
-        game.getSpelers().get(0).kiesJoker(joker);  // assuming single player for now
-    }
-
     public void startGame() {
-        kiesJokerVoorSpeler();
+        game.storyline();
+
         game.startGame();
         mainGameLoop();
     }

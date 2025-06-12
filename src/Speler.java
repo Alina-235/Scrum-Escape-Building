@@ -140,6 +140,10 @@ public class Speler extends Character {
             System.out.println("Speler bijgewerkt in database.");
         }
     }
+    public Joker getJoker() {
+        return this.joker;
+    }
+
 
     public void setBeschrijving(String beschrijving) {
         this.beschrijving = beschrijving;

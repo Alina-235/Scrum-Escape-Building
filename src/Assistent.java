@@ -40,7 +40,7 @@ class Assistent {
 
     private String geefMotiverendeBoodschap() {
         String[] boodschappen = {
-                "Je komt er wel!", "Nog één kamer te gaan!", "Je doet het goed!", "Hou vol!"
+                "Je komt er wel!", "Je doet het goed!", "Hou vol!"
         };
         return boodschappen[(int) (Math.random() * boodschappen.length)];
     }

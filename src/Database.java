@@ -411,7 +411,7 @@ class Update extends Database {
         try (Connection conn = getConnection()) {
             String sql = "UPDATE gamecharacter SET huidige_kamer = ? WHERE naam = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, kamerId); // use setInt instead of setString
+            stmt.setInt(1, kamerId);
             stmt.setString(2, speler);
 
             int rowsUpdated = stmt.executeUpdate();

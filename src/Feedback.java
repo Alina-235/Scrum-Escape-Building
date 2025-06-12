@@ -3,7 +3,7 @@ class Feedback implements SpelerObserver{
     public void update(Speler speler, String gebeurtenis){
         switch (gebeurtenis){
             case "Nieuwe kamer":
-                System.out.println("[Feedback] Je bent in een nieuwe kamer");
+                System.out.println("[Feedback] Je bent nu in een nieuwe kamer");
                 break;
             case "Speler is aangevallen":
                 System.out.println("[Feedback] Fout antwoord! Je bent aangevallen!");

@@ -51,6 +51,7 @@ class Menukeuze implements keuze {
         System.out.print("Maak uw keuze: ");
     }
 
+
     private void startGame() {
         System.out.print("Voer je naam in: ");
         String naam = scanner.nextLine();
@@ -61,22 +62,12 @@ class Menukeuze implements keuze {
             return;
         }
 
-        System.out.println("Kies je joker (typ 'hint' of 'key'):");
-        String jokerKeuze = scanner.nextLine().toLowerCase();
 
-        if (jokerKeuze.equals("hint")) {
-            speler.kiesJoker(new HintJoker(new DatabaseHintRepository()));
-        } else if (jokerKeuze.equals("key")) {
-            speler.kiesJoker(new KeyJoker());
-        } else {
-            System.out.println("Geen geldige joker gekozen. Je krijgt geen joker.");
-        }
-        game = new Game(speler);
-        game.storyline();
-        game.startGame();
+        GameController controller = new GameController(speler);
+        controller.startGame();
 
-        new Bewegen(speler).bewegen();
     }
+
 
     private void loginSpeler() {
         System.out.print("Voer je naam in: ");
@@ -84,11 +75,27 @@ class Menukeuze implements keuze {
 
         speler = db.SpelerLogin(naam);
         if (speler != null) {
-            System.out.println(" Welkom terug, " + speler.getNaam());
             speler.toonStatus();
-            new Bewegen(speler).bewegen();
+
+
+            if (speler.getJoker() == null) {
+                System.out.println("Kies je joker (typ 'hint' of 'key'):");
+                String jokerKeuze = scanner.nextLine().toLowerCase();
+
+                if (jokerKeuze.equals("hint")) {
+                    speler.kiesJoker(new HintJoker(new DatabaseHintRepository()));
+                } else if (jokerKeuze.equals("key")) {
+                    speler.kiesJoker(new KeyJoker());
+                } else {
+                    System.out.println("Geen geldige joker gekozen. Je krijgt geen joker.");
+                }
+            }
+
+            System.out.println("Je bent ingelogd. Kies 'Start Game' in het hoofdmenu om te beginnen.");
+
         } else {
             System.out.println(" Speler niet gevonden.");
         }
     }
+
 }
