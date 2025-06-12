@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 interface keuze {
-    void menu();
+    void menu(String naam);
 }
 
 class Menukeuze implements keuze {
@@ -11,50 +11,27 @@ class Menukeuze implements keuze {
     private final databaseSelect db = new databaseSelect();
 
     @Override
-    public void menu() {
-        boolean running = true;
-
-        while (running) {
-            toonHoofdmenu();
-            String input = scanner.nextLine();
-
-            int keuzeNummer;
-            try {
-                keuzeNummer = Integer.parseInt(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Ongeldige invoer, typ een getal (1-3).");
-                continue;
-            }
-
-            switch (keuzeNummer) {
+    public void menu(String naam) {
+        System.out.print("Maak uw keuze: ");
+        int keuze = scanner.nextInt();
+        switch (keuze) {
                 case 1:
-                    startGame();
+                    startGame(naam);
                     break;
                 case 2:
-                    loginSpeler();
+                    loginSpeler(naam);
                     break;
                 case 3:
                     System.out.println("Programma wordt afgesloten.");
-                    running = false;
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Ongeldige keuze, probeer opnieuw.");
+                    Menu.mainMenu(naam);
             }
-        }
     }
 
-    private void toonHoofdmenu() {
-        System.out.println("\n--- Scrum Escape Building ---");
-        System.out.println("1. Start Game");
-        System.out.println("2. Log in");
-        System.out.println("3. Exit");
-        System.out.print("Maak uw keuze: ");
-    }
-
-    private void startGame() {
-        System.out.print("Voer je naam in: ");
-        String naam = scanner.nextLine();
-
+    private void startGame(String naam) {
         speler = db.SpelerLogin(naam);
         if (speler == null) {
             System.out.println("Kan speler niet laden.");
@@ -78,10 +55,7 @@ class Menukeuze implements keuze {
         new Bewegen(speler).bewegen();
     }
 
-    private void loginSpeler() {
-        System.out.print("Voer je naam in: ");
-        String naam = scanner.nextLine();
-
+    private void loginSpeler(String naam) {
         speler = db.SpelerLogin(naam);
         if (speler != null) {
             System.out.println(" Welkom terug, " + speler.getNaam());

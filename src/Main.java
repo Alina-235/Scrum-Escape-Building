@@ -17,8 +17,7 @@ public class Main {
         speler.addObserver(new Deur());
         speler.addObserver(new Logger());
 
-        Menu menu = new Menu();
-        menu.mainMenu();
+        Menu.mainMenu(naam);
 
         GameController controller = new GameController(speler);
 

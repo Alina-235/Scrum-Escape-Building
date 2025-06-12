@@ -52,7 +52,6 @@ public class Game {
                 System.out.println(speler.getNaam() + " staat nu in: " + speler.getHuidigeKamer().getNaam());
             }
         }
-
         checkGameOver();
     }
 
