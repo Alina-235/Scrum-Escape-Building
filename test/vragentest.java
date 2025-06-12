@@ -52,7 +52,6 @@ class VragenTest {
 
     }
 
-    // ⚙️ Hulpmethode om monster in te stellen (aangezien constructor die niet accepteert)
     void setMonster(Vragen vraag, Monster monster) {
         try {
             var field = Vragen.class.getDeclaredField("monsterTrigger");
@@ -62,5 +61,6 @@ class VragenTest {
             throw new RuntimeException(e);
         }
     }
+
 }
 
