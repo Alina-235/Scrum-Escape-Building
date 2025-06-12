@@ -36,6 +36,6 @@ public class MonsterFactory {
     public static Monster getRandomMonster() {
         Random rand = new Random();
         Monster template = monsterTemplates.get(rand.nextInt(monsterTemplates.size()));
-        return new Monster(template); // Use copy constructor
+        return new Monster(template);
     }
 }

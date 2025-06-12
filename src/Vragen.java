@@ -14,11 +14,17 @@ class Vragen {
         this.uitleg = uitleg;
     }
 
+    public VraagStrategie getVraagStrategie() {
+        return strategie;
+    }
+
+    public String getVraagTekst() {
+        return vraag;
+    }
 
     public int getVraagId() {
         return vraagId;
     }
-
 
     public String getUitleg() {
         return uitleg;
@@ -52,6 +58,10 @@ class MeerkeuzeStrategie implements VraagStrategie {
     public boolean checkAnswer(ArrayList<String> antwoord) {
         return antwoord.size() == 1 && juistAntwoord.equalsIgnoreCase(antwoord.get(0));
     }
+
+    public String getJuistAntwoord() {
+        return juistAntwoord;
+    }
 }
 
 class OpenInvulStrategie implements VraagStrategie {
@@ -65,6 +75,10 @@ class OpenInvulStrategie implements VraagStrategie {
     public boolean checkAnswer(ArrayList<String> antwoord) {
         return antwoord.size() == 1 && juistAntwoord.equalsIgnoreCase(antwoord.get(0).trim());
     }
+
+    public String getJuistAntwoord() {
+        return juistAntwoord;
+    }
 }
 
 class PuzzelStrategie implements VraagStrategie {
@@ -77,5 +91,9 @@ class PuzzelStrategie implements VraagStrategie {
     @Override
     public boolean checkAnswer(ArrayList<String> antwoord) {
         return antwoord.size() == 1 && juistAntwoord.equalsIgnoreCase(antwoord.get(0).trim());
+    }
+
+       public String getJuistAntwoord() {
+        return juistAntwoord;
     }
 }

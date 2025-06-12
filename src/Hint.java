@@ -1,5 +1,7 @@
 import java.util.List;
 import java.util.Random;
+import java.util.ArrayList;
+
 
 public interface Hint {
     String getHint();
@@ -76,21 +78,35 @@ class HintJoker implements Joker {
 
 class KeyJoker implements Joker {
     private int usesRemaining = 2;
+    private final databaseSelect db = new databaseSelect();
 
     @Override
     public void gebruik(Speler speler) {
-        if (usesRemaining > 0) {
-            System.out.println("Je hebt een sleutel gebruikt om een monster te ontwijken!");
-            usesRemaining--;
-
-            if (!speler.getActieveMonsters().isEmpty()) {
-                speler.losMonsterOp(speler.getActieveMonsters().get(0));
-            }
-
-            System.out.println("Je kunt de KeyJoker nog " + usesRemaining + " keer gebruiken.");
-        } else {
+        if (usesRemaining <= 0) {
             System.out.println("Je hebt geen KeyJoker-gebruiken meer over.");
+            return;
         }
+
+        Kamer kamer = speler.getHuidigeKamer();
+        ArrayList<Vragen> vragen = db.getVragenVoorKamer(kamer.getKamerId
+        ());
+
+        if (!vragen.isEmpty()) {
+            for (Vragen vraag : vragen) {
+                String correctAntwoord = ((OpenInvulStrategie) vraag.getVraagStrategie()).getJuistAntwoord();
+                System.out.println("Correct antwoord voor de vraag: \"" + vraag.getVraagTekst() + "\" is: " + correctAntwoord);
+            }
+        } else {
+            System.out.println("Geen vragen gevonden voor deze kamer.");
+        }
+
+        usesRemaining--;
+
+        if (!speler.getActieveMonsters().isEmpty()) {
+            speler.losMonsterOp(speler.getActieveMonsters().get(0));
+        }
+
+        System.out.println("Je kunt de KeyJoker nog " + usesRemaining + " keer gebruiken.");
     }
 
     @Override
@@ -98,6 +114,8 @@ class KeyJoker implements Joker {
         return usesRemaining > 0;
     }
 }
+
+
 
 
 

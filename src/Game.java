@@ -126,7 +126,7 @@ class GameController {
             joker = new HintJoker(new DatabaseHintRepository());
         }
 
-        game.getSpelers().get(0).kiesJoker(joker);  // assuming single player for now
+        game.getSpelers().get(0).kiesJoker(joker);
     }
 
     public void startGame() {
