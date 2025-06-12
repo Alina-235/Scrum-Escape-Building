@@ -74,7 +74,7 @@ public class Bewegen implements Move {
 
                             if (monster.isVerslagen()) {
                                 System.out.println("Je hebt het monster verslagen!");
-                                correct = true; // allow progress if monster is dead
+                                correct = true;
                             } else {
                                 System.out.println("Het monster leeft nog! Probeer het opnieuw.");
                             }
@@ -101,12 +101,13 @@ public class Bewegen implements Move {
                 gameOver = true;
             } else if (input.equalsIgnoreCase("a")) {
                 Kamer vorige = db.getKamerById(huidigeKamer.getKamerId() - 1);
-                update.updateVoortgang(speler.getNaam(), huidigeKamer.getNaam());
+                update.updateVoortgang(speler.getNaam(), huidigeKamer.getKamerId());
+
                 if (vorige != null) speler.moveTo(vorige);
                 else System.out.println("Geen vorige kamer.");
             } else if (input.equalsIgnoreCase("d")) {
                 Kamer volgende = db.getKamerById(huidigeKamer.getKamerId() + 1);
-                update.updateVoortgang(speler.getNaam(), huidigeKamer.getNaam());
+                update.updateVoortgang(speler.getNaam(), huidigeKamer.getKamerId());
                 if (volgende != null) speler.moveTo(volgende);
                 else System.out.println("Je bent bij de laatste kamer.");
             } else {

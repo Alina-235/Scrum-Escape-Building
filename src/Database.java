@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static String url = "jdbc:mysql://localhost:3306/seb";
+    private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
     private static String username = "root";
-    private static String password = "AGao2005.";
+    private static String password = "Spotify123!";
 
     public static Connection getConnection() {
         try {
@@ -407,11 +407,11 @@ class databaseSelect extends Database {
 
 class Update extends Database {
 
-    public void updateVoortgang(String speler, String voortgang) {
+    public void updateVoortgang(String speler, int kamerId) {
         try (Connection conn = getConnection()) {
-            String sql = "UPDATE Speler SET voortgang = ? WHERE speler = ?";
+            String sql = "UPDATE gamecharacter SET huidige_kamer = ? WHERE naam = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, voortgang);
+            stmt.setInt(1, kamerId); // use setInt instead of setString
             stmt.setString(2, speler);
 
             int rowsUpdated = stmt.executeUpdate();
@@ -424,4 +424,5 @@ class Update extends Database {
             e.printStackTrace();
         }
     }
+
 }
