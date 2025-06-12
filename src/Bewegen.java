@@ -86,6 +86,7 @@ public class Bewegen implements Move {
                 Kamer volgende = db.getKamerById(huidigeKamer.getKamerId() + 1);
                 if (volgende != null) {
                     speler.moveTo(volgende);
+                    speler.saveToDatabase();
                     continue;
                 } else {
                     System.out.println("Je hebt het spel voltooid!");
@@ -103,12 +104,19 @@ public class Bewegen implements Move {
                 Kamer vorige = db.getKamerById(huidigeKamer.getKamerId() - 1);
                 update.updateVoortgang(speler.getNaam(), huidigeKamer.getKamerId());
 
-                if (vorige != null) speler.moveTo(vorige);
-                else System.out.println("Geen vorige kamer.");
+                if (vorige != null){
+                    speler.moveTo(vorige);
+                    speler.saveToDatabase();
+                }else {
+                    System.out.println("Geen vorige kamer.");
+                }
             } else if (input.equalsIgnoreCase("d")) {
                 Kamer volgende = db.getKamerById(huidigeKamer.getKamerId() + 1);
                 update.updateVoortgang(speler.getNaam(), huidigeKamer.getKamerId());
-                if (volgende != null) speler.moveTo(volgende);
+                if (volgende != null) {
+                    speler.moveTo(volgende);
+                    speler.saveToDatabase();
+                }
                 else System.out.println("Je bent bij de laatste kamer.");
             } else {
                 System.out.println("Ongeldige invoer.");
