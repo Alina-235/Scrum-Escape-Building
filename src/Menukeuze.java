@@ -39,6 +39,7 @@ class Menukeuze implements keuze {
         }
 
         System.out.println("Kies je joker (typ 'hint' of 'key'):");
+        scanner.nextLine();
         String jokerKeuze = scanner.nextLine().toLowerCase();
 
         if (jokerKeuze.equals("hint")) {

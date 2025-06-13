@@ -1,5 +1,3 @@
-//test HintJoker geeft altijd vaste hint
-
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
