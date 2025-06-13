@@ -120,13 +120,14 @@ class GameController {
 
         Joker joker;
         if ("2".equals(keuze)) {
-            joker = new KeyJoker();
+            joker = new KeyJoker(new DatabaseVragenRepository());
         } else {
             joker = new HintJoker(new DatabaseHintRepository());
         }
 
         game.getSpelers().get(0).kiesJoker(joker);
     }
+
 
     public void startGame() {
         kiesJokerVoorSpeler();

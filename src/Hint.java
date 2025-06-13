@@ -76,9 +76,28 @@ class HintJoker implements Joker {
     }
 }
 
+
+interface VragenRepository {
+    List<Vragen> getVragenVoorKamer(int kamerId);
+}
+
+
+class DatabaseVragenRepository implements VragenRepository {
+    private final databaseSelect db = new databaseSelect();
+
+    @Override
+    public List<Vragen> getVragenVoorKamer(int kamerId) {
+        return db.getVragenVoorKamer(kamerId);
+    }
+}
+
 class KeyJoker implements Joker {
     private int usesRemaining = 2;
-    private final databaseSelect db = new databaseSelect();
+    private final VragenRepository repository;
+
+    public KeyJoker(VragenRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public void gebruik(Speler speler) {
@@ -88,8 +107,7 @@ class KeyJoker implements Joker {
         }
 
         Kamer kamer = speler.getHuidigeKamer();
-        ArrayList<Vragen> vragen = db.getVragenVoorKamer(kamer.getKamerId
-        ());
+        List<Vragen> vragen = repository.getVragenVoorKamer(kamer.getKamerId());
 
         if (!vragen.isEmpty()) {
             for (Vragen vraag : vragen) {
@@ -114,6 +132,7 @@ class KeyJoker implements Joker {
         return usesRemaining > 0;
     }
 }
+
 
 
 

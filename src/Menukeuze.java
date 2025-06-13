@@ -44,16 +44,18 @@ class Menukeuze implements keuze {
         if (jokerKeuze.equals("hint")) {
             speler.kiesJoker(new HintJoker(new DatabaseHintRepository()));
         } else if (jokerKeuze.equals("key")) {
-            speler.kiesJoker(new KeyJoker());
+            speler.kiesJoker(new KeyJoker(new DatabaseVragenRepository()));
         } else {
             System.out.println("Geen geldige joker gekozen. Je krijgt geen joker.");
         }
+
         game = new Game(speler);
         game.storyline();
         game.startGame();
 
         new Bewegen(speler).bewegen();
     }
+
 
     private void loginSpeler(String naam) {
         speler = db.SpelerLogin(naam);
