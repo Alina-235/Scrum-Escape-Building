@@ -113,11 +113,6 @@ public class Speler extends Character {
         databaseSelect dbSelect = new databaseSelect();
         databaseInsert dbInsert = new databaseInsert();
 
-        Speler existing = dbSelect.getSpelerByNaam(this.naam);
-        if (existing != null) {
-            this.setCharacterID(existing.getCharacterID());
-        }
-
         if (this.characterID <= 0) {
             int newId = dbInsert.insertNewGameCharacter(
                     this.naam,
