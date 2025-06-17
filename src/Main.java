@@ -22,10 +22,7 @@ public class Main {
         GameController controller = new GameController(speler);
 
         controller.startGame();
-        controller.showStatus();
 
-        Move moveLogic = new Bewegen(speler);
-        moveLogic.bewegen();
     }
 }
 

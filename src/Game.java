@@ -66,14 +66,15 @@ public class Game {
         gameOver = true;
     }
 
-    public void checkGameOver() {
+    public boolean checkGameOver() {
         for (Speler speler : spelers) {
             if (speler.getLives() <= 0) {
                 System.out.println("Speler " + speler.getNaam() + " is verslagen.");
                 gameOver = true;
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     public boolean GameOver() {
@@ -130,18 +131,21 @@ class GameController {
 
 
     public void startGame() {
-        kiesJokerVoorSpeler();
-        game.startGame();
-        mainGameLoop();
+        while (game.checkGameOver()) {
+            game.startGame();
+            mainGameLoop();
+        }
     }
 
     private void mainGameLoop() {
         while (!game.GameOver()) {
             Speler speler = game.getSpelers().get(0);
             System.out.println("\nTyp je antwoord, of typ 'joker' om je joker in te zetten.");
+            scanner.nextLine();
             String input = scanner.nextLine();
+            String joker = "Joker";
 
-            if ("joker".equalsIgnoreCase(input)) {
+            if (joker.equalsIgnoreCase(input)) {
                 speler.gebruikJoker(speler.getHuidigeKamer());
                 continue;
             }
