@@ -20,9 +20,9 @@ public class Monster extends Character {
     }
 
     public void monsterTonen() {
-        System.out.println("Een monster verschijnt: " + naam);
+        System.out.println("\nEen monster verschijnt: " + naam);
         System.out.println(monsterDesign);
-        System.out.println(beschrijving);
+        System.out.println(beschrijving + "\n");
     }
 
     public String getMonsterDesign() {
