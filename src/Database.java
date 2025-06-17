@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static String url = "jdbc:mysql://localhost:3306/seb";
+    private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
     private static String username = "root";
-    private static String password = "AGao2005.";
+    private static String password = "Linziruo.1";
 
     public static Connection getConnection() {
         try {
@@ -195,6 +195,7 @@ class databaseSelect extends Database {
                     String beschrijving = result.getString("beschrijving");
                     String type = result.getString("type");
                     String doel = result.getString("doel");
+                    String boek = result.getString("boek");
 
                     if (type == null) {
                         System.out.println("Kamertype is null voor kamer ID: " + kamerId);
@@ -203,19 +204,19 @@ class databaseSelect extends Database {
 
                     switch (type.toLowerCase()) {
                         case "scrum":
-                            return new KamerDailyScrum(naam, beschrijving, doel, id);
+                            return new KamerDailyScrum(naam, beschrijving, doel, id, boek);
                         case "daily":
-                            return new KamerDailyScrum(naam, beschrijving, doel, id);
+                            return new KamerDailyScrum(naam, beschrijving, doel, id, boek);
                         case "planning":
-                            return new KamerPlanning(naam, beschrijving, doel, id);
+                            return new KamerPlanning(naam, beschrijving, doel, id, boek);
                         case "review":
-                            return new KamerReview(naam, beschrijving, doel, id);
+                            return new KamerReview(naam, beschrijving, doel, id, boek);
                         case "scrumboard":
-                            return new KamerScrumboard(naam, beschrijving, doel, id);
+                            return new KamerScrumboard(naam, beschrijving, doel, id, boek);
                         case "retro":
-                            return new KamerRetrospective(naam, beschrijving, doel, id);
+                            return new KamerRetrospective(naam, beschrijving, doel, id, boek);
                         case "start":
-                            return new KamerDailyScrum(naam, beschrijving, doel, id);
+                            return new KamerDailyScrum(naam, beschrijving, doel, id, boek);
                         default:
                             System.out.println("Onbekend kamertype: " + type);
                             return null;

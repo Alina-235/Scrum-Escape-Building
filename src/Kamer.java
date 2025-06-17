@@ -7,12 +7,14 @@ abstract class Kamer {
     protected ArrayList<Vragen> vragen = new ArrayList<>();
     protected boolean passed = false;
     protected int kamernummer;
+    protected String boek;
 
-    public Kamer(String naam, String beschrijving, String doel, int kamernummer) {
+    public Kamer(String naam, String beschrijving, String doel, int kamernummer, String boek) {
         this.naam = naam;
         this.beschrijving = beschrijving;
         this.doel = doel;
         this.kamernummer = kamernummer;
+        this.boek = boek;
     }
 
     public final void Room() {
@@ -37,6 +39,9 @@ abstract class Kamer {
         return kamernummer;
     }
 
+    public String getBoek() {
+        return boek;
+    }
     protected abstract void kamerNaam();
 
     protected abstract void kamerbeschrijving();
@@ -45,8 +50,8 @@ abstract class Kamer {
 }
 
 class KamerStart extends Kamer {
-    public KamerStart(String naam, String beschrijving, String doel, int kamernummer) {
-        super(naam, beschrijving, doel, kamernummer);
+    public KamerStart(String naam, String beschrijving, String doel, int kamernummer, String boek) {
+        super(naam, beschrijving, doel, kamernummer, boek);
     }
 
     @Override
@@ -67,8 +72,8 @@ class KamerStart extends Kamer {
 
 
 class KamerDailyScrum extends Kamer {
-    public KamerDailyScrum(String naam, String beschrijving, String doel, int kamernummer) {
-        super(naam, beschrijving, doel, kamernummer);
+    public KamerDailyScrum(String naam, String beschrijving, String doel, int kamernummer, String boek) {
+        super(naam, beschrijving, doel, kamernummer, boek);
     }
 
     @Override
@@ -88,8 +93,8 @@ class KamerDailyScrum extends Kamer {
 }
 
 class KamerPlanning extends Kamer {
-    public KamerPlanning(String naam, String beschrijving, String doel, int kamernummer) {
-        super(naam, beschrijving, doel, kamernummer);
+    public KamerPlanning(String naam, String beschrijving, String doel, int kamernummer, String boek) {
+        super(naam, beschrijving, doel, kamernummer, boek);
     }
 
     @Override
@@ -109,8 +114,8 @@ class KamerPlanning extends Kamer {
 }
 
 class KamerReview extends Kamer {
-    public KamerReview(String naam, String beschrijving, String doel, int kamernummer) {
-        super(naam, beschrijving, doel, kamernummer);
+    public KamerReview(String naam, String beschrijving, String doel, int kamernummer, String boek) {
+        super(naam, beschrijving, doel, kamernummer, boek);
     }
 
     @Override
@@ -130,8 +135,8 @@ class KamerReview extends Kamer {
 }
 
 class KamerScrumboard extends Kamer {
-    public KamerScrumboard(String naam, String beschrijving, String doel, int kamernummer) {
-        super(naam, beschrijving, doel, kamernummer);
+    public KamerScrumboard(String naam, String beschrijving, String doel, int kamernummer, String boek) {
+        super(naam, beschrijving, doel, kamernummer, boek);
     }
 
     @Override
@@ -151,8 +156,8 @@ class KamerScrumboard extends Kamer {
 }
 
 class KamerRetrospective extends Kamer {
-    public KamerRetrospective(String naam, String beschrijving, String doel, int kamernummer) {
-        super(naam, beschrijving, doel, kamernummer);
+    public KamerRetrospective(String naam, String beschrijving, String doel, int kamernummer, String boek) {
+        super(naam, beschrijving, doel, kamernummer, boek);
     }
 
     @Override
@@ -173,8 +178,8 @@ class KamerRetrospective extends Kamer {
 
 class KamerFinal extends Kamer {
 
-    public KamerFinal(String naam, String beschrijving, String doel, int kamernummer) {
-        super(naam, beschrijving, doel, kamernummer);
+    public KamerFinal(String naam, String beschrijving, String doel, int kamernummer,String boek) {
+        super(naam, beschrijving, doel, kamernummer, boek);
     }
 
     @Override

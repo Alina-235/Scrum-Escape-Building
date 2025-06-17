@@ -35,6 +35,7 @@ public class Speler extends Character {
     public void moveTo(Kamer kamer) {
         this.huidigeKamer = kamer;
         System.out.println("Je bent nu in kamer: " + kamer.getNaam());
+        System.out.println("[Boek] " + kamer.getBoek());
         observerActies.notifyObservers(this, "Nieuwe kamer");
     }
 
