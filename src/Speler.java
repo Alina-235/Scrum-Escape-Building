@@ -10,6 +10,8 @@ public class Speler extends Character {
     private ArrayList<Monster> actieveMonsters;
     private ArrayList<SpelerObserver> observers = new ArrayList<>();
     private Joker joker;
+    private Vragen huidigeVraag;
+
 
     private ObserverActies observerActies = new ObserverActies();
     private MonsterActies monsterActies = new MonsterActies();
@@ -93,6 +95,14 @@ public class Speler extends Character {
     public boolean isIngelogd() {
         return true;
     }
+    public void setHuidigeVraag(Vragen vraag) {
+        this.huidigeVraag = vraag;
+    }
+
+    public Vragen getHuidigeVraag() {
+        return this.huidigeVraag;
+    }
+
 
     public void kiesJoker(Joker joker) {
         this.joker = joker;

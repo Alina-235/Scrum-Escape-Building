@@ -106,15 +106,12 @@ class KeyJoker implements Joker {
             return;
         }
 
-        Kamer kamer = speler.getHuidigeKamer();
-        List<Vragen> vragen = repository.getVragenVoorKamer(kamer.getKamerId());
-
-        if (!vragen.isEmpty()) {
-            Vragen vraag = vragen.get(0);
-            String correctAntwoord = vraag.getVraagStrategie().geefAntwoord();
-            System.out.println("Correct antwoord voor de vraag: \"" + vraag.getVraagTekst() + "\" is: " + correctAntwoord);
+        Vragen huidigeVraag = speler.getHuidigeVraag();
+        if (huidigeVraag != null) {
+            String correctAntwoord = huidigeVraag.getVraagStrategie().geefAntwoord();
+            System.out.println("Correct antwoord voor de vraag: \"" + huidigeVraag.getVraagTekst() + "\" is: " + correctAntwoord);
         } else {
-            System.out.println("Geen vragen gevonden voor deze kamer.");
+            System.out.println("Geen actieve vraag gevonden.");
         }
 
         usesRemaining--;
@@ -125,6 +122,7 @@ class KeyJoker implements Joker {
 
         System.out.println("Je kunt de KeyJoker nog " + usesRemaining + " keer gebruiken.");
     }
+
 
     @Override
     public boolean beschikbaarIn(Kamer kamer) {

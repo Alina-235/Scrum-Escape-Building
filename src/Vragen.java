@@ -6,6 +6,15 @@ class Vragen {
     private VraagStrategie strategie;
     private int vraagId;
     private String uitleg;
+    private Vragen huidigeVraag;
+
+    public void setHuidigeVraag(Vragen vraag) {
+        this.huidigeVraag = vraag;
+    }
+
+    public Vragen getHuidigeVraag() {
+        return this.huidigeVraag;
+    }
 
     public Vragen(int vraagId, String vraag, VraagStrategie strategie, String uitleg) {
         this.vraagId = vraagId;

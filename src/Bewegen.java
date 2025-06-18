@@ -28,6 +28,7 @@ public class Bewegen implements Move {
                 System.out.println("Geen vragen in deze kamer.");
             } else {
                 for (Vragen vraag : vragen) {
+                    speler.setHuidigeVraag(vraag);
                     boolean correct = false;
                     while (!correct && speler.getLives() > 0) {
                         System.out.println("Vraag: " + vraag.getVraag());
