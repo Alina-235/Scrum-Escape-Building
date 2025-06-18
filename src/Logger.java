@@ -1,6 +1,6 @@
 public class Logger implements SpelerObserver {
     @Override
-    public void update(Speler speler, String gebeurtenis) {
+    public void update(Speler speler, GebeurtenisType gebeurtenis) {
         String kamerNaam;
         if (speler.getHuidigeKamer() != null) {
             kamerNaam = speler.getHuidigeKamer().getNaam();

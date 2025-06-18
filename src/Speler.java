@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 interface SpelerObserver {
-    void update(Speler speler, String gebeurtenis);
+    void update(Speler speler, GebeurtenisType gebeurtenis);
 }
 
 public class Speler extends Character {
@@ -36,7 +36,7 @@ public class Speler extends Character {
         this.huidigeKamer = kamer;
         System.out.println("Je bent nu in kamer: " + kamer.getNaam());
         System.out.println("[Boek] " + kamer.getBoek());
-        observerActies.notifyObservers(this, "Nieuwe kamer");
+        observerActies.notifyObservers(this, GebeurtenisType.NIEUWE_KAMER);
     }
 
     public int attacked() {
@@ -45,7 +45,7 @@ public class Speler extends Character {
         if (lives <= 0) {
             verslagen = true;
         }
-        observerActies.notifyObservers(this, "Speler is aangevallen");
+        observerActies.notifyObservers(this, GebeurtenisType.SPELER_IS_AANGEVALLEN);
         return lives;
     }
 
@@ -53,14 +53,15 @@ public class Speler extends Character {
         if (!actieveMonsters.contains(monster)) {
             actieveMonsters.add(monster);
         }
-        observerActies.notifyObservers(this, "Nieuwe monster verschenen");
+        observerActies.notifyObservers(this, GebeurtenisType.NIEUW_MONSTER_VERSCHENEN);
     }
 
     public void losMonsterOp(Monster monster) {
         actieveMonsters.remove(monster);
         monsterVerslagen++;
         System.out.println("Monster is verslagen!");
-        observerActies.notifyObservers(this, "Monster is verslagen");
+        observerActies.notifyObservers(this, GebeurtenisType.MONSTER_IS_VERSLAGEN);
+
     }
 
     public void toonStatus() {

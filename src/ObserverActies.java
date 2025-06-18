@@ -7,9 +7,10 @@ public class ObserverActies {
         observers.add(observer);
     }
 
-    public void notifyObservers(Speler speler, String gebeurtenis) {
+    public void notifyObservers(Speler speler, GebeurtenisType gebeurtenis) {
         for (SpelerObserver observer : observers) {
             observer.update(speler, gebeurtenis);
         }
     }
+
 }

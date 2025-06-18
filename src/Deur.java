@@ -2,9 +2,9 @@ public class Deur implements SpelerObserver {
     private boolean open = false;
 
     @Override
-    public void update(Speler speler, String gebeurtenis) {
+    public void update(Speler speler, GebeurtenisType gebeurtenis) {
         switch (gebeurtenis) {
-            case "Monster is verslagen":
+            case MONSTER_IS_VERSLAGEN:
                 open = true;
                 System.out.println("[Deur] De deur is open. Je kunt doorgaan naar de volgende kamer.");
                 Kamer volgendeKamer = bepaalVolgendeKamer(speler.getHuidigeKamer());
@@ -15,7 +15,7 @@ public class Deur implements SpelerObserver {
 
                 break;
 
-            case "Speler is verslagen":
+            case SPELER_IS_VERSLAGEN:
                 open = false;
                 System.out.println("[Deur] De deur blijft dicht. Versla de monster eerst.");
                 break;

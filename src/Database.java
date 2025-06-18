@@ -5,7 +5,7 @@ import java.util.List;
 public class Database {
     private static String url = "jdbc:mysql://localhost:3306/scrum_escape_building";
     private static String username = "root";
-    private static String password = "Linziruo.1";
+    private static String password = "Spotify123!";
 
     public static Connection getConnection() {
         try {
