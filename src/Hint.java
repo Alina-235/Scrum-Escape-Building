@@ -110,10 +110,9 @@ class KeyJoker implements Joker {
         List<Vragen> vragen = repository.getVragenVoorKamer(kamer.getKamerId());
 
         if (!vragen.isEmpty()) {
-            for (Vragen vraag : vragen) {
-                String correctAntwoord = ((OpenInvulStrategie) vraag.getVraagStrategie()).getJuistAntwoord();
-                System.out.println("Correct antwoord voor de vraag: \"" + vraag.getVraagTekst() + "\" is: " + correctAntwoord);
-            }
+            Vragen vraag = vragen.get(0);
+            String correctAntwoord = vraag.getVraagStrategie().geefAntwoord();
+            System.out.println("Correct antwoord voor de vraag: \"" + vraag.getVraagTekst() + "\" is: " + correctAntwoord);
         } else {
             System.out.println("Geen vragen gevonden voor deze kamer.");
         }

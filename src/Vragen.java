@@ -45,6 +45,11 @@ class Vragen {
 
 interface VraagStrategie {
     boolean checkAnswer(ArrayList<String> antwoord);
+
+    default String geefAntwoord() {
+        return "Niet beschikbaar";
+    }
+
 }
 
 class MeerkeuzeStrategie implements VraagStrategie {
@@ -59,9 +64,11 @@ class MeerkeuzeStrategie implements VraagStrategie {
         return antwoord.size() == 1 && juistAntwoord.equalsIgnoreCase(antwoord.get(0));
     }
 
-    public String getJuistAntwoord() {
+    @Override
+    public String geefAntwoord() {
         return juistAntwoord;
     }
+
 }
 
 class OpenInvulStrategie implements VraagStrategie {
@@ -76,10 +83,12 @@ class OpenInvulStrategie implements VraagStrategie {
         return antwoord.size() == 1 && juistAntwoord.equalsIgnoreCase(antwoord.get(0).trim());
     }
 
-    public String getJuistAntwoord() {
+    @Override
+    public String geefAntwoord() {
         return juistAntwoord;
     }
 }
+
 
 class PuzzelStrategie implements VraagStrategie {
     private String juistAntwoord;
@@ -93,7 +102,9 @@ class PuzzelStrategie implements VraagStrategie {
         return antwoord.size() == 1 && juistAntwoord.equalsIgnoreCase(antwoord.get(0).trim());
     }
 
-       public String getJuistAntwoord() {
+    @Override
+    public String geefAntwoord() {
         return juistAntwoord;
     }
+
 }
